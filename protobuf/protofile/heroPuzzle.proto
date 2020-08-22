@@ -1,0 +1,39 @@
+syntax="proto3";
+package com.message;
+
+//客户端查询神将拼图信息
+message C_HERO_PUZZLE_INFO{
+	int32 heroId	= 1;		//神将的ID
+}
+
+// 服务器响应神将拼图
+message S_HERO_PUZZLE_INFO{
+	int32 heroId 				= 1;				//神将的ID
+	bool isActive 				= 2;				//当前的神将是否已经激活,true激活，false没激活
+	repeated HERO_PUZZLE_TASK_INFO taskInfo = 3;	//碎片的状态和任务数据
+}
+
+//客户端请求点亮神将的碎片操作
+message C_HERO_PUZZLE_LIGHT{
+	int32 heroId	= 1;		//神将的ID
+	int32 splitId	= 2;		//点亮的神将的碎片ID
+}
+
+// 服务器响应点亮神将碎片
+message S_HERO_PUZZLE_LIGHT{
+	int32 heroId				= 1;	//神将的ID
+	int32 splitId				= 2;	//点亮的神将的碎片ID
+	bool isActive 				= 3;	//当前的神将是否已经激活,true激活，false没激活
+}
+
+message S_HERO_PUZZLE_TASK {
+	int32 heroId 							= 1;	//神将的ID
+	repeated HERO_PUZZLE_TASK_INFO taskInfo = 2;	//碎片的状态和任务数据
+}
+
+// 神将拼图当前碎片的任务数据
+message HERO_PUZZLE_TASK_INFO {
+	int32 splitId		= 1;	//任务的ID
+	int32 splitState	= 2;	//当前碎片的状态，0是任务进行中，1是任务完成已达成，2是碎片已经点亮
+	int32 processValue	= 3;	//任务的进度值
+}

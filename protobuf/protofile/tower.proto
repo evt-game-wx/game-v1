@@ -1,0 +1,33 @@
+syntax="proto3";
+package com.message;
+
+//拉取玲珑塔信息
+message C_GET_TOWER_INFO{
+}
+message S_GET_TOWER_INFO{
+	int32 towerId = 1;//层id
+	bool isAuto = 2;//是否勾选了自动挑战
+}
+//拉取玲珑塔排行信息
+message C_GET_TOWER_RANK_INFO{
+}
+
+message S_GET_TOWER_RANK_INFO{
+	int32 rank = 1;//我的排名   0代表没上榜
+	repeated TOWER_RANK_INFO tableVos = 2;//表格数据
+}
+
+message TOWER_RANK_INFO{
+	int32 towerId = 1; // 层id
+	int64 playerId = 2; //玩家id
+	string nickName = 3;//玩家名称
+	int32 rank = 4;//排名
+	int64 fight = 5;//战力
+}
+//勾选自动挑战
+message C_TOWER_AUTO_CHALLENG{
+	bool isAuto = 1 ;//是否自动
+}
+message S_TOWER_AUTO_CHALLENG{
+	bool isAuto = 1 ;//是否自动
+}

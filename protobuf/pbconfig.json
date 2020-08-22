@@ -1,0 +1,12 @@
+{
+	"options": {
+    "no-create": true,
+    "no-verify": true,
+    "no-convert": true,
+    "no-delimited": true,
+    "no-encode": false,
+    "no-decode": false
+  	},
+	"sourceRoot": "protofile",
+	"outputFile": "bundles/protobuf-bundles.js"
+}

@@ -1,0 +1,24 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取神将商店活动的数据
+message C_GET_HERO_SHOP_INFO {
+
+}
+
+message S_GET_HERO_SHOP_INFO{
+	int32 rmbNum = 1; 		// 当前已经充值的RMB数量
+	string hadRewards = 2;	// 已经领取过的奖励id集合，格式：id1,is2,id3,...
+}
+
+// 神将商店购买优惠折扣物品
+message C_HERO_SHOP_BUY_REWARD{
+	int32 buyId = 1; 	// 活动配置的唯一id
+}
+
+message S_HERO_SHOP_BUY_REWARD{
+	int32 buyId = 1; 			// 当前领奖的活动配置的唯一id
+	string hadRewards = 2;		// 已经领取过的奖励id集合，格式：id1,is2,id3,...
+	ItemListMsg itemList = 3;	// 获得的奖励
+}

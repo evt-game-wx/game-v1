@@ -1,0 +1,72 @@
+syntax="proto3";
+package com.message;
+import "battleMsg.proto";
+import "common.proto";
+//拉取竞技场信息
+message C_GET_ARENA_INFO{
+}
+
+message S_GET_ARENA_INFO{
+	repeated ARENA_INFO players = 1;//前10名
+	repeated ARENA_INFO nears = 2;//后5个（包含自己）
+	int64 time = 3;//挑战次数回复时间戳，满了就为0
+	int32 challengeTimes = 4;//剩余挑战次数
+	int32 refreshTimes = 5;//当前已经刷新次数
+	int32 rank = 6;//排名
+	bool dayReward = 7;//是否领取了每日奖励
+	int32 highRank = 8;	// 达到的历史最高排名
+	string hithRankReward = 9;	// 历史最高排名中已经领取的奖励
+	int32 buyTimes = 10;		//当前已经购买次数
+}
+
+message ARENA_INFO{
+	BattlePlayerMsg player = 1;//角色信息
+	int32 rank = 2;//排名信息
+}
+
+//刷新竞技场信息
+message C_REFRESH_ARENA_INFO{
+}
+message S_REFRESH_ARENA_INFO{
+	int32 refreshTimes = 1;//当前已经刷新次数
+}
+
+//领取每日奖励或是历史最高排名奖励
+message C_GET_ARENA_REWARD{
+	int32 rewardType = 1;	// 领取奖励的类型，0是每日奖励1是排名奖励
+	int32 rewardId = 2;		// 排名奖励的id，每日奖励的没有
+}
+message S_GET_ARENA_REWARD{
+	bool dayReward = 1;			//是否领取了每日奖励
+	ItemListMsg itemList = 2;	//奖励
+	int32 rewardId = 3;			// 排名奖励的id，每日奖励的没有
+	string hithRankReward = 4;	// 历史最高排名中已经领取的奖励
+}
+//拉取防守记录
+message C_GET_ARENA_LOG{
+}
+message S_GET_ARENA_LOG{
+	repeated ARENA_LOG_INFO logInfo = 1;//日志列表
+}
+message ARENA_LOG_INFO{
+	int32 rank = 1;//排名
+	BattlePlayerMsg enemyFighter = 2; // 敌方战斗数据
+	bool isWin = 3;//胜利失败
+}
+message S_ARENA_BE_CHALLENGE{
+}
+//扫荡回复
+message S_ARENA_SWEEP{
+	int32 times = 1;//剩余挑战次数
+}
+
+// 购买竞技场挑战次数
+message C_ARENA_BUY_CHALLENGE{
+	int32 buyTimes = 1;	// 当前已经购买次数
+}
+
+// 服务端返回购买竞技场挑战次数
+message S_ARENA_BUY_CHALLENGE{
+	int32 buyTimes = 1;			//当前已经购买次数
+	int32 challengeTimes = 2;	//剩余挑战次数
+}

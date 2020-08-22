@@ -1,0 +1,119 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//帮派boss信息
+message GuildBossMsg {
+    int32 instanceId = 1; // bossID/副本id
+    int64 bossHp = 2; // boss当前血量
+    int64 bossMaxHp = 3; // boss最大血量
+}
+
+//帮派成员boss信息
+message GuildMemberBossMsg {
+	int32 dayTimes = 1;  // 今日挑战boss的次数
+    int64 reviveTime   = 2;  // 复活时间
+    repeated int32 rewardList = 3; //已领取奖励bossId列表
+}
+
+//获取帮派boss信息
+message C_GET_GUILD_BOSS_INFO {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派boss信息
+message S_GET_GUILD_BOSS_INFO {
+	int64 guildId=1; // 帮派ID
+	repeated GuildBossMsg guildBossMsg=2; //当前boss信息
+    GuildMemberBossMsg guildMemberBossMsg=3; //成员个人信息
+    int32 maxBossId = 4;	// 当前可以挑战的boss的最大id
+    string dieBossIds = 5;	// 当前已经挑战过的boss的id集合，格式：id1,id2,id3...
+    bool hadRelive = 6;		// 当前帮派今日是否可以复活一个boss，true是false否
+}
+
+//帮派boss伤害信息
+message GuildBossDamageMsg {
+	int64 playerId=1; // 玩家ID
+	string name=2; // 玩家名字
+	int32 level=3; // 等级
+	int64 fightVal=4; //战斗力
+    int32 playerHeroId=5; // 玩家武将id
+    int32 rank=6; //排名
+    int64 damageVal=7; //总伤害值
+}
+
+//获取帮派boss总伤害列表
+message C_GUILD_BOSS_DAMAGE_RANK {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派boss总伤害列表
+message S_GUILD_BOSS_DAMAGE_RANK {
+	int64 guildId=1; // 帮派ID
+	repeated GuildBossDamageMsg damageRank=2; //帮派boss伤害信息
+}
+
+//领取帮派boss奖励
+message C_GET_GUILD_BOSS_REWARD{
+	int64 guildId=1; // 帮派ID
+    int32 instanceId = 2; // bossID/副本id
+}
+
+//领取帮派boss奖励
+message S_GET_GUILD_BOSS_REWARD{
+    int64 guildId=1; // 帮派ID
+    int32 instanceId = 2; // bossID/副本id
+    repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//立即复活
+message C_BUY_GUILD_BOSS_REVIVE{
+}
+
+//立即复活
+message S_BUY_GUILD_BOSS_REVIVE{
+    GuildMemberBossMsg guildMemberBossMsg=3; //成员个人信息
+}
+
+//帮派成员boss信息
+message GuildInstMsg {
+    int32 passInstId=1; // 我的通关最高副本id
+    int32 layer=2;      // 我的下一关副本属性加成数
+}
+
+//帮派副本通关排行
+message GuildInstRankMsg {
+    int64 playerId=1; // 玩家ID
+    string name=2; // 玩家名字
+    int32 playerHeroId=3; // 玩家名字
+    int32 passInstId=4; // 通关最高副本id
+    int32 rank=5; // 排名
+    int64 fightVal=7; // 战斗力
+}
+
+//获取帮派副本信息
+message C_GET_GUILD_INST_INFO {
+    int64 guildId=1; // 帮派ID
+}
+
+//获取帮派副本信息
+message S_GET_GUILD_INST_INFO {
+    int64 guildId=1; // 帮派ID
+    GuildInstMsg guildInstMsg=2; //当前帮派副本信息
+    repeated GuildInstRankMsg guildInstRankMsg=3; //通关总排行
+}
+
+//帮主选择要复活的boss操作
+message C_GUILD_BOSS_RELIVE_BOSS{
+	int64 guildId=1; 	// 帮派ID
+	int32 bossId = 2;	// 帮主选择复活的boss的id
+}
+
+//服务器返还客户端帮主选择复活的boss数据
+message S_GUILD_BOSS_RELIVE_BOSS{
+   	int64 guildId=1; // 帮派ID
+	repeated GuildBossMsg guildBossMsg=2; //当前boss信息
+	GuildMemberBossMsg guildMemberBossMsg=3; //成员个人信息
+    string dieBossIds = 4;	// 当前已经挑战过的boss的id集合，格式：id1,id2,id3...
+    bool hadRelive = 5;		// 当前帮派今日是否可以复活一个boss，true是false否
+}

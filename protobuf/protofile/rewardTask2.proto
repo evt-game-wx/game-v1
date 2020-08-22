@@ -1,0 +1,67 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+//拉取悬赏任务2信息
+message C_GET_REWARD_TASK2_INFO{
+}
+message S_GET_REWARD_TASK2_INFO{
+	repeated REWARD_TASK2_INFO taskInfo = 2;//悬赏任务2列表
+	REWARD_TASK2_LEVEL_INFO taskLevelInfo = 4;//悬赏栏升级信息
+}
+
+message REWARD_TASK2_LEVEL_INFO{//悬赏栏升级信息
+	int32 level = 1;//悬赏栏等级
+	string qualityDoneStr = 2;//已经完成绿品,蓝品,紫品,橙品,红任务数量
+	int64 exp = 3; //当前经验值
+}
+
+message REWARD_TASK2_INFO{//单个悬赏任务信息
+	int64 id= 1;//任务唯一id
+	int32 quality = 2;//悬赏任务品质id
+	string name = 3;//悬赏任务2名称
+	int32 heroNum = 4;//神将需求数量
+	repeated int32 heroType = 5; //需要神将类型
+	int32 heroQualityNum = 6;//神将品质要求数量
+	int32 heroQuality = 16;//神将品质要求
+	EX_REWARD_TASK2_CON exConInfo = 7;//悬赏额外信息
+	string reward = 9;//可获基础奖励（id,num;id2,num2）
+	int32 state = 10;//悬赏状态 0未开始，1开始中，2已完成成功道具未领取，3已完成道具已领取
+	int64 startTime = 11;//开始时间 如果是进行中 则有值 否则为0 
+	int64 endTime = 12;//完成时间 如果是进行中 则有值 否则为0 
+	int32 durationTime = 13;//任务持续时间 前端显示
+	int32 dropId = 14;//额外奖励
+	string heroIds = 15;//派遣的武将列表(id1,id2)
+}
+message EX_REWARD_TASK2_CON{ //额外条件
+	int32 star = 1;//需求星级
+	int32 tupo = 2;//需求突破等级
+	int32 wakeUp = 3;//需求觉醒等级
+	int32 fly = 4;//需求飞升等级
+}
+//刷新悬赏任务2
+message C_REFRESH_REWARD_TASK2_INFO{
+}
+message S_REFRESH_REWARD_TASK2_INFO{
+	repeated REWARD_TASK2_INFO taskInfo = 1;//悬赏任务2列表
+}
+
+//开始悬赏任务2
+message C_START_RWEARD_TASK2{
+	int64 id= 1;//任务唯一id
+	string heros = 2;//上阵武将id 102,103
+}
+message S_START_REWARD_TASK2{
+	int64 id= 1;//任务唯一id
+	int64 time = 2;//完成时间戳
+}
+//查看任务 如果是成功即领取奖励
+message C_REWARD_TASK2_WATCH_AND_GET_REWARD{
+	int64 id= 1;//任务唯一id
+}
+message S_REWARD_TASK2_WATCH_AND_GET_REWARD{
+	int64 id= 1;//任务唯一id
+	int32 state = 2;//悬赏状态
+	ItemListMsg itemList = 3;//你获得的奖励 成功了才有
+	REWARD_TASK2_LEVEL_INFO taskLevelInfo = 4;//悬赏栏升级信息
+	REWARD_TASK2_INFO taskInfo = 5;//悬赏任务2信息
+}

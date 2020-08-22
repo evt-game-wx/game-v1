@@ -1,0 +1,61 @@
+syntax="proto3";
+package com.message;
+
+message PlayerPropertyMsg {
+	int64 playerId=1; // 玩家编号
+
+	int32 level=2; //等级
+	int64 exp=3; //当前等级的经验
+
+	int64 diamond=4; //钻石
+	int64 money=5; //金币
+	int32 vipLevel=6; //VIP等级
+    int64 guildDonate=7; //个人帮贡
+	int32 honor = 8;//荣誉
+	int32 demonScore = 9;//降妖除魔积分
+	int32 practice = 12;//修行碎片
+	int64 fightVal=10;   //个人总战力
+	int64 expPool = 11;//武将经验池
+	int32 bindDiamond=13;//绑元
+	int32 towerChip=14;//玲珑塔碎片
+	int32 heroQuality = 15; // 主角武将的品质
+	int32 nanTianGateScore = 16; // 南天门天庭库藏的积分
+	int32 xianJing = 17; // 九天仙脉的仙晶
+	int32 friendScore = 18; // 好友系统的友情点
+	int32 aBiHellScore = 19; // 阿鼻地狱副本的刀币
+	int64 heroSol = 20; // 将魂
+}
+
+
+message PlayerExtMsg{
+	int64 onlineTime = 1; //ms	在线时间累积
+    int32 curHangupIntId = 2;//当前挂机boss副本ID
+    repeated ImageDressMsg imageDressMsg = 3; //幻化形象信息.
+	int32 defeatNum = 4;//当前挂机已经击败波次
+	int64 dayOnlineTime = 5; //秒，当天累计在线时长
+	int64 monthRechargeValue = 6; //累计月充值活动的总额
+
+    int32 passHellInsId = 13; // 已通关阎王殿副本id
+    int32 zhenFaType = 14; // 当前使用的阵法type
+	int32 chapterId = 15; //已选择世界章节地图章节ID
+	int32 heroChallengeId = 16;// 当前需要通关的神将挑战id
+}
+
+message ImageDressMsg{
+    int32 type=1;           //幻化系统类型 按表格走  1坐骑 2翅膀 3光环 6守护 10时装 11称号 12神器
+    int32 imageId=2;        //当前幻化id
+}
+
+message BasePlayerMsg{
+	int64 playerId=1; // 玩家编号
+	string playerName=2;
+	int64 heroId=3;
+	int32 level=4; //等级
+	int64 power=5; //战力
+	int32 serverId=7;   // 服务器编号
+    repeated ImageDressMsg imageDressMsg = 6; //幻化形象信息
+    int32 heroQuality = 8;		// 主角武将的品质
+    int32 useTitle = 9;			//当前使用的称号id
+	int32 useHeadFrame = 10;	//当前使用的头像框id
+	int32 zhenFaType = 11;	// 当前使用的阵法type
+}

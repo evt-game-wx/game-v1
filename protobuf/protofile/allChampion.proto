@@ -1,0 +1,374 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+import "playerMsg.proto";
+
+//获取巅峰争霸赛的数据
+message C_GET_TOP_RANK_PLAY_INFO{
+}
+
+// 服务器返还给客户端巅峰争霸赛的数据
+message S_GET_TOP_RANK_PLAY_INFO{
+	int32 championType = 1;					// 返回上赛季最高赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 isWorship = 2;					// 今日是否已经膜拜过，1是0否
+	int32 isJoin = 3;						// 本赛季是否报名参赛，1是0否
+	repeated RankPlayerMsg rankData = 4;	// 当前赛区的玩家的前4名的数据，按顺序来展示
+	int32 selfType = 5;						// 玩家本赛季自己所在的赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	repeated int32 championList = 6;		// 本赛季的所有赛区id
+	repeated int32 lastChampionList = 7;	// 上赛季的所有赛区id
+}
+
+message RankPlayerMsg{
+	int64 playerId = 1; 						// 玩家编号
+	string playerName = 2;						// 玩家昵称
+	int64 heroId=3;								// 主角武将的id
+	int32 level=4; 								// 玩家等级
+	int64 power=5; 								// 排名时候战力
+	int32 serverId=7;   						// 服务器编号
+    repeated ImageDressMsg imageDressMsg = 6;	// 幻化形象信息
+    int32 heroQuality = 8;						// 主角武将的品质
+    int64 totalTimes = 9;						// 累计被膜拜次数
+    int32 useTile = 10;							// 当前使用的称号
+    int32 useHeadFrame = 11;					// 当前使用的头像框
+}
+
+// 玩家膜拜操作
+message C_GET_TOP_RANK_PLAY_WORSHIP {
+}
+
+message S_GET_TOP_RANK_PLAY_WORSHIP {
+	int32 isWorship = 1;				// 今日是否已经膜拜过，1是0否
+	ItemListMsg rewardList = 2;			// 膜拜获得的奖励数据
+}
+
+//获取自己海选赛的对战记录操作
+message C_GET_TOP_RANK_PLAY_WARRECORD{
+}
+
+// 服务器返还给客户端自己海选赛的对战记录操作
+message S_GET_TOP_RANK_PLAY_WARRECORD{
+	repeated JOIN_WAR_REPORT records = 1;	// 海选赛的对战记录
+}
+
+// 海选赛的战斗记录数据
+message JOIN_WAR_REPORT {
+	string recordId = 1;			// 记录的战报的唯一id
+	int32 battleType = 2;			// 记录的类型，1是海选赛，201是晋级赛，202是八强赛，203是四强赛，301是决赛，302是冠军赛
+	int32 battleId = 3;				// 对战的场次id
+	int64 targetPlayerId = 4;		// 对手的id
+	string targetNickName = 5;		// 对手的昵称
+	int32 winResult = 6;			// 对战的结果，0是失败1是胜利
+}
+
+// 服务器返推送客户端玩家新加对战记录数据后推送前端
+message S_GET_TOP_RANK_PUSH_RECORD{
+	JOIN_WAR_REPORT records = 1;      // 新加战斗的战报数据
+}
+
+//获取角色当前争霸赛的阵容数据
+message C_GET_TOP_RANK_PLAY_FORMATION{
+
+}
+
+// 服务器返还给客户端角色当前争霸赛的阵容数据
+message S_GET_TOP_RANK_PLAY_FORMATION{
+	repeated int32 heroIds = 1;		// 上阵的阵容武将id，对应1-6号位置的，格式：heroId1,heroId2,heroId3....
+}
+
+//角色设置当前争霸赛的阵容数据
+message C_UPDATE_TOP_RANK_PLAY_FORMATION{
+	repeated int32 heroIds = 1;		// 上阵的阵容武将id，对应1-6号位置的，格式：heroId1,heroId2,heroId3....
+}
+
+// 服务器返还给客户端当前争霸赛的阵容数据
+message S_UPDATE_TOP_RANK_PLAY_FORMATION{
+	repeated int32 heroIds = 1;		// 上阵的阵容武将id，对应1-6号位置的，格式：heroId1,heroId2,heroId3....
+}
+
+//报名参加巅峰争霸赛的操作
+message C_GET_TOP_RANK_PLAY_APPLY{
+
+}
+
+// 服务器返还给客户端报名参加巅峰争霸赛的操作
+message S_GET_TOP_RANK_PLAY_APPLY{
+	int32 isWorship = 1;					// 今日是否已经膜拜过，1是0否
+	int32 isJoin = 2;						// 本赛季是否报名参赛，1是0否
+}
+
+//获取本次的晋级赛的数据
+message C_GET_TOP_RANK_PLAY_WIN{
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 2;			// 指定组的id，从1开始，1-4代表4个不同的组
+}
+
+// 服务器返还给客户端本次的晋级赛的数据
+message S_GET_TOP_RANK_PLAY_WIN{
+	int32 championType = 1;				// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 2;					// 指定组的id，从1开始，1-4代表4个不同的组
+	repeated WIN_PLAYER_DATA datas = 3;	// 晋级赛界面的数据
+	int32 selfTeamId = 4;				// 玩家当前所在的小组id，0标识被淘汰了
+}
+
+// 晋级赛的数据
+message WIN_PLAYER_DATA {
+	int64 playerId=1; 		// 玩家编号
+	string playerName=2;	// 昵称数据
+	int64 heroId=3;			// 主角的武将id
+	int32 level=4; 			// 等级
+	int64 power=5; 			// 战力
+	int32 serverId=6;   	// 服务器编号
+    int32 heroQuality = 7;	// 主角武将的品质
+    int32 posId = 8;		// 界面的位置id,1-8代表32进16,11-14代表16进8,21-22代表8进4,31代表4强
+    int32 useHeadFrame = 9;	// 当前使用的头像框
+}
+
+//玩家参与竞猜操作
+message C_GET_TOP_RANK_PLAY_GUESS{
+	int32 guessType = 1;		// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 2;		// 押注玩家的id
+	int32 guessId = 3;			// 竞猜的轮数，1、2、3、4
+	int32 championType = 4;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+}
+
+// 服务器返还给客户端参与竞猜操作
+message S_GET_TOP_RANK_PLAY_GUESS{
+	int32 guessType = 1;		// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 2;		// 押注玩家的id
+	int32 guessId = 3;			// 竞猜的轮数，1、2、3、4
+	int32 championType = 4;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+}
+
+//玩家参与竞猜的记录数据
+message C_GET_TOP_RANK_GUESS_RECORD{
+}
+
+// 服务器返还给客户端参与竞猜记录数据
+message S_GET_TOP_RANK_GUESS_RECORD{
+	repeated GUESS_RECORD records = 1;	// 押注记录数据
+}
+
+message GUESS_RECORD {
+	int32 guessId = 1;		// 竞猜的轮数，1、2、3
+	int32 guessType = 2;	// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 3;	// 押注玩家的id
+	int32 result = 4;		// 押注的结果,1是胜利2是失败0押注中
+	int32 championType = 5;	// 押注的赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 6;		// 当前押注的小组id，冠军赛的id是1
+	string nickName = 7;	// 押注玩家的昵称
+	int64 fightValue = 8;	// 押注玩家的战力
+	int32 level = 9; 		// 等级
+	int32 serverId = 10;   	// 服务器编号
+    int32 heroQuality = 11;	// 主角武将的品质
+    int32 useHeadFrame = 12;// 当前使用的头像框
+	int32 heroId = 13;		// 主角的武将id
+}
+
+//获取本次的冠军赛的数据
+message C_GET_TOP_RANK_PLAY_CHAMPION{
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+}
+
+// 服务器返还给客户端本次的冠军赛的数据
+message S_GET_TOP_RANK_PLAY_CHAMPION{
+	int32 championType = 1;				// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	repeated WIN_PLAYER_DATA datas = 2;	// 冠军赛界面的数据
+}
+
+//获取对战记录的数据
+message C_GET_TOP_RANK_BATTLE{
+	int64 targetPlayerId = 1;	// 获取对战记录中指定的玩家的id，二者中任意一个都可以
+	int32 battleType = 2;		// 对战的类型，1是晋级赛的，2是冠军赛
+	int32 posId = 3;			// 对战双方的场次，1是海选赛，2是32到16强，3是16到8强，4是8到4强，5是4到2强，6是2到冠军赛
+}
+
+// 服务器返还给客户端对战记录的数据
+message S_GET_TOP_RANK_BATTLE{
+	int32 battleType = 1;					// 对战的类型，1是晋级赛的，2是冠军赛
+	int32 posId = 2;						// 对战双方的场次，1是海选赛，2是32到16强，3是16到8强，4是8到4强，5是4到2强，6是2到冠军赛
+	repeated BATTBLE_RECORD records = 3;	// 对战记录数据
+}
+
+// 对战记录数据
+message BATTBLE_RECORD {
+	int64 playerId = 1;			// 对战的玩家id
+	int64 targetId = 2;			// 对手的玩家id
+	string battleId = 3;		// 对战的战报唯一id，查询战报使用
+	int64 winPlayerId = 4;		// 胜利的玩家id
+}
+
+//获取指定的战报数据
+message C_GET_TOP_RANK_WARREPORT{
+	string battleId = 1;		// 对战的战报唯一id，查询战报使用
+}
+
+// 服务器返还给客户端指定的战报数据
+message S_GET_TOP_RANK_WARREPORT{
+	CHAMPION_WAR_REPORT reportData = 1;      // 本场战斗的战报数据
+}
+
+// 一场战斗的战报数据
+message CHAMPION_WAR_REPORT {
+	BattlePlayerMsg myFighter = 1;      			// 我方战斗数据
+    BattlePlayerMsg enemyFighter = 2; 				// 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg = 3;	//战报数据
+	int32 roundNum = 4;  							//总回合数
+	int64 winPlayerId = 5;  						//获得胜利的玩家id
+}
+
+//获取巅峰争霸赛的数据
+message CROSS_C_GET_TOP_RANK_INFO{
+	int64 playerId = 1;			// 玩家的id
+}
+
+// 服务器返还给客户端巅峰争霸赛的数据
+message CROSS_S_GET_TOP_RANK_INFO{
+	int32 championType = 1;					// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 2;						// 玩家的id
+	repeated RankPlayerMsg rankData = 3;	// 当前赛区的玩家的前4名的数据，按顺序来展示
+	repeated int32 seasonList = 4;			// 赛区的id集合
+	repeated int32 lastList = 5;			// 上赛季的所有赛区id
+}
+
+// 玩家膜拜操作
+message CROSS_C_TOP_RANK_WORSHIP {
+	int64 playerId = 2;			// 玩家的id
+}
+
+message CROSS_S_TOP_RANK_WORSHIP {
+	int64 playerId = 1;					// 玩家的id
+	int64 totalTimes = 2;				// 当前总膜拜次数
+}
+
+//报名参加巅峰争霸赛的操作
+message CROSS_C_TOP_RANK_APPLY{
+	int64 playerId = 1;					// 玩家的id
+	int32 playerLevel = 2;				// 玩家的等级
+	int32 serverId = 3;					// 游戏服的id
+}
+
+// 服务器返还给客户端报名参加巅峰争霸赛的操作
+message CROSS_S_TOP_RANK_APPLY{
+	int64 playerId = 1;					// 玩家的id
+	int32 totalApply = 2;				// 当前总报名人数
+}
+
+//获取自己对战记录操作
+message CROSS_C_GET_TOP_RANK_WARRECORD{
+	int64 playerId = 1;					// 玩家的id
+}
+
+// 服务器返推送对战记录操作
+message CROSS_S_GET_TOP_RANK_WARRECORD{
+	int64 playerId = 1;				// 玩家的id
+	JOIN_WAR_REPORT records = 2;	// 对战记录数据
+}
+
+//获取本次的晋级赛的数据
+message CROSS_C_GET_TOP_RANK_WIN{
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 2;			// 指定组的id，从1开始，1-4代表4个不同的组
+	int64 playerId = 3;			// 玩家的id
+}
+
+// 服务器返还给客户端本次的晋级赛的数据
+message CROSS_S_GET_TOP_RANK_WIN{
+	int32 championType = 1;				// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 2;					// 指定组的id，从1开始，1-4代表4个不同的组
+	int64 playerId = 3;					// 玩家的id
+	repeated WIN_PLAYER_DATA datas = 4;	// 晋级赛界面的数据
+	int32 selfTeamId = 5;				// 玩家自己所在的小组id，0标识被淘汰了
+}
+
+//获取本次的冠军赛的数据
+message CROSS_C_GET_TOP_RANK_CHAMPION{
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 2;			// 玩家的id
+}
+
+// 服务器返还给客户端本次的冠军赛的数据
+message CROSS_S_GET_TOP_RANK_CHAMPION{
+	int32 championType = 1;				// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	repeated WIN_PLAYER_DATA datas = 2;	// 冠军赛界面的数据
+	int64 playerId = 3;					// 玩家的id
+}
+
+//获取对战记录的数据
+message CROSS_C_GET_TOP_RANK_BATTLE{
+	int64 targetPlayerId = 1;			// 获取对战记录中指定的玩家的id，二者中任意一个都可以
+	int32 battleType = 2;				// 对战的类型，1是晋级赛的，2是冠军赛
+	int32 posId = 3;					// 对战双方的场次，1是海选赛，2是32到16强，3是16到8强，4是8到4强，5是4到2强，6是2到冠军赛
+	int64 playerId = 4;					// 玩家的id
+}
+
+// 服务器返还给客户端对战记录的数据
+message CROSS_S_GET_TOP_RANK_BATTLE{
+	int32 battleType = 1;					// 对战的类型，1是晋级赛的，2是冠军赛
+	int32 posId = 2;						// 对战双方的场次，1是海选赛，2是32到16强，3是16到8强，4是8到4强，5是4到2强，6是2到冠军赛
+	repeated BATTBLE_RECORD records = 3;	// 对战记录数据
+	int64 playerId = 4;						// 玩家的id
+}
+
+//获取指定的战报数据
+message CROSS_C_GET_TOP_RANK_WARREPORT{
+	string battleId = 1;		// 对战的战报唯一id，查询战报使用
+	int64 playerId = 3;			// 玩家的id
+}
+
+// 服务器返还给客户端指定的战报数据
+message CROSS_S_GET_TOP_RANK_WARREPORT{
+	CHAMPION_WAR_REPORT reportData = 1;     // 本场战斗的战报数据
+	int64 playerId = 3;						// 玩家的id
+}
+
+// 服务器推送游戏服赛区的数据
+message CROSS_S_TOP_RANK_CHAMPION_ID{
+	int32 championType = 1;				// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 2;					// 玩家的id
+}
+
+//去跨服查询是否可以竞猜操作
+message CROSS_C_GET_TOP_RANK_GUESS{
+	int32 guessType = 1;		// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 2;		// 押注玩家的id
+	int32 guessId = 3;			// 竞猜的轮数，1、2、3、4
+	int32 championType = 4;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 5;			// 下注的玩家的id
+}
+
+// 服务器返还给客户端参与竞猜操作
+message CROSS_S_GET_TOP_RANK_GUESS{
+	int32 guessType = 1;		// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 2;		// 押注玩家的id
+	int32 guessId = 3;			// 竞猜的轮数，1、2、3、4
+	int32 championType = 4;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 5;			// 下注的玩家的id
+	int32 result = 6;			// 下注结果，0是可以下注，1是押注玩家id错误，2是只能押注自己,3本轮押注还未开始
+	int32 teamId = 7;			// 下注时候的队伍id
+	int64 fightValue = 8;		// 押注玩家的战力
+	int32 level = 9; 			// 等级
+	int32 serverId = 10;   		// 服务器编号
+    int32 heroQuality = 11;		// 主角武将的品质
+    int32 useHeadFrame = 12;	// 当前使用的头像框
+	int32 heroId = 13;			// 主角的武将id
+	string nickName = 14;		// 押注玩家的昵称
+	int32 posId = 15;			// 押注玩家所在的位置id
+}
+
+// 跨服对战结束推送押注结果
+message CROSS_S_SEND_TOP_RANK_GUESS {
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int32 teamId = 2;			// 对战的队伍id
+	int32 guessId = 3;			// 竞猜的轮数，1、2、3、4
+	int32 guessType = 4;		// 竞猜的类型，1是晋级赛的，2是冠军赛
+	int64 winPlayerId = 5;		// 押注玩家的id
+	int32 posId = 6;			// 押注玩家所在的位置id
+}
+
+// 跨服推送排名奖励
+message CROSS_S_SEND_TOP_RANK_RANK {
+	int32 championType = 1;		// 获取指定赛区的id，从1开始，200-500级分别对应1、2、3、4个赛区
+	int64 playerId = 2;			// 玩家的id
+	int32 rank = 3;				// 玩家当前的排名
+}

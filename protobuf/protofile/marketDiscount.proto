@@ -1,0 +1,22 @@
+syntax="proto3";
+package com.message;
+
+message C_GET_MARKET_DISCOUNT_INFO{
+}
+message S_GET_MARKET_DISCOUNT_INFO{
+	repeated MARKET_DISCOUNT_INFO marketInfos = 1;//限时折扣商品信息
+	int32 day = 2;//商店的天数
+}
+
+message MARKET_DISCOUNT_INFO{
+	int32 marketId = 1;//商品id
+	int32 limitNum = 3;//限购数量
+}
+
+message C_BUY_MARKET_DISCOUNT{
+	int32 marketId = 1;//要购买的商品id
+}
+message S_BUY_MARKET_DISCOUNT{
+	MARKET_DISCOUNT_INFO marketInfo = 1;//商品信息
+}
+

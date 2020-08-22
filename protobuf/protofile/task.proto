@@ -1,0 +1,83 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 领取任务奖励
+message C_TASK_RECEIVE_REWARD {
+    int32 type = 1; 		//任务类型 1主线任务 2帮派悬赏任务
+    int32 taskId = 2;       // 任务ID
+}
+
+// 领取任务奖励
+message S_TASK_RECEIVE_REWARD {
+    int32 type = 1; 		//任务类型 1主线任务 2帮派悬赏任务
+    int32 taskId = 2;       // 任务ID
+    int32 exp = 3;          //经验
+    int32 money = 4;        //金币
+    ItemListMsg itemList = 5;   //道具奖励
+	int32 nextTaskId = 6;       // 下一个任务ID
+}
+
+//任务信息
+message TaskMsg{
+	int32 taskId = 1; // 任务ID
+	int32 achieve = 2; // 进度
+	int32 state = 3; // 状态  //0 未完成 1 完成  2 已领取
+	int32 resetTime = 4; // 重置时间
+}
+
+//任务更新
+message S_SYNC_TASK_UPDATE {
+    int32 type = 1; 		//任务类型 1主线任务 2帮派悬赏任务
+   	repeated TaskMsg tasks=2; // 任务
+
+   	int32 removes = 3; // 移除任务id
+}
+//拉取任务信息 根据类型
+message C_GET_TASK_INFO{
+	int32 type = 1;//任务类型 从3开始 3修行系统任务
+}
+message S_GET_TASK_INFO{
+	int32 type = 1;
+	repeated TaskMsg taskInfos = 2;//任务信息列表
+}
+
+// 获取帮派任务信息
+message C_GET_GUILD_TASK_INFO {
+}
+
+// 获取帮派任务信息
+message S_GET_GUILD_TASK_INFO {
+    GuildTaskMsg guildTaskMsg=1; // 帮派任务信息
+    repeated TaskMsg tasks=2; // 任务
+}
+
+// 帮派任务信息
+message GuildTaskMsg{
+    int32 count = 1; // 已领取奖励次数
+    int32 refreshCount = 2; //可刷新次数
+    int64 addCountTime = 3;	//到期增加次数时间
+}
+
+// 刷新帮派任务
+message C_REFRESH_GUILD_TASK {
+    int32 type = 1; 		//刷新类型 0普通刷新 1消耗元宝刷新
+}
+
+// 刷新帮派任务
+message S_REFRESH_GUILD_TASK {
+    GuildTaskMsg guildTaskMsg=1; // 帮派任务信息
+    repeated TaskMsg tasks=2; // 任务
+}
+
+//前端控制的任务进度次数，分享、挂机界面数据等
+message C_UPDATE_TASK_DATA{
+	int32 type = 1;		//任务类型 从3开始 3修行系统任务
+	int32 taskId = 2;	// 任务的唯一id
+	int32 count = 3;	// 任务完成的次数
+}
+
+message S_UPDATE_TASK_DATA{
+	int32 type = 1;
+	int32 taskId = 2;	// 任务的唯一id
+}

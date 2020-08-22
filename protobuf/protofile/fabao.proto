@@ -1,0 +1,68 @@
+syntax="proto3";
+package com.message;
+ 
+message FABAO_INFO {
+	int32 fabaoId		=	1;	//法宝ID
+	int32 level			=	2;	//法宝的等级(激活即1级0星)
+	int32 star			=	3;	//法宝的星级
+	int32 fightVal		=	4;	//法宝的战力
+}
+
+//C->S 请求: 法宝主面板信息
+message C_FABAO_GET_INFO {
+
+}
+
+
+//S->C 响应: 法宝主面板信息
+message S_FABAO_GET_INFO {
+	int32 totalFightVal				=	1;	//法宝总战力
+	repeated FABAO_INFO fabaoInfo	=	2;	//法宝数组
+}
+
+//C->S 请求: 法宝激活/升级/升星
+message C_FABAO_OPERATION {
+	int32 type						=	1;	//请求类型. 详情见: FabaoOperationType
+	int32 fabaoId					=	2;	//法宝ID
+}
+ 
+//S->C 推送: 法宝激活/升级/升星
+message S_FABAO_OPERATION { 
+	int32 type						=	1;	//请求类型. 详情见: FabaoOperationType
+	int32 totalFightVal				=	2;	//法宝总战力
+	FABAO_INFO fabaoInfo			=	3;	//法宝信息
+}
+
+
+//C->S 请求: 法宝穿戴
+message C_FABAO_DRESSUP {
+	int32 fabaoId					=	1;	//法宝ID
+	int32 formationSlot				=	2;	//出战位下标记(1-6)
+}
+
+//S->C 响应: 法宝穿戴
+message S_FABAO_DRESSUP {
+	int32 fabaoId					=	1;	//法宝ID
+	int32 dressFormationSlot		=	2;	//穿戴出战位下标记.(1-6).法宝需要穿戴上去
+	int32 undressFormationSlot		=	3;	//被替换出战为标记.(1-6). 法宝从上面卸下来
+}
+
+//C->S 请求: 法宝卸载
+message C_FABAO_UNDRESSUP { 
+	int32 undressFormationSlot		=	1;	//卸载法宝槽位
+}
+
+//S->C 响应: 法宝卸载
+message S_FABAO_UNDRESSUP { 
+	int32 undressFormationSlot		=	1;	//卸载法宝槽位
+}
+
+
+enum FabaoOperationType {
+	ACTIVE 							= 	0;	//激活
+	LEVELUP 						= 	1;	//升级
+	STARUP							=	2;	//升星
+	RELIVE							=	3;	//重生
+}
+
+		

@@ -1,0 +1,50 @@
+syntax="proto3";
+package com.message;
+
+//获得答题活动信息
+message C_GET_ANSWER_ACT_INFO {
+    int32 id = 1; 		    		//序号1-20
+}
+
+//获得答题活动信息
+message S_GET_ANSWER_ACT_INFO {
+    AnswerActMsg actInfo = 2; //答题活动信息
+	AnswerMsg answerInfo = 3; //当前答题信息
+    AnswerRankMsg myRankMsg = 4; //我的答题排行信息
+    repeated AnswerRankMsg answerRankMsg = 5; //答题排行
+}
+
+//答题活动排行信息
+message AnswerRankMsg {
+    int64 playerId=1;       // 玩家ID
+    string name=2;          // 玩家名字
+    int32 score	= 3; 		    //当前总分数
+    int32 rank	= 4; 		    //排名
+}
+
+//答题活动信息
+message AnswerActMsg {
+	int64 startTime = 1; 		    //开启时间
+	int64 endTime	= 2; 		    //结束时间
+}
+
+//当前答题信息
+message AnswerMsg {
+	int32 id = 1; 		    		//序号1-20
+	int32 subjectId = 2; 		    //当前题目id
+	int64 endTime	= 3; 		    //题目答题结束时间
+}
+
+//答题
+message C_ANSWER_SUBJECT{
+	int32 id = 1; 		    		//序号1-20
+    string answer=2;          // 答案
+}
+
+//答题
+message S_ANSWER_SUBJECT{
+	int32 id = 1; 		    		//序号1-20
+    int32 subjectId = 2; 		    //当前题目id
+    int32 right	= 3; 		    //是否正确，1正确，0错误
+    int32 score	= 4; 		    //当前总分数
+}

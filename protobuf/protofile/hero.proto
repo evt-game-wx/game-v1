@@ -1,0 +1,126 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得武将列表
+message C_HERO_LISTS { 
+}
+
+//武将列表返回
+message S_HERO_LISTS { 
+    repeated HerosInfo herosInfo = 1; //武将信息
+}
+
+message HerosInfo {
+	int32 heroId = 1; 		//武将id
+    int32 heroLevel	= 2; 		//武将等级
+    int32 heroStar = 3;		//武将星级
+    int32 heroQuailty = 4;	//武将品质
+    int64 heroExp = 5;	//武将经验
+    int32 heroStarExp = 6;	//武将星级经验
+    int32 heroWakeLevel = 7;	//武将觉醒等级
+    int32 heroTuPoLevel = 8;	// 武将突破等级
+    int32 heroFlyLevel = 9;	// 武将飞升等级
+    int32 starPieceNums = 10;	// 武将升级使用的碎片数量
+}
+
+//道具激活武将
+message C_ACTICATION_HERO {
+	int32 heroId = 1; //武将id
+}
+
+//道具激活返回
+message S_ACTICATION_HERO {
+	HerosInfo herosInfo = 1;//武将信息
+}
+
+//升级武将
+message C_UPGRADE_HERO_LEVEL{
+	int32 heroId = 1; //武将id
+}
+
+//升级武将返回
+message S_UPGRADE_HERO_LEVEL{
+	int32 heroId = 1; //武将id
+	int32 heroLevel = 2 ;//武将等级
+}
+
+//升星武将
+message C_UPGRADE_HERO_STAR{
+	int32 heroId = 1; //武将id
+    ItemListMsg itemListMsg = 2; //消耗的道具
+}
+
+//升星武将返回
+message S_UPGRADE_HERO_STAR{
+	int32 heroId = 1; //武将id
+	int32 heroStar = 2 ;//武将星级
+	int32 heroStarExp = 3 ;//武将星级经验
+	int32 starPieceNums = 4;	// 武将升级使用的碎片数量
+}
+
+//武将觉醒
+message C_HERO_WAKE{
+	int32 heroId = 1; //武将id
+}
+
+//武将觉醒
+message S_HERO_WAKE{
+	int32 heroId = 1; //武将id
+	int32 heroWakeLevel = 2 ;//武将觉醒等级
+	int32 success = 3; // 0为失败  1为成功
+}
+
+//客户端请求->升级武将
+message C_HERO_LEVEL_UP{
+	int32 heroId = 1; //武将id
+	bool isTen = 2;	//是否是升十级，true是false升一级
+}
+
+//服务器响应客户端->升级武将返回
+message S_HERO_LEVEL_UP{
+	int32 heroId = 1; //武将id
+	int32 heroLevel = 2 ;//武将等级
+	int64 currExp = 3 ;//当前等级的经验值
+}
+
+
+//客户端请求->武将重生
+message C_HERO_RELIVE{
+	int32 heroId = 1; //武将id
+}
+
+//服务器响应客户端->武将重生返回
+message S_HERO_RELIVE{
+	int32 heroId = 1; //武将id
+	int32 heroLevel = 2 ;//武将等级
+	int64 currExp = 3 ;//当前等级的经验值
+	int32 heroTuPo = 4 ;//武将突破等级
+	int32 heroWake = 5 ;//武将觉醒等级
+	ItemListMsg itemList = 6;	// 获得的奖励
+	int32 heroFly = 7 ;//武将飞升等级
+	int32 heroStar = 8;		//武将星级
+}
+
+//武将突破
+message C_HERO_TUPO{
+	int32 heroId = 1; //武将id
+}
+
+//武将突破
+message S_HERO_TUPO{
+	int32 heroId = 1; //武将id
+	int32 tuPoLevel = 2 ;//武将突破等级
+	int32 success = 3; // 0为失败  1为成功
+}
+
+//武将飞升
+message C_HERO_FLY{
+	int32 heroId = 1; //武将id
+}
+
+//武将飞升
+message S_HERO_FLY{
+	int32 heroId = 1; //武将id
+	int32 flyLevel = 2 ;//武将飞升后的等级
+}

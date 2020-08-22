@@ -1,0 +1,74 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//客户端获得挂机宝箱的信息
+message C_GET_GUA_JI_BOX_INFO {
+
+}
+
+//服务器响应客户端-->挂机宝箱的数据
+message S_GET_GUA_JI_BOX_INFO {
+	GUA_JI_BOX guaJiInfo 	= 1;	// 挂机信息
+}
+
+// 客户端提前领取挂机宝箱的操作
+message C_GUA_JI_BOX_FORWARD {
+	int32 costDiamond	= 1;	// 花费的元宝数量，0表示免费
+}
+
+// 服务器响应客户端-->提前领取挂机宝箱
+message S_GUA_JI_BOX_FORWARD {
+	bool isFreeTimes		= 1;	//是否还有免费次数，true是false否
+	int32 hadBuyTimes		= 2;	//已经使用的购买次数
+	int32 maxBuyTimes		= 3;	//最大可以购买的次数
+	int32 buyDiamond		= 4;	//提前领取花费的元宝数量
+	ItemListMsg itemList	= 5;	// 获得的奖励
+	int64 expNum			= 6;	// 经验数量
+	int64 goldNum			= 7;	// 金币数量
+}
+
+//客户端挂机宝箱领取
+message C_GUA_JI_BOX_REWARD {
+
+}
+
+//服务器响应客户端--> 挂机宝箱领取
+message S_GUA_JI_BOX_REWARD{
+	ItemListMsg itemList	= 1;	// 获得的奖励
+	GUA_JI_BOX guaJiInfo 	= 2;	// 挂机信息
+	int64 expNum			= 3;	// 经验数量
+	int64 goldNum			= 4;	// 金币数量
+}
+
+//客户端使用道具增加挂机宝箱时间
+message C_GUA_JI_BOX_USEITEM {
+	int64 goodsId = 1;		//使用的道具id
+	int32 useNum = 2;		//使用的数量
+}
+
+//服务器响应客户端--> 使用道具增加挂机宝箱时间
+message S_GUA_JI_BOX_USEITEM{
+	GUA_JI_BOX guaJiInfo 	= 1;	// 挂机信息
+	ItemListMsg itemList	= 2;	// 获得的奖励
+}
+
+message GUA_JI_BOX {
+	int32 guaJiTime			= 1;	//当前已经挂机的时间，单位秒
+	int32 offlineTime		= 2;	//当前离线挂机的时间，单位秒
+	int32 maxGuaJiTime		= 3;	//可以挂机的最大时间 ，单位秒
+	int64 goldBase			= 4;	//挂机银两的基础值
+	int64 expBase			= 5;	//挂机经验的基础值
+	int32 equipTime			= 6;	//获取一件装备需要的时间，单位分钟
+	int64 offlineGoldBase	= 7;	//挂机银两的基础值
+	int64 offlineExpBase	= 8;	//挂机经验的基础值
+	int32 offlineEquipTime	= 9;	//获取一件装备需要的时间，单位分钟
+	bool isFreeTimes		= 10;	//是否还有免费次数，true是false否
+	int32 hadBuyTimes		= 11;	//已经使用的购买次数
+	int32 maxBuyTimes		= 12;	//最大可以购买的次数
+	int32 buyDiamond		= 13;	//提前领取花费的元宝数量
+	int32 vipAdd			= 14;	//VIP特权加成的比率，万分比的值
+	int32 vipTime			= 15;	//VIP特权加成的的时间，单位分钟
+	int32 monthCard			= 16;	//月卡加成的比率，万分比的值
+	int32 monthCardTime		= 17;	//月卡加成的时间，单位分钟
+}

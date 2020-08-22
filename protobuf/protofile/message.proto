@@ -1,0 +1,1703 @@
+syntax="proto3";
+package com.message;
+
+message MsgEnum {
+    enum MsgCode {
+        MSG_EMPTY = 0;
+        S_EXCEPTION_MSG = 900; // 异常消息
+
+        C_USER_LOGIN = 1001; // 登录
+        S_USER_LOGIN = 1002; // 登录成功
+        S_USER_LOGIN_BAN = 1003; // 被封禁提示
+        C_LOGIN_REGISTER = 1005; //注册
+        C_USER_LOGOUT = 1007; //登出
+        S_USER_LOGOUT = 1008;
+
+        C_USER_LOGIN_INIT_FINISH = 1009; // 登录注册完成请求 角色信息
+        S_USER_LOGIN_INIT_FINISH = 1010; // 登录注册完成请求 角色信息
+		C_GET_GUIDE_ID = 1011;		//拉取引导进度id
+		S_GET_GUIDE_ID = 1012;
+		C_SAVE_GUIDE_ID = 1013;		//存储引导进度
+		C_GET_MODULE_REWARD_INFO = 1014;//拉取功能开启领奖信息
+		S_GET_MODULE_REWARD_INFO = 1015;//拉取功能开启领奖信息
+		C_GET_MODULE_REWARD 	= 1016;//领取功能开启奖励
+		S_GET_MODULE_REWARD 	= 1017;//领取功能开启奖励
+		
+        C_GET_PLAYER_INFO           = 1021;         //客户端 查看其它角色信息
+        S_GET_PLAYER_INFO           = 1022;
+        C_EDIT_PLAYER_NICKNAME      = 1023;         //修改角色昵称
+        S_EDIT_PLAYER_NICKNAME      = 1024;
+
+        S_RECHARGE_RTN_PUSH			= 1025;	// 推送封测期间充值后返还元宝的提示
+        C_RECHARGE_RTN_REWARD		= 1026; // 客户端手动领取封测期间充值的返还元宝的奖励
+        S_RECHARGE_RTN_REWARD		= 1027; // 手动领取封测期间充值的返还元宝的奖励
+
+        S_LOGIN_OFFLINE_HANGUP_PUSH		= 1028;	// 登录推送客户端玩家离线奖励数据操作
+        S_LOGIN_BACK_PACK_PUSH			= 1029;	// 登录推送客户端玩家的背包数据
+
+        C_GET_NICKNAME_INFO           = 1030;	// 客户端核查随机名字是否可以使用
+        S_GET_NICKNAME_INFO           = 1031;
+
+        C_SEND_SDK_DATA               = 1032;	// 客户端通知sdk上报数据操作
+        S_SEND_SDK_DATA               = 1033;
+
+		C_SYNC_LOAD_FINISH	= 2000; // 客户端通知服务器加载成功，服务器可以推送指令
+
+        S_SYN_PROPERTY = 2001; // 同步属性变化
+
+        S_SYN_SHOW_BUBBLE = 2002; //推送前端显示气泡消息
+
+        C_SYNC_TIME = 2101; //同步时间
+        S_SYNC_TIME = 2102; //同步时间
+
+
+        C_GET_SKILL_INFO = 2103; //获得技能列表信息
+        S_GET_SKILL_INFO = 2104;
+
+        C_LEARN_SKILL = 2105; //学习技能
+        S_LEARN_SKILL = 2106;
+		
+		C_LEARN_SKILL_ONEKEY = 2107;//一键学习技能
+		S_LEARN_SKILL_ONEKEY = 2108;
+		
+        //backpack
+        S_SYNC_PLAYER_BACKPACK = 2201; //同步背包变化
+        C_USE_BACKPACK_ITEM = 2202; //使用物品
+        S_USE_BACKPACK_ITEM = 2203;
+        C_TIDY_BACKPACK = 2204; //整理背包
+        S_TIDY_BACKPACK = 2205;
+        C_OPEN_BACKPACK_GRID = 2206; //开启背包格子
+        S_OPEN_BACKPACK_GRID = 2207;
+        C_GOODS_BREAK = 2208;//分解物品
+        S_GOODS_BREAK = 2209;
+		C_GOODS_MERGE = 2210;	//道具合成
+		S_GOODS_MERGE = 2211;	//道具合成
+		C_GOODS_SPLIT_MERGE = 2212;	//道具碎片合成指定物品
+		S_GOODS_SPLIT_MERGE = 2213;
+
+        //formation
+        C_FORMATION_LIST = 2301; //获取阵形列表
+        S_FORMATION_LIST = 2302;
+        C_FORMATION_HERO_SWITCH = 2303; //阵形英雄替换
+        S_FORMATION_HERO_SWITCH = 2304;
+        C_FORMATION_HERO_OFF = 2305; //槽位英雄下阵
+        S_FORMATION_HERO_OFF = 2306;
+        C_FORMATION_HERO_ON = 2309; //槽位英雄下阵
+        S_FORMATION_HERO_ON = 2310;
+		C_FORMATION_JINGSHU_LEARN = 2311;	//C->S 槽位经书学习
+		S_FORMATION_JINGSHU_LEARN = 2312;	//S->C 槽位经书学习
+		C_GET_OTHER_FORMATION = 2313; //获取其他阵型
+		S_GET_OTHER_FORMATION = 2314; 
+		C_SET_OTHER_FORMATION = 2315; //设置其他阵型
+		S_SET_OTHER_FORMATION = 2316;
+		C_FORMATION_HEROS_ON  = 2317;//一键上阵武将阵容
+		S_FORMATION_HEROS_ON  = 2318;//一键上阵武将阵容
+		C_GET_FIGHT_RANK_FORMATION_HERO_INFO  = 2319;//拉取本服战力排行榜前20名的阵容信息
+		S_GET_FIGHT_RANK_FORMATION_HERO_INFO  = 2320;//拉取本服战力排行榜前20名的阵容信息
+		C_FORMATION_JINGSHU_LOCK = 2321;	//C->S 槽位经书加解锁操作
+		S_FORMATION_JINGSHU_LOCK = 2322;	//S->C 槽位经书加解锁操作
+		C_FORMATION_HERO_POS = 2323; //默认主阵容里面的英雄站位更新操作
+        S_FORMATION_HERO_POS = 2324;
+        C_FORMATION_HERO_SWITCH_INDEX = 2325; //默认主阵容里面的英雄替换槽位不换站位操作
+        S_FORMATION_HERO_SWITCH_INDEX = 2326;
+		C_FORMATION_JINGSHU_OPEN 	= 2327;	//C->S 请求: 经书开孔
+		S_FORMATION_JINGSHU_OPEN	= 2328;
+
+        //instance
+        C_GET_INSTANCE_LIST = 2401; //获取副本列表信息
+        S_GET_INSTANCE_LIST = 2402; //获取副本列表信息
+        C_ENTER_INSTANCE = 2403; // 进入副本  进战斗前预先请求
+        S_ENTER_INSTANCE = 2404; // 进入副本  进战斗前预先请求
+
+        C_FINISH_INSTANCE = 2405; // 结算副本
+        S_FINISH_INSTANCE = 2406; // 结算副本
+        C_SWEEP_INSTANCE = 2407; //扫荡副本
+        S_SWEEP_INSTANCE = 2408; //扫荡副本
+        C_RECEIVE_INSTANCE_REWARD = 2409; //领取副本奖励
+        S_RECEIVE_INSTANCE_REWARD = 2410; //领取副本奖励
+        C_RECEIVE_CHAPTER_REWARD = 2411; //领取章节星级奖励
+        S_RECEIVE_CHAPTER_REWARD = 2412; //领取章节星级奖励
+        C_INSTANCE_RESET = 2413; //重置副本次数
+        S_INSTANCE_RESET = 2414; //重置副本次数
+        C_FINISH_INSTANCE_SKIP = 2415; // 结算副本 跳过
+        C_GET_WAR_REPORT = 2420; //获取战报
+        S_GET_WAR_REPORT = 2421; //获取战报
+		C_ONE_KEY_SWEEP_INSTANCE = 2422;//一件扫荡
+		S_ONE_KEY_SWEEP_INSTANCE = 2423;//一件扫荡
+		C_ENTER_CHAPTER = 2424;//进入世界章节地图
+		S_ENTER_CHAPTER = 2425;
+		C_RECEIVE_CHAPTER_REWARD2 = 2426; //领取章节奖励
+		S_RECEIVE_CHAPTER_REWARD2 = 2427;
+		
+
+        C_ENTER_CROSS_INSTANCE = 2430; // 打跨服副本、获取战报
+        S_ENTER_CROSS_INSTANCE = 2431;
+
+        //hangup
+        C_GET_HANGUP_WAR_REPORT = 2601;// 获取挂机副本战报
+        S_GET_HANGUP_WAR_REPORT = 2602;
+        C_SYNC_DEFEAT_NUM = 2603;//挂机击败波次数量同步
+        S_SYNC_DEFEAT_NUM = 2604;        
+		C_OFF_LINE_CHALLENGE = 2605;//勾选离线挑战
+        S_OFF_LINE_CHALLENGE = 2606;
+		C_GET_HANGUP_RANK_INFO = 2607; //挑战副本排行榜信息
+		S_GET_HANGUP_RANK_INFO = 2608; //挑战副本排行榜信息
+		
+		
+        //bless
+        C_GET_BLESS_INFO = 2701;//获得祝福系统信息
+        S_GET_BLESS_INFO = 2702;
+        C_BLESS_STAR_UP = 2703;//祝福系统升级
+        S_BLESS_STAR_UP = 2704;
+        C_BLESS_EAT_PILL = 2705;//祝福系统吃丹
+        S_BLESS_EAT_PILL = 2706;
+		S_GET_BLESS_OTHER_INFO = 2707;//获得其他祝福系统信息
+		C_BLESS_OTHER_UP	= 2708;	//其他祝福系统升级
+		S_BLESS_OTHER_UP	= 2709;
+		C_GET_BLESS_ACTIVITY_INFO = 2711; //获得祝福系统活动信息
+        S_GET_BLESS_ACTIVITY_INFO = 2712;
+        C_BLESS_ACTIVITY_BUY = 2713; //祝福系统活动的购买操作
+        S_BLESS_ACTIVITY_BUY = 2714;
+        S_BLESS_ACTIVITY_PUSH = 2715; // 推送祝福系统的活动时间
+		
+		//image
+		C_GET_IMAGE_INFO = 2801;//获得幻化系统信息
+		S_GET_IMAGE_INFO = 2802;
+		C_ACTIVE_IMAGE = 2803;//幻化系统激活
+		S_ACTIVE_IMAGE = 2804;
+		C_IMAGE_DRESS_ON = 2805;//幻化/佩戴
+		S_IMAGE_DRESS_ON = 2806;
+		C_IMAGE_START_UP = 2807; //幻化系统激活升级
+		S_IMAGE_START_UP = 2808;
+		
+		//task
+		C_TASK_RECEIVE_REWARD       = 2901;             // 领取任务奖励
+		S_TASK_RECEIVE_REWARD       = 2902;
+		S_SYNC_TASK_UPDATE          = 2903;		        //任务更新
+        C_GET_GUILD_TASK_INFO       = 2905;             // 获取帮派任务信息
+        S_GET_GUILD_TASK_INFO       = 2906;
+        C_REFRESH_GUILD_TASK        = 2907;             // 刷新帮派任务
+        S_REFRESH_GUILD_TASK        = 2908;
+		C_GET_TASK_INFO 			= 2909;			//拉取其他任务信息
+		S_GET_TASK_INFO 			= 2910;			//拉取其他任务信息
+		C_UPDATE_TASK_DATA 			= 2911;			//前端控制的任务进度次数，分享、挂机界面数据等
+		S_UPDATE_TASK_DATA 			= 2912;
+		
+
+        //hero
+        C_HERO_LISTS = 3001; //获取武将列表
+        S_HERO_LISTS = 3002;
+        C_ACTICATION_HERO = 3003; //激活武将
+        S_ACTICATION_HERO = 3004;
+        C_UPGRADE_HERO_LEVEL = 3005; //武将升级
+        S_UPGRADE_HERO_LEVEL = 3006;
+        C_UPGRADE_HERO_STAR = 3007; //武将升星
+        S_UPGRADE_HERO_STAR = 3008;
+        C_HERO_WAKE = 3009;//武将觉醒
+        S_HERO_WAKE = 3010;
+        C_HERO_LEVEL_UP = 3011; //武将升级(新升级)
+        S_HERO_LEVEL_UP = 3012;
+        C_HERO_RELIVE = 3013; // 武将重生
+        S_HERO_RELIVE = 3014;
+        C_HERO_TUPO = 3015; // 武将突破
+        S_HERO_TUPO = 3016;
+        C_HERO_FLY = 3017; // 武将飞升
+        S_HERO_FLY = 3018;
+
+        //debug
+        C_DEBUG_COMMON = 3101; //debug
+        S_DEBUG_COMMON = 3102;
+
+        //EQUIPMENT
+        C_EQUIPMENT_SWITCH = 3201; //穿戴装备
+        S_EQUIPMENT_SWITCH = 3202; 
+        C_ONEKEY_EQUIPMENT_SWITCH = 3203; //一键穿戴装备
+        S_ONEKEY_EQUIPMENT_SWITCH = 3204;
+        C_EQUIPMENT_STRENGTHEN = 3205; // 强化装备槽位
+        S_EQUIPMENT_STRENGTHEN = 3206;
+        C_EQUIPMENT_GEM_UPGRADE = 3207; //强化装备宝石
+        S_EQUIPMENT_GEM_UPGRADE = 3208;
+        C_EQUIPMENT_UPGRADE = 3209; //装备升级
+        S_EQUIPMENT_UPGRADE = 3210;
+		C_EQUIPMENT_SLOT_INFO = 3211;//装备信息
+        S_EQUIPMENT_SLOT_INFO = 3212;
+        C_EQUIPMENT_UPGRADE_STAR = 3213;//装备升星
+   	    S_EQUIPMENT_UPGRADE_STAR = 3214;
+   	    C_ONE_EQUIPMENT_UPGRADE_STAR = 3215;//装备一键升星
+   	    C_EQUIPMENT_ENCHANTING = 3216;//装备附魔
+   	    S_EQUIPMENT_ENCHANTING = 3217;
+   	    C_EQUIPMENT_SPRITE = 3218;//装备注灵
+   	    S_EQUIPMENT_SPRITE = 3219;
+   	    C_EQUIPMENT_WAKE = 3220;//装备觉醒
+   	    S_EQUIPMENT_WAKE = 3221;
+        C_EQUIPMENT_SUIT_UPGRADE = 3222;//套装升阶
+        S_EQUIPMENT_SUIT_UPGRADE = 3223;
+		C_EQUIPMENT_STRENGTHEN_ONEKEY = 3224;//装备一键升级
+		S_EQUIPMENT_STRENGTHEN_ONEKEY = 3225;//装备一键升级
+		C_EQUIPMENT_GEM_UPGRADE_ONEKEY	= 3226;//一键强化宝石槽位
+		S_EQUIPMENT_GEM_UPGRADE_ONEKEY	= 3227;		
+		C_EQUIPMENT_DRESS_OFF	= 3228;//装备卸下
+		S_EQUIPMENT_DRESS_OFF	= 3229;
+		C_EQUIPMENT_FORMATION_SWITCH = 3230; //槽位间装备卸下穿上
+		S_EQUIPMENT_FORMATION_SWITCH = 3231;
+
+   	    C_SLOT_UNLOCK_INDEX = 3301;//洗练解锁
+   	    S_SLOT_UNLOCK_INDEX = 3302;
+   	    C_SLOT_WASH = 3303;//洗练
+   	    S_SLOT_WASH = 3304;
+   	    C_SLOT_WASH_REPLACE = 3305;//洗练替换属性
+   	    S_SLOT_WASH_REPLACE = 3306;
+   	    C_SLOT_WASH_INFO = 3307;//获取洗练信息
+   	    S_SLOT_WASH_INFO = 3308;
+   	    C_QUENCHING_SLOT = 3309;//淬炼
+   	    S_QUENCHING_SLOT = 3310;
+   	    C_LOCK_INDEX = 3311;//锁定属性
+   	    S_LOCK_INDEX = 3312;
+   	    C_SAVE_QUENCHING_SLOT = 3313;//保存淬炼
+   	    S_SAVE_QUENCHING_SLOT = 3314;
+
+
+   	    C_SEND_CHAT_INFO    = 3401;     //发送聊天信息
+   	    S_SEND_CHAT_INFO    = 3402;     //接收聊天信息
+		C_GET_FRIEND_INFO 	= 3403;		//拉去好友信息
+		S_GET_FRIEND_INFO   = 3404;
+		C_OPTION_FRIEND		= 3405;		//好友操作
+		S_OPTION_FRIEND     = 3406;		 
+		S_FRIEND_APPLY		= 3407;		//好友申请
+		S_FRIEND_AGREE_APPLY= 3408;		//同意好友申请
+		C_GET_FRIEND_REFRESH= 3409;		// 刷新一键推荐好友
+		S_GET_FRIEND_REFRESH= 3410;
+		C_ONE_FRIEND_APPLYS = 3411;		// 一键邀请所有推荐的玩家为好友的操作
+		S_ONE_FRIEND_APPLYS = 3412;
+		C_FRIEND_SEND		= 3413;		// 赠送好友友情点的操作
+		S_FRIEND_SEND		= 3414;
+		C_ONE_FRIEND_SEND	= 3415;		// 一键赠送好友友情点的操作
+		S_ONE_FRIEND_SEND	= 3416;
+		C_FRIEND_REWARD		= 3417;		// 领取好友赠送的友情点
+		S_FRIEND_REWARD		= 3418;
+		C_ONE_FRIEND_REWARD = 3419;		// 一键领取好友赠送的友情点
+		S_ONE_FRIEND_REWARD = 3420;
+		C_ONE_OPTION_FRIEND	= 3421;		// 一键操作同意或是解决好友申请操作
+		S_ONE_OPTION_FRIEND = 3422;
+		C_CHAT_TIMES_INFO   = 3423;     // 获取指定频道的聊天的次数
+   	    S_CHAT_TIMES_INFO   = 3424;
+		 
+   	    C_LIST_MAIL    				= 3501;     //CS-请求拉取邮件信息
+   	    S_LIST_MAIL    				= 3502;     //SC-响应邮件信息
+   	    C_DELETE_MAIL    			= 3503;     //CS-请求删除邮件信息
+   	    S_DELETE_MAIL    			= 3504;     //SC-响应删除邮件信息
+   	    C_READ_MAILINFO    			= 3505;     //CS-请求读取邮件详情
+   	    S_READ_MAIL_INFO    		= 3506;     //SC-响应读取邮件详情
+   	    C_RECEIVE_MAIL_ACCESSORY    = 3507;     //CS-请求领取邮件附件
+   	    S_RECEIVE_MAIL_ACCESSORY    = 3508;     //SC-响应领取邮件附件
+   		S_NOTIFY_NEW_MAIL    		= 3509;     //SC-通知新邮件信息
+   		C_RECEIVE_ALL_MAIL    		= 3510;     //CS-请求一键领取所有附件
+   		S_RECEIVE_ALL_MAIL    		= 3511;     //SC-响应一键领取所有附件
+
+        //world boss
+        C_GET_BOSS_INFO = 3601;         //获取boss列表信息
+        S_GET_BOSS_INFO = 3602;
+        C_WORLD_BOSS_NOTICE = 3604;     //勾选刷新提醒
+        S_WORLD_BOSS_NOTICE = 3605;
+        C_WORLD_BOSS_CHALLENGE = 3606; //勾选自动挑战
+        S_WORLD_BOSS_CHALLENGE = 3607;
+        C_BOSS_CHALLENGE_ALL = 3608; //勾选自动挑战-总开关
+        S_BOSS_CHALLENGE_ALL = 3609;
+        S_SYNC_WORLD_BOSS_REFRESH = 3610; //Boos刷新推送
+		C_WORLD_BOSS_BUY = 3611;		//购买世界boss挑战令
+		S_WORLD_BOSS_BUY = 3612;		//购买世界boss挑战令
+		
+		//OUT boss
+        C_GET_OUT_BOSS_INFO = 3621;         //获取野外boss列表信息
+        S_GET_OUT_BOSS_INFO = 3622;
+        C_OUT_BOSS_NOTICE = 3624;     //勾选野外boss刷新提醒
+        S_OUT_BOSS_NOTICE = 3625;
+        C_OUT_BOSS_CHALLENGE = 3626; //勾选野外boss自动挑战
+        S_OUT_BOSS_CHALLENGE = 3627;
+        C_OUT_BOSS_CHALLENGE_ALL = 3628; //勾选野外boss自动挑战-总开关
+        S_OUT_BOSS_CHALLENGE_ALL = 3629;
+        C_OUT_BOSS_INSPIRE = 3630; //勾选野外boss自动挑战-总开关
+        S_OUT_BOSS_INSPIRE = 3631;
+		C_OUT_BOSS_BUY = 3632;		//野外boss挑战令购买
+		S_OUT_BOSS_BUY = 3633;
+		
+		//home boss
+        C_GET_HOME_BOSS_INFO = 3641;         //获取boss之家列表信息
+        S_GET_HOME_BOSS_INFO = 3642;
+        C_HOME_BOSS_NOTICE = 3644;     //勾选boss之家刷新提醒
+        S_HOME_BOSS_NOTICE = 3645;
+        C_HOME_BOSS_CHALLENGE = 3646; //勾选boss之家自动挑战
+        S_HOME_BOSS_CHALLENGE = 3647;
+        C_HOME_BOSS_CHALLENGE_ALL = 3648; //勾选boss之家自动挑战-总开关
+        S_HOME_BOSS_CHALLENGE_ALL = 3649;
+		
+		
+   	    C_MARKET_BUY    			= 3701;     //CS-请求商城购买
+   	    S_MARKET_BUY    			= 3702;     //SC-响应商城购买
+   	    C_LIST_MARKET_LIMIT_INFO    = 3703;     //CS-请求商城限购列表
+   	    S_LIST_MARKET_LIMIT_INFO    = 3704;     //SC-响应商城限购列表
+		
+		C_GET_MARKET_LUCKY_INFO		= 3705;		//请求机缘商店的信息
+		S_GET_MARKET_LUCKY_INFO		= 3706;		//请求机缘商店的信息
+		C_BUY_MARKET_LUCKY			= 3707;		//购买机缘商店物品
+		S_BUY_MARKET_LUCKY			= 3708;		//购买机缘商店物品
+		
+		C_GET_MARKET_OVER_FLOW_INFO = 3709;		//请求超值限购物品
+		S_GET_MARKET_OVER_FLOW_INFO = 3710;		//请求超值限购物品
+		C_BUY_OVER_FLOW_LUCKY 		= 3711;		//购买超值限购物品
+		S_BUY_OVER_FLOW_LUCKY 		= 3712;		//购买超值限购物品
+		
+		C_GET_MARKET_DISCOUNT_INFO 	= 3713;		//请求限时折扣物品
+		S_GET_MARKET_DISCOUNT_INFO 	= 3714;		//请求限时折扣物品
+		C_BUY_MARKET_DISCOUNT 		= 3715;		//购买限时折扣物品
+		S_BUY_MARKET_DISCOUNT 		= 3716;		//购买限时折扣物品
+		
+		C_GET_MARKET_SOL_INFO		= 3721;		//请求将魂商店的信息
+		S_GET_MARKET_SOL_INFO		= 3722;		//请求将魂商店的信息
+		C_BUY_MARKET_SOL			= 3723;		//购买将魂商店物品
+		S_BUY_MARKET_SOL			= 3724;		//购买将魂商店物品
+		C_REFRESH_MARKET_SOL		= 3725;		//刷新将魂商店物品
+		S_REFRESH_MARKET_SOL		= 3726;		//刷新将魂商店物品
+		C_REFRESH_MARKET_LUCKY		= 3727;		//刷新机缘商店物品
+		S_REFRESH_MARKET_LUCKY		= 3728;
+		 
+		
+		C_XUNBAO_GET_RECORD			= 3801;		//C->S 请求: 获取寻宝记录
+		S_XUNBAO_GET_RECORD			= 3802;		//S->C 响应: 获取寻宝记录
+		C_XUNBAO_START				= 3803;		//C->S. 请求: 开始寻宝
+		S_XUNBAO_START				= 3804;		//C->S. 响应: 开始寻宝
+		C_XUNBAO_GETLOG				= 3805;		//C->S. 请求: 获得寻宝日志
+		S_XUNBAO_GETLOG				= 3806;		//S->C. 响应: 获得寻宝日志
+		C_XUNBAO_NEW_GET_INFO		= 3807;		//拉取新寻宝信息
+		S_XUNBAO_NEW_GET_INFO		= 3808;		//拉取新寻宝信息
+		C_XUNBAO_NEW_START			= 3809;		//开始新寻宝
+		S_XUNBAO_NEW_START			= 3810;		
+		C_XUNBAO_NEW_GETLOG			= 3811;		//拉取寻宝日志
+		S_XUNBAO_NEW_GETLOG			= 3812;		
+		C_XUNBAO_NEW_CHANGE_HERO	= 3813;		//兑换神将
+		S_XUNBAO_NEW_CHANGE_HERO	= 3814;		//兑换神将
+		C_GET_XUNBAO_NEW_SCORE		= 3815;		//拉取兑换神将信息
+		S_GET_XUNBAO_NEW_SCORE		= 3816;		
+		
+		C_XUNBAO_WHEEL_INFO			= 3821;		//C->S 请求: 获取寻宝轮盘的数据
+		S_XUNBAO_WHEEL_INFO			= 3822;		//S->C 响应: 获取寻宝轮盘的数据
+		C_XUNBAO_WHEEL_START		= 3823;		//C->S. 请求: 开始寻宝轮盘寻宝
+		S_XUNBAO_WHEEL_START		= 3824;		//C->S. 响应: 开始寻宝轮盘寻宝
+		C_XUNBAO_WHEEL_REWARD		= 3825;		//C->S. 请求: 领取寻宝轮盘的积分奖励
+		S_XUNBAO_WHEEL_REWARD		= 3826;		//S->C. 响应: 获得寻宝轮盘的积分奖励
+		
+		
+		C_7DAYLOGIN_GETSTATE		= 3901;		//C->S. 请求: 7天登录状态
+		S_7DAYLOGIN_GETSTATE		= 3902;		//S->C. 响应: 7天登录状态
+		C_7DAYLOGIN_RECVREWARD		= 3903;		//C->S. 请求: 领取7天登录奖励
+		S_7DAYLOGIN_RECVREWARD		= 3904;		//S->C. 响应: 领取7天登录奖励
+		
+		C_DAILY_SIGNIN_GETSTATE		= 3921;		//C->S 请求: 取得签到记录
+		S_DAILY_SIGNIN_GETSTATE		= 3922;		//S->C 响应: 取得签到记录
+		C_DAILY_SIGNIN_SIGN			= 3923;		//C->S 请求: 签到
+		S_DAILY_SIGNIN_SIGN 		= 3924;		//S->C 响应: 签到
+		C_DAILY_SIGNIN_REWARD		= 3925;		//C->S 请求: 领取签到奖励
+		S_DAILY_SIGNIN_REWARD		= 3926;		//S->C 响应: 领取签到奖励
+		
+		
+		C_FIRST_RECHARGE_GETRECORD		=	4001;	//C->S 请求: 首充记录
+		S_FIRST_RECHARGE_GETRECORD		=	4002;	//S->C 响应: 首充记录
+		S_NOTIFY_FIRST_RECHARGE_RECORD	=	4003;	//S->C 推送: 首充记录
+		C_FIRST_RECHARGE_GETREWARD		=	4004;	//C->S 请求: 领取首充
+		S_FIRST_RECHARGE_GETREWARD		=	4005;	//S->C 响应: 领取首充
+		C_CUMULATE_RECHARGE_GETRECORD 	= 	4010;	//C->S 请求: 累充记录
+		S_CUMULATE_RECHARGE_GETRECORD 	= 	4011;	//S->C 响应: 累充记录
+		NOTIFY_CUMULATE_RECHARGE_RECORD =	4012;	//S->C 推送: 累充记录
+		C_CUMULATE_RECHARGE_GETREWARD	=	4013;	//C->S 请求: 领取累充奖励
+		S_CUMULATE_RECHARGE_GETREWARD	=	4014;	//S->C 响应: 领取累充奖励
+		
+		
+		C_DAY_RECHARGE_INFO			=	4015;			//C->S 请求: 每日首充信息
+		S_DAY_RECHARGE_INFO			=	4016;		
+		C_DAY_RECHARGE_GET_REWARD	=	4017;	//每日首充领奖
+		S_DAY_RECHARGE_GET_REWARD	=	4018;	
+		
+		
+		C_FABAO_GET_INFO				=	4101;	//C->S 请求: 法宝主面板信息
+		S_FABAO_GET_INFO				=	4102;	//S->C 响应: 法宝主面板信息
+		C_FABAO_OPERATION				=	4103;	//C->S 请求: 法宝激活
+		S_FABAO_OPERATION				=	4104;	//S->C 响应: 法宝激活
+		C_FABAO_DRESSUP					=	4105;	//C->S 请求: 法宝穿戴
+		S_FABAO_DRESSUP					=	4106;	//S->C 响应: 法宝穿戴
+		C_FABAO_UNDRESSUP				=	4107;	//C->S 请求: 法宝卸载
+		S_FABAO_UNDRESSUP				=	4108;	//S->C 响应: 法宝卸载
+		
+
+        //hell
+        C_GET_HELL_INFO             = 4201;             //获取阎王殿信息
+        S_GET_HELL_INFO             = 4202;
+        C_GET_HELL_DAILY_REWARD     = 4203;             //领取每日奖励
+        S_GET_HELL_DAILY_REWARD     = 4204;
+        C_HELL_LOTTERY              = 4205;             //轮盘抽奖
+        S_HELL_LOTTERY              = 4206;
+        C_HELL_ANNE_LEVEL_UP        = 4207;             //符文升级
+        S_HELL_ANNE_LEVEL_UP        = 4208;
+        C_HELL_ANNE_DECOMPOSE       = 4209;             //符文分解
+        S_HELL_ANNE_DECOMPOSE       = 4210;
+        C_HELL_REMEMBER       		= 4211;				//记录符文分解勾选
+        S_HELL_REMEMBER       		= 4212;
+		
+
+        C_GET_ZHEN_FA_INFO          = 4301;             //获得阵法系统信息
+        S_GET_ZHEN_FA_INFO          = 4302;
+        C_ZHEN_FA_STAR_UP           = 4303;             //阵法系统升级
+        S_ZHEN_FA_STAR_UP           = 4304;
+        C_ZHEN_FA_USE               = 4305;             //阵法系统使用
+        S_ZHEN_FA_USE               = 4306;
+        C_ZHEN_FA_MASTER            = 4307;             //阵法大师的等级
+        S_ZHEN_FA_MASTER            = 4308;
+        C_ZHEN_FA_RELIVE            = 4309;             //阵法重生
+        S_ZHEN_FA_RELIVE            = 4310;
+
+
+        C_OPNE_SERVER_RANK_INFO = 4401;//获取开服排行榜信息
+        S_OPNE_SERVER_RANK_INFO = 4402;
+        C_SERVER_RANK_INFO = 4403;//获取排行榜信息
+        S_SERVER_RANK_INFO = 4404;
+		C_OPNE_SERVER_HISTORY_RANK_INFO = 4405;		//获取开服排行历史信息
+		S_OPNE_SERVER_HISTORY_RANK_INFO = 4406;
+
+        //guild
+        C_GET_GUILD_PAGE_LIST           = 4501;         //获取帮派列表
+        S_GET_GUILD_PAGE_LIST           = 4502;
+        C_GET_GUILD_MEMBER_LIST         = 4503;         //获取帮派成员列表
+        S_GET_GUILD_MEMBER_LIST         = 4504;
+        C_GET_GUILD_APPLY_LIST          = 4505;         //获取帮派申请列表
+        S_GET_GUILD_APPLY_LIST          = 4506;
+        C_GET_GUILD_BASE_INFO           = 4507;         //获取帮派基本信息
+        S_GET_GUILD_BASE_INFO           = 4508;
+        C_GET_MY_GUILD_APPLY            = 4509;         //获取个人帮派申请列表
+        S_GET_MY_GUILD_APPLY            = 4510;
+        C_CREATE_GUILD                  = 4511;         //创建帮派
+        S_CREATE_GUILD                  = 4512;
+        C_APPLY_JOIN_GUILD              = 4513;         //申请加入帮派
+        S_APPLY_JOIN_GUILD              = 4514;
+        C_EXIT_GUILD                    = 4515;         //退出帮派
+        S_EXIT_GUILD                    = 4516;
+        C_DROP_OUT_GUILD                = 4517;         //踢出帮派
+        S_DROP_OUT_GUILD                = 4518;
+        C_LEVEL_UP_GUILD                = 4519;         //升级帮派
+        S_LEVEL_UP_GUILD                = 4520;
+        C_EDIT_GUILD_DESC               = 4521;         //修改帮派公告
+        S_EDIT_GUILD_DESC               = 4522;
+        C_DONATE_GUILD                  = 4523;         // 捐献
+        S_DONATE_GUILD                  = 4524;
+        C_SET_AUTOJOIN_GUILD            = 4525;         //设置自动加入帮派
+        S_SET_AUTOJOIN_GUILD            = 4526;
+        C_APPOINT_GUILD_MEMBER          = 4527;         //任命成员职位
+        S_APPOINT_GUILD_MEMBER          = 4528;
+        C_INHERIT_CHAIR                 = 4529;         //继承会长职位
+        S_INHERIT_CHAIR                 = 4530;
+        C_APPROVE_GUILD_MEMBER          = 4531;         //审批玩家入会
+        S_APPROVE_GUILD_MEMBER          = 4532;
+        C_GET_GUILD_SKILL_LIST          = 4533;         //获取帮派技能列表
+        S_GET_GUILD_SKILL_LIST          = 4534;
+        C_GUILD_SKILL_LEVELUP           = 4535;         //帮派技能升级
+        S_GUILD_SKILL_LEVELUP           = 4536;
+        C_GUILD_TRANSFER_CHAIR          = 4539;         //转让会长职位
+        S_GUILD_TRANSFER_CHAIR          = 4540;
+        C_EDIT_GUILD_NAME               = 4541;         //修改帮派名字
+        S_EDIT_GUILD_NAME               = 4542;
+        C_GET_BOX_REWARD                = 4543;         //领取捐献宝箱奖励
+        S_GET_BOX_REWARD                = 4544;
+        C_GET_GUILD_LOG                 = 4545;         //获取帮派记录信息
+        S_GET_GUILD_LOG                 = 4546;
+        //guild boss
+        C_GET_GUILD_BOSS_INFO           = 4550;         //获取帮派boss信息
+        S_GET_GUILD_BOSS_INFO           = 4551;
+        C_GUILD_BOSS_DAMAGE_RANK        = 4552;         //获取帮派boss总伤害列表
+        S_GUILD_BOSS_DAMAGE_RANK        = 4553;
+        C_GET_GUILD_BOSS_REWARD         = 4554;         //领取帮派boss奖励
+        S_GET_GUILD_BOSS_REWARD         = 4555;
+        C_BUY_GUILD_BOSS_REVIVE         = 4556;         //立即复活
+        S_BUY_GUILD_BOSS_REVIVE         = 4557;
+		C_GUILD_RECRUIT					= 4558;			//招人
+		S_GUILD_RECRUIT					= 4559;
+        //guild instance
+        C_GET_GUILD_INST_INFO           = 4560;            //获取帮派副本信息
+        S_GET_GUILD_INST_INFO           = 4561;
+		SYNC_GUILD_NOTICE				= 4563;				//帮派同步信息通知
+		C_ONE_KEY_FEED_BOSS				= 4564;				//一键喂养boss
+		S_ONE_KEY_FEED_BOSS				= 4565;
+		
+        //guild task
+        C_GET_GUILD_TASK_RANK           = 4570;             //获取帮派悬赏排名
+        S_GET_GUILD_TASK_RANK           = 4571;
+		C_GUILD_BOSS_RELIVE_BOSS        = 4572;         //帮主复活指定id的boss操作
+        S_GUILD_BOSS_RELIVE_BOSS        = 4573;
+		
+		C_GUILD_FEED_BOSS_INFO			= 4574;			//获取帮派喂养boss信息
+		S_GUILD_FEED_BOSS_INFO			= 4575;
+		C_GUILD_FEED_BOSS				= 4576;			//喂养boss
+		S_GUILD_FEED_BOSS				= 4577;
+		C_GUILD_FEED_BOSS_CHAT			= 4578;			//喂养boss发送弹幕聊天
+		S_GUILD_FEED_BOSS_CHAT			= 4579;
+		
+		C_GET_NEW_GUILD_TASK_INFO			= 4580;			//获取帮派任务信息
+		S_GET_NEW_GUILD_TASK_INFO			= 4581;
+		C_GUILD_TASK_SUBMIT				= 4582;			//帮派任务-上缴道具
+		S_GUILD_TASK_SUBMIT				= 4583;
+		C_GUILD_TASK_COLLECT			= 4584;			//帮派任务-采集
+		S_GUILD_TASK_COLLECT			= 4585;
+		C_GUILD_TASK_SEARCH				= 4586;			//帮派任务-怪物搜索
+		S_GUILD_TASK_SEARCH				= 4587;
+		C_GET_GUILD_TASK_REWARD			= 4588;			//领取帮派任务奖励
+		S_GET_GUILD_TASK_REWARD			= 4589;			
+		S_SYNC_GUILD_TASK_FINISH 		= 4590;			//帮派任务-同步打怪完成
+		C_GET_GUILD_TASK_STAGE_REWARD	= 4591;			//领取帮派任务阶段奖励
+		S_GET_GUILD_TASK_STAGE_REWARD	= 4592;
+
+        //daily task boss
+        C_GET_DAILY_TASK_BOSS_INFO      = 4601;         //获取日常任务boss列表信息
+        S_GET_DAILY_TASK_BOSS_INFO      = 4602;
+        C_DAILY_TASK_BOSS_CHALLENGE     = 4603;         //勾选自动挑战
+        S_DAILY_TASK_BOSS_CHALLENGE     = 4604;
+        C_DAILY_TASK_BOSS_CHALLENGE_ALL = 4605;         //勾选自动挑战总控开关
+        S_DAILY_TASK_BOSS_CHALLENGE_ALL = 4606;
+        C_DAILY_TASK_REFRESH            = 4607;         //巡山
+        S_DAILY_TASK_REFRESH            = 4608;
+        C_DAILY_TASK_BUY_TIME           = 4609;         //购买次数
+        S_DAILY_TASK_BUY_TIME           = 4610;
+
+        C_GET_CONVOY_INFO               = 4701;         //获取护送信息
+        S_GET_CONVOY_INFO               = 4702;
+        C_GET_CONVOY_REWARD             = 4703;         //领取护送奖励
+        S_GET_CONVOY_REWARD             = 4704;
+        C_CONVOY_REFRESH                = 4705;         //经书刷新
+        S_CONVOY_REFRESH                = 4706;
+        C_GET_CONVOY_LOG                = 4707;         //获取记录信息
+        S_GET_CONVOY_LOG                = 4708;
+        C_CONVOY_STAR                   = 4709;         //开始护送任务
+        S_CONVOY_STAR                   = 4710;
+
+		C_GET_ACHIEVEMENT_INFO     		= 4801; 		//获取成就信息
+		S_GET_ACHIEVEMENT_INFO			= 4802; 		
+		S_CHANGE_ACHIEVEMENT_INFO   	= 4803; 		//成就变化
+		C_GET_ACHIEVEMENT_REWARD 		= 4804; 		//成就奖励领取
+		S_GET_ACHIEVEMENT_REWARD 		= 4805; 		
+		S_PUSH_ACHIEVEMENT_INFO			= 4806;			//登录推送所有的成就数据
+		C_GET_ACHIEVEMENT_POINT_REWARD 	= 4807; 		//成就点奖励领取
+		S_GET_ACHIEVEMENT_POINT_REWARD 	= 4808;
+		
+		C_GET_VIP_INFO 					= 4901;   		//vip拉取信息
+		S_GET_VIP_INFO 					= 4902;			
+		C_GET_VIP_REWARD				= 4903;			//领取vip等级礼包
+		S_GET_VIP_REWARD				= 4904;			//领取vip等级礼包
+		C_GET_INVEST_INFO				= 4905;			//拉取投资活动信息
+		S_GET_INVEST_INFO				= 4906;			
+		C_GET_INVEST_REWARD				= 4907;			//领取投资活动奖励
+		S_GET_INVEST_REWARD 			= 4908;		
+		C_BUY_INVEST 					= 4909;			//购买投资活动
+		S_BUY_INVEST 					= 4910;		
+		C_SKIP_BATTLE					= 4911;			// 每日跳过战斗次数，限定50次，VIP6及以上不限次数
+		S_SKIP_BATTLE					= 4912;
+		C_BUY_VIP_GIFT					= 4913;			//买vip系统的东西
+		S_BUY_VIP_GIFT					= 4914;
+			
+		
+		C_GET_ARENA_INFO				= 5001; 		//拉取竞技场信息
+		S_GET_ARENA_INFO				= 5002;		
+		C_REFRESH_ARENA_INFO			= 5003;			//刷新竞技场信息
+		S_REFRESH_ARENA_INFO			= 5004;
+		C_GET_ARENA_REWARD				= 5005;			//领取每日奖励
+		S_GET_ARENA_REWARD				= 5006;
+		C_GET_ARENA_LOG					= 5007;			//拉取防守记录
+		S_GET_ARENA_LOG					= 5008;				
+		S_ARENA_SWEEP					= 5009;			//扫荡回复
+		S_ARENA_BE_CHALLENGE			= 5010;			//竞技场被人挑战了
+		C_ARENA_BUY_CHALLENGE			= 5011;			//购买竞技场挑战次数
+		S_ARENA_BUY_CHALLENGE			= 5012;
+		
+		
+        C_GET_ANSWER_ACT_INFO           = 5101;         //获得答题活动信息
+        S_GET_ANSWER_ACT_INFO           = 5102;
+        C_ANSWER_SUBJECT                = 5103;         //答题
+        S_ANSWER_SUBJECT                = 5104;
+		
+		C_GET_LADDER_INFO 				= 5201;  		//天梯匹配拉去信息
+		S_GET_LADDER_INFO 				= 5202;  		//天梯匹配拉去信息
+		C_BUY_LADDER_TIMES 				= 5203;  		//购买挑战次数
+		S_BUY_LADDER_TIMES 				= 5204;  		//购买挑战次数
+		C_MATCH_LADDER 					= 5205;  		//匹配
+		S_MATCH_LADDER 					= 5206;  		//匹配
+		C_GET_LADDER_RANK				= 5207; 		//拉去排行榜信息
+		S_GET_LADDER_RANK				= 5208; 		//拉去排行榜信息
+
+
+        C_GET_FETTER_INFO				= 5301; 		//获得羁绊信息
+        S_GET_FETTER_INFO				= 5302;
+        SYNC_FETTER_ACTIVE				= 5303;         //羁绊激活推送信息
+		
+        C_GET_FETTER_CALL_INFO			= 5305; 		//获得羁绊召唤信息
+        S_GET_FETTER_CALL_INFO			= 5306;
+		C_FETTER_CALL					= 5307; 		//羁绊召唤
+        S_FETTER_CALL					= 5308;
+		C_FREE_FETTER_CALL				= 5309; 		//羁绊召唤之免费召唤
+        S_FREE_FETTER_CALL				= 5310;
+		C_FETTER_CALLS_SELECT_HERO		= 5311;			//羁绊召唤选择武将id
+		S_FETTER_CALL_SELECT_HERO		= 5312;	
+
+		C_GET_DEMON_INFO				= 5401;			//拉取降妖除魔信息
+		S_GET_DEMON_INFO				= 5402;		
+		C_SET_DEMON_FORMATION_INFO		= 5403;			//设置阵位信息
+		S_SET_DEMON_FORMATION_INFO		= 5404;			//设置阵位信息
+		C_DEMON_BUY_BUFF				= 5405;			//购买增益效果
+		S_DEMON_BUY_BUFF				= 5406;			
+		C_DEMON_RESET					= 5407;			//重置
+		S_DEMON_RESET					= 5408;			//重置
+		C_DEMON_SWEEP					= 5409;			//扫荡
+		S_DEMON_SWEEP					= 5410;			//扫荡
+		C_DEMON_BUY_ITEM				= 5411;			//购买神秘商品
+		S_DEMON_BUY_ITEM				= 5412;			//购买神秘商品
+
+        //huoyuedu
+        C_GET_HUOYUEDU_INFO             = 5501;             // 获取活跃度信息
+        S_GET_HUOYUEDU_INFO             = 5502;
+        C_GET_HUOYUEDU_REWARD           = 5503;             //领取活跃度奖励
+        S_GET_HUOYUEDU_REWARD           = 5504;
+        S_SYNC_HUOYUEDU_UPDATE          = 5506;             //活跃度更新
+        C_GET_HUOYUEDU_TYPE             = 5507;             // 指定类型的活跃度
+        S_GET_HUOYUEDU_TYPE             = 5508;
+
+		C_GET_TEAM_INFO					= 5601;			//拉取可加入队伍信息
+		S_GET_TEAM_INFO					= 5602;			//拉取可加入队伍信息
+		C_GET_TEAM_INSTANCE_INFO		= 5603;			//拉取组队副本信息
+		S_GET_TEAM_INSTANCE_INFO		= 5604;			//拉取组队副本信息
+		C_JOIN_TEAM						= 5607;			//加入队伍
+		S_JOIN_TEAM						= 5608;			//加入队伍
+		C_QUICK_JOIN_TEAM				= 5609;			//快速加入队伍 如果有队伍自动进队伍， 如果没有队伍就自动创建队伍 返回对应的协议， 该协议不反回
+		C_EXIT_TEAM						= 5610;			//退出队伍
+		S_EXIT_TEAM						= 5611;			//退出队伍
+		S_UPDATE_TEAM					= 5612;			//更新队伍信息 队伍信息变动会主动推
+		C_SET_TEAM_HERO_POS				= 5613;			//切换上阵角色
+		S_SET_TEAM_HERO_POS				= 5614;			//切换上阵角色
+		C_FULL_TEAM						= 5615;			//填充机器人 队伍满员 队长才可以用 没有返回 直接更新队伍信息
+
+		C_GET_TEAM2_INFO				= 5651;			//拉取可加入队伍信息
+		S_GET_TEAM2_INFO				= 5652;			//拉取可加入队伍信息
+		C_GET_TEAM2_INSTANCE_INFO		= 5653;			//拉取组队副本信息
+		S_GET_TEAM2_INSTANCE_INFO		= 5654;			//拉取组队副本信息
+		C_JOIN_TEAM2					= 5657;			//加入队伍
+		S_JOIN_TEAM2					= 5658;			//加入队伍
+		C_QUICK_JOIN_TEAM2				= 5659;			//快速加入队伍 如果有队伍自动进队伍， 如果没有队伍就自动创建队伍 返回对应的协议， 该协议不反回
+		C_EXIT_TEAM2					= 5660;			//退出队伍
+		S_EXIT_TEAM2					= 5661;			//退出队伍
+		S_UPDATE_TEAM2					= 5662;			//更新队伍信息 队伍信息变动会主动推
+		C_SET_TEAM2_HERO_POS			= 5663;			//切换上阵角色
+		S_SET_TEAM2_HERO_POS			= 5664;			//切换上阵角色
+		C_FULL_TEAM2					= 5665;			//填充机器人 队伍满员 队长才可以用 没有返回 直接更新队伍信息
+		
+		C_GET_NEW_TEAM_INFO				= 5671;			// 获取新组队副本的副本数据信息
+		S_GET_NEW_TEAM_INFO				= 5672;
+		C_CREATE_NEW_TEAM				= 5673;			// 新组队副本创建队伍信息
+		S_CREATE_NEW_TEAM				= 5674;
+		C_JOIN_NEW_TEAM					= 5675;			// 加入新组队副本的队伍
+		S_JOIN_NEW_TEAM					= 5676;
+		C_QUICK_JOIN_NEW_TEAM			= 5677;			// 快速加入新组队副本的队伍
+		S_QUICK_JOIN_NEW_TEAM			= 5678;
+		C_EXIT_NEW_TEAM					= 5679;			// 退出新组队副本的队伍
+		S_EXIT_NEW_TEAM					= 5680;
+		S_UPDATE_NEW_TEAM				= 5681;			// 更新队伍信息 队伍信息变动会主动推
+		C_SET_NEW_TEAM_HERO_POS			= 5682;			// 切换上阵角色
+		S_SET_NEW_TEAM_HERO_POS			= 5683;
+		C_ONEKEY_FULL_NEW_TEAM			= 5684;			// 一键邀请填充机器人 队伍满员 队长才可以用 没有返回 直接更新队伍信息
+		C_NEW_TEAM_STATE				= 5685;			// 更改当前组队的状态，公开或是仅好友
+		S_NEW_TEAM_STATE				= 5686;
+		C_NEW_TEAM_INVITE				= 5687;			// 邀请好友或是帮派成员组队操作
+		S_NEW_TEAM_INVITE				= 5688;
+		C_NEW_TEAM_CHANGE_POS			= 5689;			// 队长切换2个队友的站位
+		S_NEW_TEAM_CHANGE_POS			= 5690;
+		C_NEW_TEAM_INVITE_QUERY			= 5691;			// 查看所有的邀请组队的信息
+		S_NEW_TEAM_INVITE_QUERY			= 5692;
+		C_NEW_TEAM_INVITE_IGNORE		= 5693;			// 一键忽略所有的组队信息
+		S_NEW_TEAM_INVITE_IGNORE		= 5694;
+		C_NEW_TEAM_INVITE_DATA			= 5695;			// 查看可以邀请的所有玩家数据
+		S_NEW_TEAM_INVITE_DATA			= 5696;
+		C_NEW_TEAM_BATTLE_TIMES			= 5697;			// 队长选择连战三场的操作
+		S_NEW_TEAM_BATTLE_TIMES			= 5698;
+		
+		C_GET_SUPREME_INFO				= 5700;			//拉取至尊塔消息
+		S_GET_SUPREME_INFO				= 5701;			//拉取至尊塔消息
+		C_GET_SUPREME_RANK				= 5702;			//拉取排行榜信息
+		S_GET_SUPREME_RANK				= 5703;			//拉取排行榜信息
+		C_SUPREME_EXIT					= 5704;			//退出活动  你拉取一次至尊塔信息 就等于进入活动
+		S_SUPREME_EXIT					= 5705;			//退出活动  你拉取一次至尊塔信息 就等于进入活动
+		C_SUPREME_AUTO_CHALLENGE		= 5706;			//自动挑战 收到消息直接走通用挑战
+		S_SUPREME_AUTO_CHALLENGE		= 5707;			//自动挑战 收到消息直接走通用挑战
+		C_GET_SUPREME_REWARD			= 5708;			//领取目标积分奖励
+		S_GET_SUPREME_REWARD			= 5709;			//领取目标积分奖励
+		C_SUPREME_BUY_REVIVE			= 5710;			//买活
+		S_SUPREME_BUY_REVIVE			= 5711;			//买活
+		S_SUPREME_UP_DOWN_LAYER			= 5712;			//升降层
+		S_SUPREME_SEND_SCORE			= 5713;			//服务端主动推送积分
+		S_SUPREME_OVER					= 5714;			//活动结束
+		S_SYN_LAYER_NUM					= 5715;			//同步层数
+		S_SUPREME_SEND_REVICE_TIME 		= 5716;			//同步复活时间戳
+		S_SUPREME_SEND_KILL				= 5717;			//同步当前杀戮值
+		
+		C_GET_PRACTICE_INFO  			= 5800;			//拉取修行系统信息  拉取系统就当做任务活动开启
+		S_GET_PRACTICE_INFO  			= 5801;		 	
+		C_UPGRADE_PRACTICE_PART  		= 5802;		 	//升级部位
+		S_UPGRADE_PRACTICE_PART  		= 5803;
+
+		C_TORTOISE_GET_INFO 			= 5900;			//拉取乌龟信息
+		S_TORTOISE_GET_INFO 			= 5901;			//拉取乌龟信息
+		C_TORTOISE_STAKE 				= 5902;			//押注
+		S_TORTOISE_STAKE 				= 5903;			//押注
+		C_TORTOISE_USE_ITEM 			= 5904;			//使用道具
+		S_TORTOISE_USE_ITEM 			= 5905;			//使用道具
+		C_TORTOISE_SPEAK 				= 5906;			//发送弹幕
+		S_TORTOISE_SPEAK 				= 5907;			//发送弹幕
+		S_TORTOISE_START 				= 5908;			//比赛开始
+		S_TORTOISE_SYNC_INFO 			= 5909;			//乌龟同步信息
+		S_TORTOISE_RESULT 				= 5910;			///结算
+		S_STAKE_SYN						= 5911;			//同步押注信息
+		C_TORTOISE_GET_STAKE_INFO 		= 5912;			//拉取乌龟押注信息
+		S_TORTOISE_GET_STAKE_INFO 		= 5913;			//拉取乌龟押注信息
+		
+		C_GET_REWARD_TASK_INFO     		= 6000;			//拉取悬赏任务信息
+		S_GET_REWARD_TASK_INFO     		= 6001;			
+		C_REFRESH_REWARD_TASK_INFO     	= 6002;			//刷新悬赏任务
+		S_REFRESH_REWARD_TASK_INFO     	= 6003;			
+		C_REWARD_TASK_SET_HERO     		= 6004;			//设置上阵 一键上阵 也走这个 前端算最佳阵容，算的是什么就是什么 设置必定成功，除非你没有这个武将
+		S_REWARD_TASK_SET_HERO     		= 6005;			
+		C_START_RWEARD_TASK     		= 6006;			//开始悬赏任务
+		S_START_REWARD_TASK     		= 6007;			
+		C_REWARD_TASK_WATCH_AND_GET_REWARD = 6008;		//查看任务 如果是成功即领取奖励
+		S_REWARD_TASK_WATCH_AND_GET_REWARD = 6009;
+		
+		C_GET_REWARD_TASK2_INFO     		= 6010;			//拉取悬赏任务2信息
+		S_GET_REWARD_TASK2_INFO     		= 6011;			
+		C_REFRESH_REWARD_TASK2_INFO     	= 6012;			//刷新悬赏任务2
+		S_REFRESH_REWARD_TASK2_INFO     	= 6013;				
+		C_START_RWEARD_TASK2     			= 6016;			//开始悬赏任务2
+		S_START_REWARD_TASK2     			= 6017;			
+		C_REWARD_TASK2_WATCH_AND_GET_REWARD = 6018;		//查看任务 如果是成功即领取奖励
+		S_REWARD_TASK2_WATCH_AND_GET_REWARD = 6019;
+
+        //guild war
+        C_GET_GUILD_WAR_INFO            = 6100;         //获取帮派站信息
+        S_GET_GUILD_WAR_INFO            = 6101;
+        C_GUILD_WAR_PART_IN             = 6102;         //参加帮派战
+        S_GUILD_WAR_PART_IN             = 6103;
+        C_GUILD_WAR_REVIVE              = 6104;         //帮派战复活
+        S_GUILD_WAR_REVIVE              = 6105;
+        C_GUILD_WAR_EDIT_DEC            = 6106;         //修改帮派战公告
+        S_GUILD_WAR_EDIT_DEC            = 6107;
+        C_GUILD_WAR_REWARD              = 6108;         //领取帮派战奖励，点赞/领取奖励
+        S_GUILD_WAR_REWARD              = 6109;
+        C_GUILD_WAR_DEFEND              = 6112;         //守护
+        S_GUILD_WAR_DEFEND              = 6113;
+        C_GUILD_WAR_CANCEL_DEFEND       = 6114;         //取消守护
+        S_GUILD_WAR_CANCEL_DEFEND       = 6115;
+        SYNC_GUILD_WAR_FINISH           = 6116;         //帮派战攻防结束奖励推送
+		
+		S_SYN_MODULE_FIGHT				= 6200;			//所有模块属性推送
+		C_GET_STRONGER_INFO				= 6201;			//我要变强拉取信息
+		S_GET_STRONGER_INFO				= 6202;			//我要变强拉取信息
+		C_GET_STRONGER_REWARD			= 6203;			//我要变强领取奖励
+		S_GET_STRONGER_REWARD			= 6204;		
+		C_GET_ALL_MODULE_FIGHT			= 6205;			//拉取所有模块战力信息
+
+        //war boss
+        C_GET_WAR_BOSS_INFO             = 6300;         //获取战场boss列表信息
+        S_GET_WAR_BOSS_INFO             = 6301;
+		C_BUY_WAR_BOSS_TIMES			= 6302;			//购买战场boss次数
+		S_BUY_WAR_BOSS_TIMES			= 6303;			
+		
+		C_GET_DAY_SERVER_BOSS_INFO      = 6310;         // 获取每日全服boss的数据
+        S_GET_DAY_SERVER_BOSS_INFO      = 6311;
+		C_DAY_SERVER_BOSS_RANK			= 6312;			// 获取每日全服boss的排行榜
+		S_DAY_SERVER_BOSS_RANK			= 6313;
+		C_DAY_SERVER_BOSS_BUY			= 6314;			// 购买每日全服boss的冷却CD
+		S_DAY_SERVER_BOSS_BUY			= 6315;
+		C_DAY_SERVER_BOSS_AUTO_PLAY		= 6316;			// 设置全服boss的自动挑战
+		S_DAY_SERVER_BOSS_AUTO_PLAY		= 6317;
+		C_DAY_SERVER_BOSS_CHAT			= 6318;			// 全服boss的弹幕聊天
+		S_DAY_SERVER_BOSS_CHAT			= 6319;
+		
+		//=================================================以下是活动=======================================================
+		C_GET_SERVER_ACTIVE_INFO		= 6400;			//拉取开服活动信息
+		S_GET_SERVER_ACTIVE_INFO		= 6401;			//拉取开服活动信息
+		C_GET_SERVER_ACTIVE_REWARD		= 6402;			//领取开服活动奖励
+		S_GET_SERVER_ACTIVE_REWARD		= 6403;			//领取开服活动奖励
+		C_GET_OPACTIVE_INFO				= 6404;			//拉取运营活动时间
+		S_GET_OPACTIVE_INFO				= 6405;			//拉取运营活动时间
+		S_SEND_OPACTIVE_CHANGE			= 6406;			//服务器主动推送运营活动时间变化
+		C_GET_ZERO_PREFERENTIAL_INFO	= 6407;			//0元特惠 拉取信息
+		S_GET_ZERO_PREFERENTIAL_INFO	= 6408;			//0元特惠 拉取信息
+		C_BUY_ZERO_PREFERENTIAL			= 6409;			//买0元特惠
+		S_BUY_ZERO_PREFERENTIAL			= 6410;			//买0元特惠
+		C_GET_ZERO_PREFERENTIAL_RETURN	= 6411;			//领取0元特惠最后的返还
+		S_GET_ZERO_PREFERENTIAL_RETURN	= 6412;			
+		C_GET_OPACTIVE_TABLE			= 6413;			//拉取运营活动的表
+		S_GET_OPACTIVE_TABLE			= 6414;			
+		C_GET_OPACTIVE_TYPE_INFO		= 6415;			//拉取运营活动信息
+		S_GET_OPACTIVE_TYPE_INFO		= 6416;			
+		C_GET_OPACTIVE_REWARD			= 6417;			//统一的运营活动领奖接口
+		S_GET_OPACTIVE_REWARD			= 6418;			//统一的运营活动领奖接口
+		C_OPACTIVE_LOG					= 6419;			//统一的运营活动拉取日志接口
+		S_OPACTIVE_LOG					= 6420;		
+		C_OP_LUCKY_HUNT					= 6421;			//幸运探宝抽奖
+		S_OP_LUCKY_HUNT					= 6422;			
+		C_HERO_PUZZLE_INFO				= 6423;			//神将拼图信息
+		S_HERO_PUZZLE_INFO				= 6424;
+		C_HERO_PUZZLE_LIGHT				= 6425;			// 神将拼图点亮操作
+		S_HERO_PUZZLE_LIGHT				= 6426;
+		C_DIAMOND_WHEEL_INFO			= 6427;			// 元宝轮盘查询数据
+		S_DIAMOND_WHEEL_INFO			= 6428;
+		C_DIAMOND_WHEEL_REWARD			= 6429; 		// 元宝轮盘抽奖操作
+		S_DIAMOND_WHEEL_REWARD			= 6430;
+		C_DIAMOND_WHEEL_RECORD			= 6431; 		// 元宝轮盘查询记录
+		S_DIAMOND_WHEEL_RECORD			= 6432;
+		S_HERO_PUZZLE_TASK				= 6433;			// 神将拼图的任务进度推送消息
+		C_XIANG_MO_LU_INFO				= 6434;			// 降魔录任务的信息
+		S_XIANG_MO_LU_INFO				= 6435;
+		C_XIANG_MO_LU_REWARD			= 6436;			// 降魔录任务领取奖励
+		S_XIANG_MO_LU_REWARD			= 6437;
+		S_XIANG_MO_LU_TASK				= 6438;			// 降魔录任务进度推送
+
+		C_GET_HIT_GOLD_EGG_INFO			= 6439;			// 获取砸金蛋活动的信息
+		S_GET_HIT_GOLD_EGG_INFO			= 6440;
+		C_HIT_GOLD_EGG					= 6441;			// 进行砸蛋操作
+		S_HIT_GOLD_EGG					= 6442;
+		C_GET_OP_XUN_BAO_INFO			= 6443;			// 获取天宫寻宝活动信息
+		S_GET_OP_XUN_BAO_INFO			= 6444;
+		C_OP_XUN_BAO					= 6445;			// 天宫寻宝活动骰子的操作
+		S_OP_XUN_BAO					= 6446;
+		C_GET_ALL_HIGH_INFO				= 6447;			// 获取全民狂嗨的活动信息
+		S_GET_ALL_HIGH_INFO				= 6448;
+		C_ALL_HIGH_TASK_REWARD			= 6449;			// 领取全民狂嗨的活动任务的奖励
+		S_ALL_HIGH_TASK_REWARD			= 6450;
+		C_ALL_HIGH_REWARD				= 6451;			// 领取全民狂嗨的活动嗨点奖励
+		S_ALL_HIGH_REWARD				= 6452;
+		S_PUSH_ALL_HIGH_TASK			= 6453;			// 推送全民狂嗨活动的任务数据
+		C_GET_LUCK_PAN_INFO				= 6454;			// 获取幸运转盘活动的数据
+		S_GET_LUCK_PAN_INFO				= 6455;
+		C_LUCK_PAN_BUY					= 6456;			// 购买幸运转盘活动的转动次数
+		S_LUCK_PAN_BUY					= 6457;
+		C_LUCK_PAN_SHOP					= 6458;			// 购买幸运转盘活动中的商城
+		S_LUCK_PAN_SHOP					= 6459;
+		C_LUCK_PAN_TISHI				= 6460;			// 幸运转盘活动中的商城的提示
+		S_LUCK_PAN_TISHI				= 6461;
+		C_GET_SUPER_GIFT_INFO			= 6462;			// 获取超值礼包活动信息
+		S_GET_SUPER_GIFT_INFO			= 6463;
+		C_BUY_SUPER_GIFT				= 6464;			// 购买超值礼包活动奖励
+		S_BUY_SUPER_GIFT				= 6465;
+		S_PUSH_SUPER_GIFT				= 6466;			// 推送全服超值礼包购买数据
+
+		C_GET_SEA_SHOP_INFO				= 6467;			// 获取海底龙宫商店活动的数据
+		S_GET_SEA_SHOP_INFO				= 6468;
+		C_SEA_SHOP_BUY					= 6469;			// 购买海底龙宫商店的商品操作
+		S_SEA_SHOP_BUY					= 6470;
+		C_SEA_SHOP_REFRESH				= 6471;			// 海底龙宫商店的刷新操作
+		S_SEA_SHOP_REFRESH				= 6472;
+		C_SEA_SHOP_BUY_ALL				= 6473;			// 海底龙宫商店的全部购买的操作
+		S_SEA_SHOP_BUY_ALL				= 6474;
+		
+		C_GET_LIUYI_LUCKY_INFO			= 6475;			// 六一寻宝活动的信息
+		S_GET_LIUYI_LUCKY_INFO			= 6476;
+		C_LIUYI_LUCKY_XUNBAO			= 6477;			// 六一寻宝活动的寻宝操作
+		S_LIUYI_LUCKY_XUNBAO			= 6478;
+		C_GET_LIUYI_LOG_INFO			= 6479;			// 六一寻宝活动的记录查询
+		S_GET_LIUYI_LOG_INFO			= 6480;
+		C_LIUYI_LUCKY_SCORE_REWARD		= 6481;			// 六一寻宝活动的积分奖励领取操作
+		S_LIUYI_LUCKY_SCORE_REWARD		= 6482;
+		C_LIUYI_LUCKY_RANK_DATA			= 6483;			// 六一寻宝活动的排行榜数据
+		S_LIUYI_LUCKY_RANK_DATA			= 6484;
+
+		//=================================================以上是活动=======================================================
+
+
+        C_CHECK_CDK_INFO                = 6500;                //检查cdkey
+        S_CHECK_CDK_INFO                = 6501;
+        C_GET_CDK_REWARD                = 6502;                //获得cdkey奖励
+        S_GET_CDK_REWARD                = 6503;
+
+		//=================================================以下是合服活动=======================================================
+		C_GET_MERGE_ACTIVITY_INFO		= 6510;			//拉取合服活动信息
+		S_GET_MERGE_ACTIVITY_INFO		= 6511;			//拉取合服活动信息
+		C_GET_MERGE_ACTIVITY_REWARD		= 6512;			//领取合服活动奖励
+		S_GET_MERGE_ACTIVITY_REWARD		= 6513;			//领取合服活动奖励
+
+
+		//=================================================以上是合服活动=======================================================
+
+		//玲珑宝塔
+		C_GET_TOWER_INFO				= 6600;			//拉取玲珑塔信息
+		S_GET_TOWER_INFO				= 6601;			//拉取玲珑塔信息
+		C_GET_TOWER_RANK_INFO			= 6602;			//拉取玲珑塔排行信息
+		S_GET_TOWER_RANK_INFO			= 6603;			//拉取玲珑塔排行信息
+		C_TOWER_AUTO_CHALLENG			= 6604;			//勾选自动挑战
+		S_TOWER_AUTO_CHALLENG			= 6605;			//勾选自动挑战
+		
+		// 摇钱树活动
+		C_GET_MONEY_TREE_INFO			= 6700;			// 拉取摇钱树信息
+		S_GET_MONEY_TREE_INFO			= 6701;
+		C_MONEY_TREE_REWARD				= 6702;			// 摇钱树使用摇一摇
+		S_MONEY_TREE_REWARD				= 6703;
+		C_MONEY_TREE_EXTEND_REWARD		= 6704;			// 摇钱树领取额外奖励操作
+		S_MONEY_TREE_EXTEND_REWARD		= 6705;
+		
+		//神将集结
+		C_GET_HERO_COLLECTOR_INFO  		= 6800;			//获得神将集结系统信息
+		S_GET_HERO_COLLECTOR_INFO  		= 6801;
+		C_GET_HERO_COLLECTOR_REWARD  	= 6802;			//领取神将集结奖励
+		S_GET_HERO_COLLECTOR_REWARD  	= 6803;
+		
+		// 神将副本
+		C_GET_HERO_INSTANCE_INFO  		= 6810;			// 获得神将副本的信息
+		S_GET_HERO_INSTANCE_INFO  		= 6811;
+		C_GET_HERO_INSTANCE_REWARD  	= 6812;			// 领取神将副本的宝箱奖励
+		S_GET_HERO_INSTANCE_REWARD  	= 6813;
+		C_HERO_INSTANCE_SWEEP	  		= 6814;			// 神将副本的扫荡操作
+		S_HERO_INSTANCE_SWEEP	  		= 6815;
+		C_HERO_INSTANCE_BUY		  		= 6816;			// 神将副本购买挑战次数
+		S_HERO_INSTANCE_BUY		  		= 6817;
+
+		// 挂机宝箱
+		C_GET_GUA_JI_BOX_INFO			= 7001;			// 打开挂机宝箱获得数据
+		S_GET_GUA_JI_BOX_INFO			= 7002;
+		C_GUA_JI_BOX_FORWARD			= 7003;			// 提前领取挂机宝箱奖励
+		S_GUA_JI_BOX_FORWARD			= 7004;
+		C_GUA_JI_BOX_REWARD				= 7005;			// 领取挂机宝箱奖励
+		S_GUA_JI_BOX_REWARD				= 7006;
+		C_GUA_JI_BOX_USEITEM			= 7007;			// 使用道具增加挂机宝箱时间
+		S_GUA_JI_BOX_USEITEM			= 7008;
+		
+		// 主场景的奇遇事件
+		C_GET_LUCK_CHANCE_INFO			= 7101;			// 获取奇遇事件
+		S_GET_LUCK_CHANCE_INFO			= 7102;
+		C_LUCK_CHANCE_OPEN				= 7103;			// 操作奇遇事件，挑战boss、开启宝箱、购买折扣
+		S_LUCK_CHANCE_OPEN				= 7104;
+		S_LUCK_CHANCE_PUSH				= 7105;			// 奇遇事件出现后的推送前端
+
+		// 南天门战斗副本
+		C_GET_NAN_TIAN_GATE_INFO		= 7201;			// 获取南天门副本信息
+		S_GET_NAN_TIAN_GATE_INFO		= 7202;
+		C_NAN_TIAN_GATE_REFRESH			= 7203;			// 刷新南天门副本
+		S_NAN_TIAN_GATE_REFRESH			= 7204;
+		C_NAN_TIAN_GATE_WIN_BOX			= 7205;			// 领取南天门三连斩宝箱
+		S_NAN_TIAN_GATE_WIN_BOX			= 7206;
+		C_NAN_TIAN_GATE_BOX				= 7207;			// 领取南天门连胜宝箱
+		S_NAN_TIAN_GATE_BOX				= 7208;
+		C_NAN_TIAN_GATE_BUY_TIMES		= 7209;			// 购买南天门挑战次数
+		S_NAN_TIAN_GATE_BUY_TIMES		= 7210;
+		C_NAN_TIAN_GATE_BUY_BUFF		= 7211;			// 购买南天门鼓舞buff
+		S_NAN_TIAN_GATE_BUY_BUFF		= 7212;
+		C_NAN_TIAN_GATE_RANK			= 7213;			// 获取当前南天门的排名数据
+		S_NAN_TIAN_GATE_RANK			= 7214;
+		
+		C_GET_SHARE_REWARD_INFO			= 7301;			// 获取手Q或是微信等分享后的奖励数据
+		S_GET_SHARE_REWARD_INFO			= 7302;
+		C_GET_SHARE_REWARD				= 7303;			// 客户端请求直接获取奖励数据
+		S_GET_SHARE_REWARD				= 7304;
+
+		C_GET_LEVEL_BUY_INFO			= 7310;			// 获取玩家等级的限时礼包的活动数据
+		S_GET_LEVEL_BUY_INFO			= 7311;
+		C_GET_LEVEL_BUY_REWRAD			= 7312;			// 购买限时礼包
+		S_GET_LEVEL_BUY_REWARD			= 7313;
+		S_PUSH_LEVEL_BUY_INFO			= 7314;			// 推送前端限时礼包活动数据
+
+		//=================================================运营活动的每日活动=======================================================
+		C_GET_EVERYDAY_RTN_INFO			= 7401;			// 获取每日活动的天天返利的数据
+		S_GET_EVERYDAY_RTN_INFO			= 7402;
+		C_EVERYDAY_RTN_REWARD			= 7403;			// 领取每日活动的天天返利包的奖励
+		S_EVERYDAY_RTN_REWARD			= 7404;
+		S_EVERYDAY_RTN_PUSH				= 7405;			// 推送前端每日活动的天天返利数据变化
+		C_GET_CHARGE_PAN_INFO			= 7406;			// 获取每日活动的充值轮盘的数据
+		S_GET_CHARGE_PAN_INFO			= 7407;
+		C_CHARGE_PAN_REWARD				= 7408;			// 每日活动的充值轮盘抽奖操作
+		S_CHARGE_PAN_REWARD				= 7409;
+		C_CHARGE_PAN_LUCK_REWARD		= 7410;			// 每日活动的充值轮盘财富值的奖励
+		S_CHARGE_PAN_LUCK_REWARD		= 7411;
+		C_CHARGE_PAN_LOGS				= 7412;			// 每日活动的充值轮盘记录数据
+		S_CHARGE_PAN_LOGS				= 7413;
+		C_GET_TODAY_DISCOUNT_INFO 		= 7414;			// 每日活动的每日特惠请求限时折扣物品
+		S_GET_TODAY_DISCOUNT_INFO 		= 7415;
+		C_BUY_TODAY_DISCOUNT 			= 7416;			//每日活动的每日特惠购买限时折扣物品
+		S_BUY_TODAY_DISCOUNT 			= 7417;
+		C_GET_EVERY_LOGIN_INFO			= 7418;			// 每日活动的每日登录信息查询操作
+		S_GET_EVERY_LOGIN_INFO			= 7419;
+		C_GET_EVERY_LOGIN_REWARD		= 7420;			// 每日活动的每日登录奖励领取操作
+		S_GET_EVERY_LOGIN_REWARD		= 7421;
+
+		//=================================================以上运营活动的每日活动=======================================================
+
+		// 九天仙脉玩法
+		C_GET_XIANMAI_INFO				= 7501;			// 获取九天仙脉的数据
+		S_GET_XIANMAI_INFO				= 7502;
+		C_GET_XIANMAI_PLAYER			= 7503;			// 查看指定玩家的仙脉的id
+		S_GET_XIANMAI_PLAYER			= 7504;
+		C_GET_XIANMAI_ADDTIME			= 7505;			// 玩家延长指定仙脉的占领时间
+		S_GET_XIANMAI_ADDTIEM			= 7506;
+		C_GET_XIANMAI_GIVEUP			= 7507;			// 玩家主动放弃占领的仙脉
+		S_GET_XIANMAI_GIVEUP			= 7508;
+		C_GET_XIANMAI_BOXREWARD			= 7509;			// 玩家领取占领的仙脉时间宝箱
+		S_GET_XIANMAI_BOXREWARD			= 7510;
+		C_GET_XIANMAI_ATTACK			= 7511;			// 玩家攻占仙脉的操作
+		S_GET_XIANMAI_ATTACK			= 7512;
+		C_GET_XIANMAI_SNEAK				= 7513;			// 玩家偷袭他人的仙脉操作
+		S_GET_XIANMAI_SNEAK				= 7514;
+		C_GET_XIANMAI_LOGS				= 7515;			// 获取玩家仙脉相关的log数据
+		S_GET_XIANMAI_LOGS				= 7516;
+		C_GET_XIANMAI_TEACH_UP			= 7517;			// 仙脉科技升级的操作
+		S_GET_XIANMAI_TEACH_UP			= 7518;
+		C_GET_XIANMAI_BUY_TIMES			= 7519;			// 仙脉购买占矿次数的操作
+		S_GET_XIANMAI_BUY_TIMES			= 7520;
+
+		// 称号、头像框和聊天气泡的炫酷外形
+		C_GET_SHOW_INFO			= 7601;		// 获取角色的称号、头像框和聊天气泡数据
+		S_GET_SHOW_INFO			= 7602;
+		C_UPDATE_USE_SHOW		= 7603;		// 更新角色当前使用的称号、头像框和聊天气泡
+		S_UPDATE_USE_SHOW		= 7604;
+		C_ACTIVE_SHOW_INFO		= 7605;		// 激活指定的称号、头像框和聊天气泡
+		S_ACTIVE_SHOW_INFO		= 7606;
+
+		// 阿鼻地狱副本
+		C_GET_ABI_HELL_INFO			= 7701;	// 获取阿鼻地狱副本的数据
+		S_GET_ABI_HELL_INFO			= 7702;
+		C_GET_ABI_BOX_REWARD		= 7703;	// 领取阿鼻地狱副本当前层数的宝箱奖励操作
+		S_GET_ABI_BOX_REWARD		= 7704;
+		C_GET_ABI_HELL_NEXT			= 7705;	// 进入阿碧地狱副本的下一层操作
+		S_GET_ABI_HELL_NEXT			= 7706;
+		C_GET_ABI_BUY_TIMES			= 7707;	// 购买阿鼻地狱副本挑战次数的操作
+		S_GET_ABI_BUY_TIMES			= 7708;
+
+		// 巅峰争霸赛玩法
+		C_GET_TOP_RANK_PLAY_INFO		= 7801;	// 获取巅峰争霸赛的数据
+		S_GET_TOP_RANK_PLAY_INFO		= 7802;
+		C_GET_TOP_RANK_PLAY_WORSHIP		= 7803; // 膜拜巅峰争霸赛的巅峰榜单操作
+		S_GET_TOP_RANK_PLAY_WORSHIP		= 7804;
+		C_GET_TOP_RANK_PLAY_WARRECORD	= 7805; // 获取自己的战报记录
+		S_GET_TOP_RANK_PLAY_WARRECORD	= 7806;
+		C_GET_TOP_RANK_PLAY_FORMATION	= 7807; // 获取自己的巅峰争霸赛的阵容操作
+		S_GET_TOP_RANK_PLAY_FORMATION	= 7808;
+		C_UPDATE_TOP_RANK_PLAY_FORMATION= 7809; // 设置自己的巅峰争霸赛的阵容操作
+		S_UPDATE_TOP_RANK_PLAY_FORMATION= 7810;
+		C_GET_TOP_RANK_PLAY_APPLY		= 7811; // 自己报名参加巅峰争霸赛的操作
+		S_GET_TOP_RANK_PLAY_APPLY		= 7812;
+		C_GET_TOP_RANK_PLAY_WIN			= 7813; // 获取本次的晋级赛的数据
+		S_GET_TOP_RANK_PLAY_WIN			= 7814;
+		C_GET_TOP_RANK_PLAY_GUESS		= 7815; // 参加巅峰争霸赛的竞猜操作
+		S_GET_TOP_RANK_PLAY_GUESS		= 7816;
+		C_GET_TOP_RANK_PLAY_CHAMPION	= 7817; // 获取本次巅峰争霸赛的冠军赛数据
+		S_GET_TOP_RANK_PLAY_CHAMPION	= 7818;
+		C_GET_TOP_RANK_BATTLE			= 7819;	// 获取对战记录数据
+		S_GET_TOP_RANK_BATTLE			= 7820;
+		C_GET_TOP_RANK_GUESS_RECORD		= 7821; // 获取玩家的竞猜记录
+		S_GET_TOP_RANK_GUESS_RECORD		= 7822;
+		C_GET_TOP_RANK_WARREPORT		= 7823;	// 获取对战的存储战报
+		S_GET_TOP_RANK_WARREPORT		= 7824;
+		S_GET_TOP_RANK_PUSH_RECORD		= 7825; // 玩家新加对战记录数据后推送前端
+
+		// 新版跨服boss协议
+		C_GET_CROSS_BOSS_NEW_INFO		= 7901;	// 新版本跨服boss信息数据
+		S_GET_CROSS_BOSS_NEW_INFO		= 7902;
+		C_GET_CROSS_BOSS_ONE_INFO 		= 7903;	//跨服boss查询指定boss信息
+		S_GET_CROSS_BOSS_ONE_INFO		= 7904;
+		C_GET_CROSS_BOSS_NEW_RECORD		= 7905; // 获取当前章节的boss击杀记录
+		S_GET_CROSS_BOSS_NEW_RECORD		= 7906;
+		C_GET_CROSS_BOSS_NEW_FIND		= 7907;	// 在当前章节进行搜寻操作
+		S_GET_CROSS_BOSS_NEW_FIND		= 7908;
+		C_GET_CROSS_BOSS_NEW_EXIT		= 7911;	// 退出跨服boss挑战小怪
+		S_GET_CROSS_BOSS_NEW_EXIT		= 7912;
+		S_SYNC_CROSS_BOSS_KILL			= 7913;	//Boos被击杀推送
+
+		// 手Q渠道的红包
+		C_GET_RED_PACKET_INFO			= 8001;	// 获取当前红包的数据
+		S_GET_RED_PACKET_INFO			= 8002;
+		C_GET_RED_PACKET_REWARD			= 8003;	// 领取当前红包的奖励
+		S_GET_RED_PACKET_REWARD			= 8004;
+		S_GET_RED_PACKET_PUSH			= 8005; // 登录推送客户端是否显示红包icon
+		S_RED_PACKET_PUSH_REWARD		= 8006; // 红包发放结果推送给客户端
+
+		C_GET_RED_WHEEL_INFO			= 8010; // 获取返利轮盘和返利大礼的数据
+		S_GET_RED_WHEEL_INFO			= 8011;
+		C_GET_RED_WHEEL_PLAY			= 8012; // 返利轮盘抽奖的操作
+		S_GET_RED_WHEEL_PLAY			= 8013;
+		C_GET_RED_WHEEL_RECORD			= 8014; // 获取返利轮盘的记录数据
+		S_GET_RED_WHEEL_RECORD			= 8015;
+		C_GET_RED_WHEEL_MONEY			= 8016; // 发起提现的操作
+		S_GET_RED_WHEEL_MONEY			= 8017;
+		C_GET_RED_WHEEL_MONEY_RECORD	= 8018; // 获取提现记录的操作
+		S_GET_RED_WHEEL_MONEY_RECORD	= 8019;
+		S_GET_RED_MONEY_PUSH			= 8020; // 登录推送客户端是否显示活动icon
+		S_RED_MONEY_PUSH_REWARD			= 8021; // 提现结果推送给客户端
+
+		// 助阵武将系统
+		C_GET_FORMATION_HELP_INFO		= 9001; // 获取助阵武将相关的数据
+		S_GET_FORMATION_HELP_INFO		= 9002;
+		C_FORMATION_HELP_HERO_ON		= 9003;	// 助阵武将上阵操作
+		S_FORMATION_HELP_HERO_ON		= 9004;
+		C_FORMATION_HELP_LEVEL			= 9005; // 助阵武将的属性提升升级操作
+		S_FORMATION_HELP_LEVEL			= 9006;
+
+		// 神将商店活动
+		C_GET_HERO_SHOP_INFO			= 9101; // 获取神将商店活动的数据
+		S_GET_HERO_SHOP_INFO			= 9102;
+		C_HERO_SHOP_BUY_REWARD			= 9103; // 神将商店购买优惠折扣物品
+		S_HERO_SHOP_BUY_REWARD			= 9104;
+
+		// 帮派三界争霸新功能
+		C_GUILD_ARENA_APPLY				= 9201;	// 三界争霸报名操作
+		S_GUILD_ARENA_APPLY				= 9202;
+		C_GET_GUILD_ARENA_INFO			= 9203;	// 获取三界争霸的数据
+		S_GET_GUILD_ARENA_INFO			= 9204;
+		C_GUILD_ARENA_HISTORY			= 9205;	// 获取三界争霸的荣誉殿堂
+		S_GUILD_ARENA_HISTORY			= 9206;
+		C_GUILD_ARENA_RANK				= 9207;	// 获取三界争霸的排行榜数据
+		S_GUILD_ARENA_RANK				= 9208;
+		C_GUILD_ARENA_PEAK				= 9209;	// 获取对阵数据
+		S_GUILD_ARENA_PEAK				= 9210;
+		C_GUILD_ARENA_TARGETS			= 9211;	// 获取三界争霸的对手数据
+		S_GUILD_ARENA_TARGETS			= 9212;
+		C_GUILD_ARENA_RECORD			= 9213;	// 获取三界争霸的战绩记录
+		S_GUILD_ARENA_RECORD			= 9214;
+		C_GUILD_ARENA_REPORT			= 9215;	// 获取三界争霸的帮主对决战报数据
+		S_GUILD_ARENA_REPORT			= 9216;
+		C_GUILD_ARENA_BUY_TIMES			= 9217;	// 三界争霸购买行动力的操作
+		S_GUILD_ARENA_BUY_TIMES			= 9218;
+		C_GUILD_ARENA_ATTACK			= 9219;	// 三界争霸挑战对手的操作
+		S_GUILD_ARENA_ATTACK			= 9220;
+		
+		// 套装收集功能
+		C_GET_SUIT_COLLECT_INFO			= 9301; // 拉取套装收集信息
+		S_GET_SUIT_COLLECT_INFO			= 9302;
+		C_GET_SUIT_COLLECT_REWARD		= 9303; // 领取套装收集奖励
+		S_GET_SUIT_COLLECT_REWARD		= 9304;
+		S_SYNC_SUIT_COLLECT_UPDATE				= 9305;	//拉取套装收集信息
+
+
+        //===============跨服协议id >= 100000 ===============================
+        CROSS_C_HEART_BEAT = 100001;        // 跨服服务器心跳
+        CROSS_S_HEART_BEAT = 100002;
+        CROSS_C_SERVER_REGISTER = 100003;        // 跨服服务器注册
+        CROSS_S_SERVER_REGISTER = 100004;
+		
+		CROSS_S_EXCEPTION_MSG = 100005;		//	跨服错误吗
+		CROSS_C_SERVER_PUSH = 100006;       // 跨服服务器注册成功推送消息
+        CROSS_S_SERVER_PUSH = 100007;
+        CROSS_C_HTTP_DATA = 100008;		// 坑爹的协议，由于oss不支持跨服的http服务，暂时由游戏服的http接收后发送跨服处理
+
+        //guild war
+        CROSS_C_GET_GUILD_WAR_INFO              = 100100;       // 获取跨服帮派战信息
+        CROSS_S_GET_GUILD_WAR_INFO              = 100101;
+        CROSS_C_GUILD_WAR_DAMAGE                = 100102;       // 帮派战同步伤害到跨服
+        CROSS_S_GUILD_WAR_DAMAGE                = 100103;
+        CROSS_C_GUILD_WAR_DEFEND                = 100104;       // 帮派战同步战斗数据到跨服
+        CROSS_S_GUILD_WAR_DEFEND                = 100105;
+        CROSS_C_GUILD_WAR_CANCEL_DEFEND         = 100106;       // 取消守护
+        CROSS_S_GUILD_WAR_CANCEL_DEFEND         = 100107;
+        CROSS_SYNC_GUILD_WAR_FINISH             = 100108;       // 帮派战攻防结束奖励推送
+        CROSS_SYNC_GUILD_WAR_LEVEL_UP           = 100109;       // 帮派战守护帮派等级提升
+        CROSS_SYNC_GUILD_WAR_DISSOLVE           = 100110;       // 帮派战守护帮派解散
+
+        CROSS_C_BATTLE_INSTANCE				= 100190;		// 打跨服副本
+        CROSS_S_BATTLE_INSTANCE				= 100191;		// 打跨服副本
+
+		//组队副本
+		CROSS_C_GET_TEAM_INFO 			= 100200;		//拉取现有未满队伍的信息
+		CROSS_S_GET_TEAM_INFO 			= 100201;		//拉取现有未满队伍的信息
+		CROSS_C_QUICK_JOIN_TEAM 		= 100202;		//快速加入队伍
+		CROSS_S_UPDATE_TEAM 			= 100203;		//更新队伍信息
+		CROSS_C_JOIN_TEAM				= 100204;		//指定加入队伍
+		CROSS_S_JOIN_TEAM				= 100205;		
+		CROSS_C_EXIT_TEAM				= 100206;		//退出队伍
+		CROSS_S_EXIT_TEAM				= 100207;		
+		CROSS_C_SET_TEAM_HERO_POS		= 100208;		//切换上阵角色
+
+		CROSS_S_GET_TEAM2_INFO 			= 100251;		//拉取现有未满队伍的信息
+		CROSS_C_GET_TEAM2_INFO 			= 100250;		//拉取现有未满队伍的信息
+		CROSS_C_QUICK_JOIN_TEAM2 		= 100252;		//快速加入队伍
+		CROSS_S_UPDATE_TEAM2 			= 100253;		//更新队伍信息
+		CROSS_C_JOIN_TEAM2				= 100254;		//指定加入队伍
+		CROSS_S_JOIN_TEAM2				= 100255;		
+		CROSS_C_EXIT_TEAM2				= 100256;		//退出队伍
+		CROSS_S_EXIT_TEAM2				= 100257;		
+		CROSS_C_SET_TEAM2_HERO_POS		= 100258;		//切换上阵角色
+		
+
+		//至尊塔
+		CROSS_C_SUPREME_ENTER			= 100300;		//进入活动
+		CROSS_C_SUPREME_EXIT			= 100301;		//退出活动
+		CROSS_S_SYN_LAYER_NUM			= 100302;		//同步当前层数
+		CROSS_C_GET_SUPREME_RANK		= 100303;		//拉取排行榜信息
+		CROSS_S_GET_SUPREME_RANK		= 100304;		//	
+		CROSS_S_SUPREME_UP_DOWN_LAYER	= 100307;		//	升降层
+		CROSS_S_SUPREME_SEND_SCORE		= 100308;		//	服务端主动推送积分
+		CROSS_S_SUPREME_OVER			= 100309;		//	活动结束
+		CROSS_C_SUPREME_AUTO_CHALLENGE  = 100305;		//自动挑战
+		CROSS_S_SUPREME_AUTO_CHALLENGE  = 100306;		//自动挑战
+		CROSS_S_SYN_BATTLE_INFO			= 100310;		//同步战斗后信息
+
+        //war boss
+        CROSS_C_GET_WAR_BOSS_INFO       = 100400;       // 获取跨服战场boss信息
+        CROSS_S_GET_WAR_BOSS_INFO       = 100401;
+        CROSS_S_WAR_BOSS_DEATH          = 100403;       // 跨服战场boss死亡给玩家发奖励
+        CROSS_S_SYNC_BOSS_REFRESH       = 100405;       // 跨服战场Boos刷新推送
+		
+		//查看跨服玩家信息
+		CROSS_C_GET_PLAYER_INFO			= 100500;		
+		CROSS_S_GET_PLAYER_INFO			= 100501;		
+
+		// 查看玩家封测充值返元宝的领取数据
+		CROSS_C_RECHARGE_RTN			= 100502;
+		CROSS_S_RECHARGE_RTN			= 100503;
+
+		// 跨服聊天发送聊天信息
+		CROSS_C_SEND_CHAT_INFO    = 100504;
+   	    CROSS_S_SEND_CHAT_INFO    = 100505;
+
+   	    // 游戏服发送战力榜前100玩家简易数据到跨服
+   	    CROSS_C_SEND_PLYAER_DATA	= 100506;
+   	    CROSS_S_SEND_PLAYER_DATA	= 100507;
+
+		//查看跨服玩家的战斗信息
+		CROSS_C_GET_PLAYER_BATTLE_INFO	= 100508;
+		CROSS_S_GET_PLAYER_BATTLE_INFO	= 100509;
+
+		// 获取玩家的阿鼻地狱副本的对手数据
+		CROSS_C_GET_PLAYER_ABI_HELL	= 100510;
+		CROSS_S_GET_PLAYER_ABI_HELL	= 100511;
+
+		//查看跨服玩家的战斗信息
+		CROSS_C_PLAYER_SYS_BATTLE_INFO	= 100512;
+		CROSS_S_PLAYER_SYS_BATTLE_INFO	= 100513;
+
+		//修复跨服玩家的基本信息
+		CROSS_C_PLAYER_QUERY_INFO	= 100514;
+		CROSS_S_PLAYER_QUERY_INFO	= 100515;
+
+		// 九天仙脉玩法的数据指令
+		CROSS_C_GET_XIANMAI_INFO			= 100600;	// 获取九天仙脉的所有数据
+		CROSS_S_GET_XIANMAI_INFO			= 100601;
+		CROSS_C_GET_XIANMAI_PLAYER			= 100602;	// 获取九天仙脉的玩家的占领数据
+		CROSS_S_GET_XIANMAI_PLAYER			= 100603;
+		CROSS_C_XIANMAI_ADDTIME				= 100604;	// 九天仙脉延长占矿的操作
+		CROSS_S_XIANMAI_ADDTIME				= 100605;
+		CROSS_C_XIANMAI_GIVEUP				= 100606;	// 九天仙脉放弃占领的操作
+		CROSS_S_XIANMAI_GIVEUP				= 100607;
+		CROSS_C_XIANMAI_LOGS				= 100608;	// 获取玩家仙脉相关的log数据
+		CROSS_S_XIANMAI_LOGS				= 100609;
+		CROSS_S_XIANMAI_REWARD				= 100610;	// 推送给服务器玩家占领仙脉的奖励
+		CROSS_S_XIANMAI_GET					= 100611;	// 推送给服务器玩家占领仙脉
+		CROSS_S_XIANMAI_BATTLE_LOG			= 100612;	// 推送给服务器玩家战斗的log数据
+		CROSS_C_XIANMAI_BATTLE_PLAYER		= 100613;	// 推送服务器玩家的战斗数据给跨服操作
+		CROSS_C_GET_XIANMAI_TECH			= 100614;	// 推送玩家当前的仙脉科技
+		CROSS_S_GET_XIANMAI_TECH			= 100615;
+		CROSS_C_GET_XIANMAI_GUILD			= 100616;	// 推送玩家当前的帮派数据
+		CROSS_S_GET_XIANMAI_GUILD			= 100617;
+
+		// 巅峰争霸赛的指令
+		CROSS_C_GET_TOP_RANK_INFO			= 100700;	// 获取巅峰争霸赛的巅峰榜单数据
+		CROSS_S_GET_TOP_RANK_INFO			= 100701;
+		CROSS_C_TOP_RANK_WORSHIP			= 100702; 	// 膜拜巅峰争霸赛的巅峰榜单操作
+		CROSS_S_TOP_RANK_WORSHIP			= 100703;
+		CROSS_C_TOP_RANK_APPLY				= 100704;	// 巅峰争霸赛报名操作
+		CROSS_S_TOP_RANK_APPLY				= 100705;
+		CROSS_C_GET_TOP_RANK_WARRECORD		= 100706;	// 获取自己的战报记录
+		CROSS_S_GET_TOP_RANK_WARRECORD		= 100707;
+		CROSS_C_GET_TOP_RANK_WIN			= 100708; 	// 获取本次的晋级赛的数据
+		CROSS_S_GET_TOP_RANK_WIN			= 100709;
+		CROSS_C_GET_TOP_RANK_CHAMPION		= 100710; 	// 获取本次巅峰争霸赛的冠军赛数据
+		CROSS_S_GET_TOP_RANK_CHAMPION		= 100711;
+		CROSS_C_GET_TOP_RANK_BATTLE			= 100712;	// 获取对战记录数据
+		CROSS_S_GET_TOP_RANK_BATTLE			= 100713;
+		CROSS_C_GET_TOP_RANK_WARREPORT		= 100714;	// 获取对战的存储战报
+		CROSS_S_GET_TOP_RANK_WARREPORT		= 100715;
+		CROSS_S_TOP_RANK_CHAMPION_ID		= 100716;	// 赛区确定之后推送游戏服给玩家操作
+		CROSS_C_GET_TOP_RANK_GUESS			= 100717;	// 去跨服判断竞猜数据是否正确
+		CROSS_S_GET_TOP_RANK_GUESS			= 100718;
+		CROSS_S_SEND_TOP_RANK_GUESS			= 100719;	// 对战结束后推送竞猜结果给玩家
+		CROSS_S_SEND_TOP_RANK_RANK			= 100720;	// 周一凌晨发放排名奖励
+
+		// 新版跨服boss的跨服协议
+		CROSS_C_CROSS_BOSS_NEW_RECORD		= 100801; // 获取当前章节的boss击杀记录
+		CROSS_S_CROSS_BOSS_NEW_RECORD		= 100802;
+		CROSS_C_CROSS_BOSS_NEW_FIND			= 100803; // 获取指定副本id的boss数据
+		CROSS_S_CROSS_BOSS_NEW_FIND			= 100804;
+		CROSS_S_CROSS_BOSS_NEW_REFRESH		= 100807; // 当前boss血量和状态变化后同步到正在挑战的玩家
+		CROSS_S_CROSS_BOSS_DEATH			= 100808; // 跨服boss死亡给玩家发奖励
+		CROSS_S_SYNC_CROSS_BOSS_REFRESH		= 100809; // 跨服Boos刷新推送
+		CROSS_S_SYNC_CROSS_BOSS_KILL		= 100810; // 跨服Boos被击杀推送
+		CROSS_C_CROSS_BOSS_ONE_INFO			= 100811;	//去跨服查看当前副本指定的boss数据
+		CROSS_S_CROSS_BOSS_ONE_INFO			= 100812;	//去跨服查看当前副本指定的boss数据
+
+		// 手Q渠道的红包跨服协议
+		CROSS_C_RED_PACKET_GET_INFO			= 100901; // 查询玩家是否可以展示红包奖励
+		CROSS_S_RED_PACKET_GET_INFO			= 100902;
+		CROSS_C_RED_PAKCET_REWARD			= 100903; // 领取红包奖励操作
+		CROSS_S_RED_PAKCET_REWARD			= 100904;
+		CROSS_S_RED_PACKET_PUSH_REWARD		= 100905; // 红包发放结果推送
+
+		CROSS_C_RED_WHEEL_GET_INFO			= 100911; // 查询玩家是否可以展示返现轮盘
+		CROSS_S_RED_WHEEL_GET_INFO			= 100912;
+		CROSS_C_RED_WHEEL_MONEY				= 100913; // 提现现金的操作
+		CROSS_S_RED_WHEEL_MONEY				= 100914;
+		CROSS_C_RED_WHEEL_RECORD			= 100915; // 查询轮盘中奖的操作
+		CROSS_S_RED_WHEEL_RECORD			= 100916;
+		CROSS_C_RED_WHEEL_ADD_RECORD		= 100917; // 新增加轮盘中奖的操作
+		CROSS_S_RED_WHEEL_ADD_RECORD		= 100918;
+		CROSS_S_RED_MONEY_PUSH_REWARD		= 100919; // 提现结果推送
+
+		// 帮派三界争霸的跨服协议
+		CROSS_C_GET_GUILD_ARENA_INFO		= 101001; // 查询指定帮派的三界争霸信息
+		CROSS_S_GET_GUILD_ARENA_INFO		= 101002;
+		CROSS_C_GUILD_ARENA_APPLY			= 101003; // 帮派三界争霸报名操作
+		CROSS_S_GUILD_ARENA_APPLY			= 101004;
+		CROSS_C_GUILD_ARENA_HISTORY			= 101005;	// 获取三界争霸的荣誉殿堂
+		CROSS_S_GUILD_ARENA_HISTORY			= 101006;
+		CROSS_C_GUILD_ARENA_RANK			= 101007;	// 获取三界争霸的排行榜数据
+		CROSS_S_GUILD_ARENA_RANK			= 101008;
+		CROSS_C_GUILD_ARENA_PEAK			= 101009;	// 获取对阵数据
+		CROSS_S_GUILD_ARENA_PEAK			= 101010;
+		CROSS_C_GUILD_ARENA_TARGETS			= 101011;	// 获取三界争霸的对手数据
+		CROSS_S_GUILD_ARENA_TARGETS			= 101012;
+		CROSS_C_GUILD_ARENA_RECORD			= 101013;	// 获取三界争霸的战绩记录
+		CROSS_S_GUILD_ARENA_RECORD			= 101014;
+		CROSS_C_GUILD_ARENA_REPORT			= 101015;	// 获取三界争霸的帮主对决战报数据
+		CROSS_S_GUILD_ARENA_REPORT			= 101016;
+		CROSS_C_GUILD_ARENA_AUTO_APPLY		= 101017;	// 获取三界争霸的自动报名操作
+		CROSS_S_GUILD_ARENA_AUTO_APPLY		= 101018;
+		CROSS_C_GUILD_ARENA_MEMBER			= 101019;	// 三界争霸的帮派成员相关的数据
+		CROSS_S_GUILD_ARENA_MEMBER			= 101020;
+		CROSS_C_GUILD_ARENA_ATTACK			= 101021;	// 三界争霸进行挑战的操作
+		CROSS_S_GUILD_ARENA_ATTACK			= 101022;
+		CROSS_C_GUILD_ARENA_UNLOCK			= 101023;	// 三界争霸解除对手的锁定状态操作
+		CROSS_S_GUILD_ARENA_BATTLE_LOG		= 101024;	// 三界争霸结束推送对战log操作
+		CROSS_C_GUILD_ARENA_NO_EXISTS		= 101025;	// 三界争霸中帮派解散操作
+		CROSS_S_GUILD_ARENA_RANK_REWARD		= 101026;	// 三界争霸中排名奖励
+    }
+
+
+
+    enum ExceptionCode {
+        EXCEPTION_EMPTY = 0;
+        ERROR_INPUT_PARAMETER = 1001;
+        ERROR_INPUT_NUMBER = 1002;
+        NOT_ENOUGH_ITEM_GOODS = 1003;
+        BAG_ITEM_CAN_NOT_USE = 1004;
+        HERO_ALREADY_ACTICATION = 1005; //武将已激活
+        HERO_ID_NOT_IN_CONFIG = 1006; //配置表没有该武将
+        GOODS_NOT_EXIST = 1007;
+        FORMATION_EQUIP_HAS_ON = 1008;
+        HERO_NOT_ACTICATION = 1009; //没有激活该武将
+        SLOT_NOT_OPEN = 1010; //角色等级不足，英雄卡槽未开放
+        HAVE_NO_HERO = 1011; //未拥有该武将
+        HERO_HAS_ON_FORMATION = 1012; //该武将已经上阵
+        SLOT_HAS_HERO_ON = 1013; //该槽位已经有武将
+        INSTANCE_NOT_EXIST = 1014; //副本不存在
+        INSTANCE_ALREADY_IN = 1015; //已经在副本里面
+        INSTANCE_NOT_PASS = 1016; //副本未通关，无法扫荡/跳过
+        NOT_ENOUGH_ENERGY = 1017; //体力不足
+        INSTANCE_PRE_NOT_PASS = 1018; //前置副本未通过
+        NOT_ENOUGH_INSTANCE_TIMES = 1019; //副本次数不足
+        BLESS_MAX_LEVEL = 1020; //祝福系統已达到最大等级
+        BLESS_PILL_MAX_LEVEL = 1021; //祝福系統丹药已达到最大等级
+        BLESS_EAT_PILL_LIMITED = 1022; //属性丹上限
+        BLESS_LEVEL_LIMITED = 1023; //祝福系統等级不足
+        ERROR_CONFIG = 1030; //配置出错
+        IMAGE_HAVE = 1031; //该幻化已经获得
+        IMAGE_NOT_HAVE = 1032; //该幻化位获得
+        IMAGE_OUT_OF_TIME = 1033; //该幻化已经过期
+        TASK_REWARD_ALREADY_RECEIVED = 1034; //该任务奖励已经领取
+        TASK_NOT_FINISH = 1035; //任务未完成
+        TASK_NOT_EXIST = 1036; //任务不存在
+        SKILL_MAX_LEVEL = 1037; //技能已达最大等级
+        PLAYER_LEVEL_LIMITED = 1038; //角色等级不足
+        EQUIPMENT_SLOT_ERROR = 1039; //装备槽位错误
+        ROLE_FIELD_IS_NOT_UNLOCKED = 1040; //角色栏位未解锁
+        CONFIG_DOES_NOT_HAVE_THIS_ITEM = 1041; //配置表没有该道具
+        INCONSISTENT_EQUIPMENT_TYPE = 1042; //装备类型不一致
+        EQUIPMENT_SLOTS_ARE_INCONSISTENT = 1043; //装备槽位不一致
+        ENHANCED_SLOT_INCONSISTENCY=1044; //强化槽位不一致
+        ENHANCED_CONFIGURATION_ERROR = 1045; //强化配置错误
+        INSUFFICIENT_LEVEL_OF_AWAKENING= 1046; //觉醒条件不满足
+
+
+        ROLE_NOT_FOUND 					= 1047; //角色不存在
+        MAIL_NOT_FOUND 					= 1048; //邮件不存在
+        MAIL_NO_ACCESSORY 				= 1049; //邮件无附件
+        MAIL_ACCESSORY_RECEIVED 		= 1050; //附件已领取
+        MAIL_DELETEFAILD_BYACCESSORY 	= 1051; //有附件删除失败
+
+        PLAYER_NOT_FOUND = 1052; //找不到角色
+
+        VIP_LEVEL_NOT_ENOUGH = 1053; //VIP等级不足
+        BOSS_INSTANCE_OVER = 1054; //boss已经被挑战结束
+        MONEY_NOT_ENOUGH = 1055; //货币不足
+        MARKET_ITEM_MAXBUY_LIMIT = 1056; //超过商城购买数量限制了
+        REWARD_HAS_BEEN_RECEIVED = 1057; //奖励已经被领取
+        CURRDAY_HAS_BEEN_SIGNINED = 1058; //今天已经签到过了
+
+        FABAO_NOT_ACTIVE_FAILD = 1059; //法宝未激活
+        FABAO_MAX_LEVEL_LIMIT = 1060; //法宝已达最大等级
+        FABAO_MAX_STAR_LIMIT  = 1061; //法宝已达最大星级
+        FABAO_HAS_BEEN_ACTIVED = 1062; //法宝已激活
+        FABAO_NOT_FOUND_FAILD  = 1063; //法宝不存在
+
+        OUT_BOSS_ASC_HAVE = 1064; //已有归属就不给打非归属的boss了
+        HELL_LOTTERY_NOT_ENOUGH = 1065; //阎王殿抽奖次数不足
+
+
+        ITEM_CANNOT_MERGE = 1066; //道具不能合成
+        ITEM_CANNOT_RANDOM_MERGE = 1067; //道具不能随机合成
+
+        HELL_LAYER_NOT_ENOUGH = 1068; //阎王殿解锁层不足
+
+        ZHENFA_MAX_LEVEL = 1069; //阵法已经是最大等级
+
+        GUILD_EXIST = 1070; //帮派名字已经存在
+        PLAYER_HAS_GUILD = 1071; //角色已经有帮派
+        PLAYER_GUILD_TIME_LIMITED = 1072; //角色退出帮派cd中
+        GUILD_NOT_EXIST = 1073; //帮派不存在
+        GUILD_MAX_MEMBERS = 1074; //帮派成员已满
+        GUILD_MAX_APPLAYS = 1075; //超过最大帮派申请数
+        PLAYER_HAS_NOT_GUILD = 1076; //你还未加入帮派
+        CHAIRMAN_CAN_NOT_LEAVE_GUILD = 1077; //帮主不能退出帮派
+        NOT_SAME_GUILD = 1078; //不在同一帮派，无法操作
+        PLAYER_HAS_NOT_RIGHT = 1079; //职位权利不足
+        GUILD_NOT_ENOUGH_DONATE = 1080; //帮派资金不足
+        GUILD_GRADE_NUM_LIMITED = 1081; //帮派该职位成员已满
+        CHAIR_OFFTIME_NOT_ENOGHT = 1082; //帮主离线时间不足
+        PLAYER_NOT_APPLY_GUILD = 1083; //玩家未申请入帮派
+        GUILD_GRADE_NOT_CHAIRMAN = 1084; //你不是帮主，无法操作
+        GUILD_DONATE_HAVE_BUY = 1085; //今日已经买了桃子
+        FREE_COUNT_MAX_LIMITED = 1086; //免费次数已经用完
+        GUILD_DONATE_NOT_ENOGHT = 1087; //蟠桃值不足
+        CONVEY_NOT_END_TIME = 1088; //护送时间未到
+        CONVEY_MAX_COUNT_LIMITED = 1089; //护送次数已满
+        CONVEY_ROB_COUNT_LIMITED = 1090; //今日劫镖次数已满
+        CONVEY_BE_ROB_COUNT_LIMITED = 1091; //目标被劫镖次数已满
+        CONVEY_TARGET_CONVOY_FINISH = 1092; //目标已结完成护送，无法劫镖
+        CONVEY_TARGET_BE_CONVOY = 1093; //目标已被复仇
+
+        ACHIEVEMENT_REWARD_ALREADY_RECEIVED = 1094; //该成就奖励已经领取过
+        ACHIEVEMENT_NOT_REACHED = 1095; //还未达成
+
+        GUILD_BOSS_NOT_DEATH = 1096; //boss未被击杀
+
+        VIP_REWARD_ALREADY_RECEIVED = 1097; //该礼包已经领取
+
+        NOT_INT_ACT_TIME = 1098; //不在活动时间内
+        INSTANCE_LEVEL_LIMITED = 1099; //等级不足，无法进入该副本
+        INSTANCE_MONSTER_NOT_EXIST = 1100; //副本怪物找不到
+
+        INSTANCE_STAR_NOT_ENOUGH_VALUE = 1101; //副本星级不足
+        REFRESH_TIMES_NOT_ENOGHT = 1102; //刷新次数不足
+        FIGHT_VAL_NOT_ENOUGH = 1103; //未达到战力条件
+        ARENA_DAY_RWEARD_ALREADY_RECEIVED = 1104; //已经领取过每日奖励
+
+        LADDER_TIMES_MAX = 1105; //已达最大购买次数
+        LADDER_TIMES_NOT_ENOUGH = 1106; //匹配次数不足
+        ACTIVITY_ALREADY_BEEN_END = 1107; //活动已经结束
+
+        NO_OTHER_FORMATION = 1108; //没有这个阵型类型
+        NO_ZHENFA = 1109; //阵法未激活
+        ARENA_NOT_SET_FORMATION = 1110; //没有设置阵型
+        ARENA_NOT_ENOUGH_TIMES = 1111; //挑战次数不足
+
+        HERO_LEVEL_NOT_ENOUGH = 1112; //武将等级不足，无法穿戴
+        HERO_LEVEL_NOT_ENOUGH_UPGRADE = 1113; //武将等级不足，请提升武将等级
+        QUENCHING_PROP_NOT_HAVE = 1114; //没有洗练属性
+        QUENCHING_PROP_NOT_SAVE = 1115; //没有保存激活属性
+        HANGUP_DEFEAT_NUM_NOT_ENOUGH = 1116; //挂机星数不足
+        HANGUP_INSTANCE_HAS_PASS = 1117; //挂机副本不对
+
+        ANSWER_SUBJECT_OUT_TIME = 1118; //已超过本题答题时间
+
+        DEMON_CAN_NOT_CHANGE_FORMATION = 1119; //不能替换之前未添加到替补位的英雄
+        DEMON_NOT_ENOUGH_RESET_TIMES = 1120; //没有重置次数了
+        DEMON_NOT_ENOUGH_CHALLENGE_SCORE = 1121; //挑战积分不足
+        DEMON_ALREADY_BUY = 1122; //该增益点不能重复购买
+        DEMON_CAN_NOT_SWEEP_NOT_ENOUGH_ID = 1123; //未达到最大扫荡关卡，不能扫荡
+        DEMON_CAN_NOT_SWEEP_ALREADY_SWEEP = 1124; //已经扫荡过了，不能再次扫荡
+        DEMON_CAN_NOT_SET_FORMATION = 1125; //已经开始挑战，不能设置阵型了
+        DEMON_CAN_NOT_REVIVE = 1126; //不能复活不是阵型中的英雄
+        DEMON_CAN_NOT_BUY_BUFF = 1127; //不能购买未获得的增益效果
+        DEMON_CAN_NOT_BUY_ITEM = 1128; //不能购买未获得的商品
+        DEMON_CAN_NOT_BUY_ITEM_NO_TIMES = 1129; //该商品已售罄
+        DEMON_CAN_NOT_RESET_NO_CHALLENGE = 1130; //已经是重置状态了
+        DEMON_ALREADY_CHALLENGE = 1131; //已经挑战过该节点
+        DEMON_NOT_ENOUGH_CHALLENGE = 1132; //请先通关前一节点
+        HUOYUEDU_NOT_ENOUGH_VALUE = 1133; //活跃度不足
+        DEMON_ALL_HERO_DIE = 1134; //所有英雄已阵亡，请重置关卡
+        GUILD_TASK_MAX_REWARD = 1135; //帮派悬赏任务领取次数已超最大值
+
+        WASH_UNLOCK = 1136; //洗练槽未解锁
+        GUILD_NAME_CAN_NOT_EMPTY = 1137; //帮派名字不能为空
+        SUPREME_HAS_ALREADY_GET = 1138; //该目标奖励已经领取过
+        SUPREME_NOT_ENOUGH_SCORE = 1139; //目标积分不足
+        SUPREME_NOT_REVIVE = 1140; //玩家等待复活中
+
+        PRACTICE_CAN_NOT_UPGRADE = 1141; //还有部位没有升级，不能突破
+        PRACTICE_ALREADY_FULL = 1142; //已经升到最高了
+        PRACTICE_NEED_BREAK = 1143; //需要突破后才能继续升级
+
+        TORTOISE_CAN_NOT_STAKE = 1144; //已经过了押注时间
+        TORTOISE_ALREADY_STAKE_FULL = 1145; //已达押注上限
+        TORTOISE_ENT_TIME = 1146; //比赛时间已结束
+        TORTOISE_ITEM_CD = 1147; //该乌龟已经被使用过该道具，等一会再用
+
+        REWARD_TASK_ALREADY_START = 1148; //该任务已经开始，不可重复开始
+        REWARD_TASK_NO_SUCRATE = 1149; //成功率为0 不能开启此任务
+
+        INVEST_NO_MONTH_CARD = 1150; //没有购买月卡
+        INVEST_REWARD_ALREADY_GET = 1151; //该奖励已经领取
+
+        BAG_SIZE_NOT_ENOUGH = 1152; //背包大小不足
+        BE_STRONG_NO_REWARD = 1153; //没有可领取的目标奖励
+
+        TEAM_NOT_EXIST = 1154; //没有此队伍
+        YOU_ARE_ALREDY_IN_TEAM = 1155; //已经在队伍中了
+        TEAM_ALREADY_FULL = 1156; //队伍已满
+        YOU_ARE_ALREDY_OUT_TEAM = 1157; //已经退出队伍了
+        TEAM_MUST_HAVE_MAIN_HERO = 1158; //主角必须上阵
+        TEAM_LEADER_CAN_FULL_TEAM = 1159; //只有队长才能做此操作
+        TEAM_INSTANCE_NO_TIMES = 1160; //没有挑战次数了
+        INSTANCE_NOT_CROSS = 1161; //副本不是跨服副本
+        WAR_BOSS_ASP_COUNT_LIMITED = 1162; //战场BOSS归属次数已经用完
+
+        BLESS_OTHER_CONDITON_NOT_ENOGH = 1163; //升级条件不满足
+		BLESS_OTHER_CAN_NOT_UPGRADE_AUTO_ACTIVE =1164; //不能升级自动激活的类型
+        FORMATION_ALL_DEATH =1165; //布阵武将都已经死亡
+        INT_ACT_TIME = 1166; //活动时间内，不可操作
+		BLESS_UP_NEED_MOUNT_LEVEL = 1167; //兽魂阶级不能超过坐骑阶级
+
+        ARENA_RANK_NO_REWARD = 1168; //你的竞技场排名没有奖励
+		NO_INSTANCE_SWEEP = 1169; //没有可扫荡的奖励
+		
+		USERNAME_REPEATED = 1170; //用户名重复
+		NICKNAME_REPEATED = 1171; //角色名重复
+		CAN_NOT_USE_ILLEGAL_CHAR = 1172; //不能使用非法字符
+		CAN_NOT_USE_SENSITIVE_CHAR = 1173; //不能使用敏感字符
+
+        GUILD_WAR_REVIVE_NOT_IN_TIME = 1174; //复活时间未到
+        GUILD_WAR_IS_MY_GUILD = 1175; //我们帮派是防守帮派，不可操作
+        GUILD_WAR_IS_TODAY = 1176; //当天更新的守城帮派不可被打
+        GUILD_WAR_IS_NOT_MY_GUILD = 1177; //非占领帮派，不可操作
+
+        SIGN_DAY_LARGE = 1178; //签到天数大于开服天数
+        SIGN_DAY_NOT_ENOUGH  = 1179; //签到天数不足
+        GUILD_RECRUIT_CD_TIME  = 1180; //发布招募公告CD中
+
+		PLAYER_NOT_EXIST = 1181;//玩家不存在
+		FRIEND_ALREADY_TO_WHITE = 1182;//该玩家已经是你的好友了
+		FRIEND_ALREADY_NO_TO_YOU = 1183;//该玩家已经不是你的好友了
+		FRIEND_MAX_NUM = 1184;//好友数量已满
+		FRIEND_ALREADY_NO_IN_BLACK = 1185;//该玩家不在黑名单当中
+		FRIEND_NOT_APPLY_TO_YOU = 1186;//该玩家没有申请加你好友
+		FRIEND_ALREADY_TO_BLACK = 1187;//该玩家已经被拉黑了
+		
+		MERGE_ILLEGAL_MARTIRIAL = 1188;//非法的合成材料
+		MERGE_NOT_ENOUGH_MARTIRIAL = 1189;//合成材料不足
+		DIAMOND_NOT_ENOUGH = 1190;//元宝不足
+		SKILL_ALREADY_LEAN = 1191;//该技能已经学过了
+
+        GUILD_MAX_LEVEL = 1192; //帮派已达最大等级
+		INSTANCE_ALREADY_FULL = 1193;//副本已通关
+		TARGERT_FRIEND_MAX_NUM = 1194;//对方好友数量已满
+		INVEST_NO_DEVELOPMENT_MONEY = 1195;//没有购买成长基金
+		INVEST_NO_INVEST_RETURN = 1196;//没有购买投资返利
+		INVEST_DAY_NOT_ENOUGH = 1197;//天数不足
+		INVEST_CONDITION_NOT_ENOUGH = 1198;//条件不满足
+		INVEST_NOT_HAS_THIS_REWARD = 1199;//没有这个奖励
+		INVEST_ALREADY_BUY = 1200;//已经购买过该投资
+		INVEST_CAN_NOT_BUY = 1201;//不能购买非元宝购买的投资
+
+		SERVER_ACTIVE_NO_ID = 1202;//没有这个活动id
+		SERVER_ACTIVE_NOT_ENOUGH_TARGET = 1203;//没有达到目标
+		SERVER_ACTIVE_ALREADY_HAS_GET = 1204;//已经领取过该奖励
+		ZERO_PREFERENTIAL_HAS_BUY = 1205;//已经购买过了
+		ACTIVE_ALREADY_EXPRIRE = 1206;//活动已经过期
+		ZERO_PREFERENTIAL_CANT_GET_RETURN = 1207;//未到返还时间
+		ZERO_PREFERENTIAL_NOT_BUY = 1208;//没有购买过
+		ACTIVE_NOT_START = 1209;//活动没开启
+		ANNE_CAN_NOT_EQUIP_SAME = 1210;//已经佩戴了相同类型的符文了
+		NOT_HAVE_MARKET_ID = 1211;//没有此商品
+		ALREADY_MAX_INSTANCE = 1212;//已经最大关卡了
+		NOT_PASS_THIS_INSTANCE = 1213;//未通关指定关卡
+		
+		CHAPTER_INSTANCE_NOT_ALL_PASS = 1214; //章节副本未全部通关
+		ENTER_NEXT_CHAPTER = 1215; //进入下一章节才可挑战
+		
+		MAIN_HERO_MUST_INDEX_1 = 1216;//主角必须是1号槽位
+		PLEASE_REGISTER_NEW_SERVER = 1217;//服务器不开放新注册用户
+		HERO_PUZZLE_HAD_LIGHT = 1218;//当前碎片已经点亮了
+		XUNBAO_NEW_ALREADY_HERO_CHANGE = 1219;//已经兑换过该神将
+		XUNBAO_NEW_SCORE_NOT_ENOUGT = 1220;//积分不足
+		CONVEY_HAD_BE_ROB = 1221; //本次取经目标已经被您劫过，请劫他人
+		REWARD_TASK_DAY_NUM_OVER = 1222;//今日已经没有接取次数
+		CURR_PLAYER_LEVEL_LIMIT = 1223;//已达当前等级上限
+		INVEST_NO_WEEK_CARD = 1224;	// 您还没有购买周卡
+		INVEST_NO_FOREVER_CARD = 1225; // 您还没有购买终身卡
+		OVER_MAX_VALUE_ERROR = 1226; // 超过最大值，使用错误
+		NOT_BUY_MIAO_SHA = 1227; // 您还没有购买此秒杀
+		TIME_CAN_NOT_OPERATION = 1228; // 时间未到，你还无法操作
+		GUILD_LEVEL_NO_FIT = 1229; // 帮派等级不足请提升帮派等级后再操作
+		INSTANCE_CHAPTER_STAR = 1230; // 上一个章节未达到15星
+		XIAN_MAI_OVER_TIME = 1231;	// 仙脉占领已经结束无法操作
+		GUILD_NO_EDIT_DESC = 1232;	// 创帮第一天无法修改帮派公告
+		NOT_HELP_TIMES = 1233;	// 协助次数不足
+		SUPERME_CD_TIMES = 1234; // 挑战冷却中，请稍后再试
+		HAD_XIAN_MAI_TIME = 1235;	// 当前已经占领着仙脉无法操作
+		THE_SAME_GUILD_ERROR = 1236;	// 相同帮派的，无法攻占
+		XIAN_MAI_MAX_SNEAK = 1237;	// 该矿空空如也，去看看别人吧
+		XIAN_MAI_HAD_BEATTACK = 1238;	// 当前该矿还在被攻打中，请稍后再试
+		XIAN_MAI_NEED_REFRESH = 1239;	// 该矿数据已经变化请关闭界面重新打开
+		FORMATION_NO_HERO = 1240; // 默认阵容中不含有该武将，请先上阵再操作
+		NO_TEAM_CAN_JOIN = 1241; // 没有队伍可以加入
+		NO_FRIEND_AND_GUILD = 1242; // 不是好友关系或是同一个帮派的
+		REPEATED_INVITE = 1243; // 已经邀请过了，不能重复操作
+		TEAM_NOT_ENOUGHT_TIMES = 1244; // 队伍中有成员的副本次数不足
+		TEAM_NOT_FULL_FAILE = 1245; // 队伍未满，无法操作
+		FRIEND_MAX_APPLY_NUM = 1246;//好友申请数量已满
+		NOT_APPLY_TO_YOU = 1247;//目前没有申请加你好友的申请
+		FRIEND_ALREADY_SEND = 1248;//已经赠送过该玩家友情点了
+		FRIEND_NOT_REWARD_SCORE = 1249;//没有可以领取的奖励
+		SHOW_HAD_ACTIVE_ERROR = 1250; // 已经激活了，无法重复操作
+		
+		REWARD_TASK2_NOT_MATCH_HERO_NUM = 1251; //派遣武将数不匹配
+		REWARD_TASK2_NOT_MATCH_STATE = 1252; //派遣任务状态不对
+		REWARD_TASK2_HERO_IN_TASK = 1253; //武将已经在派遣中
+		REWARD_TASK2_HERO_TYPE_NOT = 1254; //武将类型不匹配
+		REWARD_TASK2_HERO_QUALITY_NOT = 1255; //武将品质不匹配
+		REWARD_TASK2_HERO_HAVE_NOT = 1256; //玩家未拥有武将
+		WAR_BOSS_HAD_PLAY = 1257; // 已经拥有BOSS归属
+		TOP_RANK_HAD_APPLY = 1258; // 已经报名无法重复操作
+		JING_SHU_MAX_LOCK_NUM = 1259; // 最多只能锁定三个槽位
+		SOL_MARKET_MAX_TIME_FRESH = 1260;//将魂商店刷道具刷新次数不足
+		CROSS_BOSS_FIND_COUNT_LIMITED = 1261;//跨服boss寻找次数不足
+		CROSS_BOSS_ASC_COUNT_LIMITED = 1262;//跨服boss归属次数不足
+		CROSS_BOSS_ASC_HAVE = 1263; //已有跨服Boss归属就不给打非归属的boss了
+		CHAMPION_HAD_WORSHIP = 1264; // 今日已经膜拜，请明日再来
+		CHAMPION_HAD_GUESS = 1265; // 当前已经押注过，请等待结果
+		CHAMPION_SELF_GUESS = 1266; // 本次只能押注自己
+		CHAMPION_NO_START_GUESS = 1267; // 本轮押注还未开始，请等待
+		CHAMPION_END_GUESS = 1268; // 本轮押注已经结束
+		RED_MONEY_QQ_ERROR = 1269; // 今日全服提现金额已满，请明日继续提现
+		RED_MONEY_QQ_FAIL = 1270; // 提现错误请稍候再试
+		FETTER_CALL_COUNT_LIMITED = 1271; // 羁绊召唤次数不足
+		ARENA_RANK_NOT_ENOUGHT = 1272; // 不自量力，提升排名再来吧
+		COLLETC_WORD_LIMITED = 1273; // 集字兑换上限
+		EQUIPMENT_NOT_DRESS_ON = 1274; //装备未穿戴
+		GUILD_TASK_COLLECT_FAST = 1275; //采集过快，请稍后再试
+		GUILD_TASK_COLLECT_ENOUGH = 1276; //采集已满，
+		GUILD_TASK_FINISH = 1277; //任务已经完成,去领取奖励吧
+		GUILD_TASK_OVER = 1278; //任务已经结束
+		HERO_MAX_STAR = 1279; //神将已达最高星级
+		GUILD_FEED_BOSS_MAX_LEVEL = 1280; //喂养BOSS已达最大等级，无需再喂养了
+		GUILD_FEED_BOSS_KILL_CD_TIME = 1281; //喂养BOSS击杀CD中，请稍后再试
+		GUILD_ARENA_NOT_JOIN = 1282; // 您目前没有参与帮派三界争霸中，请明天再来
+		GUILD_ARENA_ENENGY_DEAD = 1283; // 您当前选择的对手已经阵亡请重新选择对手
+		GUILD_ARENA_ENENGY_BUZY = 1284; // 您当前选择的对手正在被挑战，请稍后再试
+		SUIT_COLLECT_REWARD_NOT_GOT = 1285; // 套装收集单件奖励未领取完
+  }
+
+}

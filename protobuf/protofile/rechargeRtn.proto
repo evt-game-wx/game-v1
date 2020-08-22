@@ -1,0 +1,37 @@
+syntax="proto3";
+package com.message;
+
+//S->C 推送: 封测充值的返还元宝的信息
+message S_RECHARGE_RTN_PUSH {
+	int32 diamondCount = 1;		// 可以领取的元宝数量
+	int32 rechargeDiamond = 2;	// 封测期间充值的元宝数量
+}
+
+//C->S 请求: 领取封测充值的返还奖励操作
+message C_RECHARGE_RTN_REWARD {
+
+}
+
+//S->C 响应: 领取封测充值的返还奖励操作
+message S_RECHARGE_RTN_REWARD {
+	int32 diamondCount = 1;		// 领取获得的元宝数量
+}
+
+
+//=======================跨服协议==============================
+
+//查询或是修改玩家的封测充值返元宝数据
+message CROSS_C_RECHARGE_RTN{
+	string userName = 1;	// 角色在平台的userName
+	int64 playerId = 2;		// 角色id
+	int32 serverId = 3;		// 副本id
+	bool isUpdate = 4;		// 是否修改数据，false查询true是修改
+}
+message CROSS_S_RECHARGE_RTN{
+	string userName = 1;	// 角色在平台的userName
+	int64 playerId = 2;		// 角色id
+	int32 sendDiamond = 3;	// 赠送给角色的钻石数量
+	int32 chargeDiamond = 4;// 赠送给角色的钻石数量
+	bool isReward = 5;		// 是否已经领取过，true领取过，false没有领取
+	bool isUpdate = 6;		// 是否修改数据，false查询true是修改
+}

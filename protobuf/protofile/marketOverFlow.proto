@@ -1,0 +1,22 @@
+syntax="proto3";
+package com.message;
+
+message C_GET_MARKET_OVER_FLOW_INFO{
+}
+message S_GET_MARKET_OVER_FLOW_INFO{
+	repeated MARKET_OVER_FLOW_INFO marketInfos = 1;//机缘商城商品信息
+}
+
+message MARKET_OVER_FLOW_INFO{
+	int32 marketId = 1;//商品id
+	int32 limitNum = 2;//限购数量
+	int64 limitTime = 3;//限购时间戳 ，为0代表没开启，小于当前时间说明已过期
+}
+
+message C_BUY_OVER_FLOW_LUCKY{
+	int32 marketId = 1;//要购买的商品id
+}
+message S_BUY_OVER_FLOW_LUCKY{
+	MARKET_OVER_FLOW_INFO marketInfo = 1;//商品信息
+}
+

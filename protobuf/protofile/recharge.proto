@@ -1,0 +1,80 @@
+syntax="proto3";
+package com.message;
+
+//C->S 请求: 首充记录
+message C_FIRST_RECHARGE_GETRECORD {
+
+}
+
+//S->C 响应: 首充记录
+message S_FIRST_RECHARGE_GETRECORD {
+	int64	firstRechargeValue  	=	1;		//首充金额
+	repeated int32 rewardId			=	2;		//已领奖的奖励ID
+	int32	canRewardId				=	3;		//当前可以领的奖励ID
+	int64	cumulateRechargeValue  	=	4;		//累充金额
+	repeated FIRST_RECHARGE_INFO info = 5;		//累充奖励信息
+	int32 firstNewVaule = 6;					// 新首充活动的配置充值id
+	int32 firstNewId = 7;						// 新首充活动的可领取奖励id
+}
+
+//S->C 推送: 首充记录
+message S_NOTIFY_FIRST_RECHARGE_RECORD {
+	int64	firstRechargeValue  	=	1;		//首充金额
+	repeated int32 rewardId			=	2;		//已领奖的奖励ID
+	int32	canRewardId				=	3;		//当前可以领的奖励ID
+	int64	cumulateRechargeValue  	=	4;		//累充金额
+	repeated FIRST_RECHARGE_INFO info = 5;		//累充奖励信息
+	int32 firstNewVaule = 6;					// 新首充活动的配置充值id
+	int32 firstNewId = 7;						// 新首充活动的可领取奖励id
+}
+
+
+//C->S 请求: 领取首充
+message C_FIRST_RECHARGE_GETREWARD {
+	int32	rewardId				=	1;		//档次ID
+
+}
+
+//S->C 响应: 领取首充
+message S_FIRST_RECHARGE_GETREWARD {
+	int32	rewardId				=	1;		//档次ID
+	repeated int32 hadRewardId		=	2;		//已领奖的奖励ID
+	int32	canRewardId				=	3;		//当前可以领的奖励ID
+	int64	cumulateRechargeValue  	=	4;		//累充金额
+	repeated FIRST_RECHARGE_INFO info = 5;		//累充奖励信息
+	int32 firstNewVaule = 6;					// 新首充活动的配置充值id
+	int32 firstNewId = 7;						// 新首充活动的可领取奖励id
+}
+
+
+//C->S 请求: 累充记录
+message C_CUMULATE_RECHARGE_GETRECORD { 
+}
+
+//S->C 响应: 累充记录
+message S_CUMULATE_RECHARGE_GETRECORD {
+	int64	cumulateRechargeValue  	=	1;		//累充金额
+	repeated int32 rewardId			=	2;		//已领奖的奖励ID
+}
+
+//S->C 推送: 累充记录
+message NOTIFY_CUMULATE_RECHARGE_RECORD {
+	int64	cumulateRechargeValue  	=	1;		//累充金额
+}
+
+
+//C->S 请求: 领取累充奖励
+message C_CUMULATE_RECHARGE_GETREWARD {
+	int32	rewardId				=	1;		//档次ID
+}
+
+//S->C 响应: 领取累充奖励
+message S_CUMULATE_RECHARGE_GETREWARD {
+	int32	rewardId				=	1;		//档次ID
+}
+
+
+message FIRST_RECHARGE_INFO {
+	int32	cumulateType	  		=	1;		//累充的配置类型
+	int32	cumulateCanRewardId		=	2;		//累充当前可以领的奖励ID
+}

@@ -1,0 +1,235 @@
+syntax="proto3";
+package com.message;
+
+//	获取新组队副本的副本数据信息
+message C_GET_NEW_TEAM_INFO{
+	int32 instanceId = 1;	//副本id
+}
+
+// 服务端返回客户端，新组队副本的副本数据
+message S_GET_NEW_TEAM_INFO{
+	int32 instanceId = 1;					// 副本id
+	int32 playTimes = 2;					// 今日已经挑战的次数
+	int32 helpTimes = 3;					// 今日已经协助的次数
+	repeated NEW_TEAM_FIRST ranks = 4;		// 首次通关的玩家的昵称
+	repeated NEW_TEAM_INFO teams = 5;		// 队伍列表
+	NEW_TEAM_DATA myTeam = 6;				// 自己的队伍数据
+	int32 passInstanceId = 7;				// 当前通关的副本id
+	bool isInviteDate = 8;					// 是否有邀请数据，true是false否
+}
+
+message NEW_TEAM_FIRST {
+	string nickName = 1;	// 首次通关的玩家的昵称
+}
+
+// 显示的匹配队伍信息
+message NEW_TEAM_INFO{
+	int64 teamId = 1;		// 队伍id
+	int32 heroId = 2;		// 队长的头像id
+	string name = 3;		// 队长的名称
+	int32 num = 4;			// 队伍人数
+	int32 heroQuality = 5;	// 队长主角武将的品质
+	int32 type = 6;			// 队伍的类型，1公开2仅好友
+}
+
+// 新组队副本创建队伍信息
+message C_CREATE_NEW_TEAM{
+	int32 instanceId = 1;		// 当前副本的配置唯一id
+}
+
+// 服务端返回客户端，新组队副本创建队伍信息
+message S_CREATE_NEW_TEAM{
+	int64 teamId = 1;			// 创建的队伍id
+	int32 instanceId = 2;		// 当前副本的配置唯一id
+	int32 type = 3;				// 当前队伍的类型，1公开2仅好友
+	int32 pos1 = 4; 			// 位置1上的英雄id
+	int32 pos2 = 5; 			// 位置2上的英雄id
+}
+
+// 队伍中玩家的数据
+message NEW_TEAM_DATA{
+	int64 teamId = 1;					// 队伍id
+	int32 instanceId = 2;				// 副本id
+	NEW_TEAM_MEMBER_INFO teamInfo1 = 3;	// 队长
+	NEW_TEAM_MEMBER_INFO teamInfo2 = 4;	// 队员1
+	NEW_TEAM_MEMBER_INFO teamInfo3 = 5;	// 队员2
+	int32 type = 6;						// 当前队伍的类型，1公开2仅好友
+	int32 addRate = 7;					// 奖励加成比率，万分比
+	int32 battleTimes = 8;				// 连战3场选择的结果，1是不勾选，3是勾选
+}
+
+// 队伍成员信息
+message NEW_TEAM_MEMBER_INFO{
+	string name = 1;		// 玩家名称
+	int64 playerId = 2;		// 玩家id
+	int32 pos1 = 3;			// 位置1上的heroid
+	int32 pos2 = 4;			// 位置2上的heroid
+	int32 heoId = 5;		// 玩家的主角神将id
+	int32 level = 6;		// 玩家等级
+	int32 heroQuality = 7;	// 玩家主角武将的品质
+	int32 wingId = 8;		// 成员的翅膀数据id
+	int32 posIndex = 9;		// 成员当前处于的战斗位置，1中间2左路3右路
+}
+
+// 加入队伍
+message C_JOIN_NEW_TEAM{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 加入的队伍id
+}
+
+// 服务端返回客户端，新组队副本加入队伍信息
+message S_JOIN_NEW_TEAM{
+	NEW_TEAM_DATA teaminfo = 1;	// 队伍信息
+}
+
+// 快速加入队伍
+message C_QUICK_JOIN_NEW_TEAM{
+	int32 instanceId = 1;	// 副本id
+}
+
+// 服务端返回客户端，新组队副本快速加入队伍信息
+message S_QUICK_JOIN_NEW_TEAM{
+	NEW_TEAM_DATA teaminfo = 1;	// 队伍信息
+}
+
+// 退出队伍
+message C_EXIT_NEW_TEAM{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+	int32 type = 3;			// 退出的类型，1是主动退出，2是被踢出,3是解散队伍
+	int64 removeId = 4;		// 退出或是踢出玩家的id
+}
+
+// 服务端返回客户端，新组队副本退出队伍
+message S_EXIT_NEW_TEAM{
+	int32 instanceId = 1;	// 副本id
+	int32 type = 2;			// 退出的类型，1是主动退出，2是被踢出,3是解散队伍
+	int64 removeId = 3;		// 退出或是踢出玩家的id
+}
+
+// 更新队伍信息 队伍信息变动会主动推
+message S_UPDATE_NEW_TEAM{
+	NEW_TEAM_DATA teaminfo = 1;	// 队伍信息
+}
+
+// 切换上阵角色
+message C_SET_NEW_TEAM_HERO_POS {
+	int32 pos1 = 1;	//位置1上的英雄id
+	int32 pos2 = 2;	//位置2上的英雄id
+}
+// 服务端返回客户端，新组队副本切换上阵角色的结果
+message S_SET_NEW_TEAM_HERO_POS{
+	int32 pos1 = 1;	// 位置1上的英雄id
+	int32 pos2 = 2;	// 位置2上的英雄id
+}
+
+// 一键邀请填充机器人 队伍满员 队长才可以用 没有返回 直接更新队伍信息
+message C_ONEKEY_FULL_NEW_TEAM{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+}
+
+// 队长更新队伍加入的状态
+message C_NEW_TEAM_STATE{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+	int32 type = 3;			// 队伍的类型，1公开2仅好友
+}
+
+// 服务端返回客户端，新组队副本队伍加入的状态
+message S_NEW_TEAM_STATE{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+	int32 type = 3;			// 队伍的类型，1公开2仅好友
+}
+
+// 队长邀请加入队伍
+message C_NEW_TEAM_INVITE{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+	int64 playerId = 3;		// 邀请的玩家id
+}
+
+// 服务端返回客户端，新组队副本队伍邀请的结果
+message S_NEW_TEAM_INVITE{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 退出的队伍id
+	int64 playerId = 3;		// 邀请的玩家id
+}
+
+// 队长调整2个队友的站位
+message C_NEW_TEAM_CHANGE_POS{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+	int64 movePlayerId = 3;	// 移动的队员id
+	int32 moveIndex = 4;	// 移动队员到的位置 1中间2左路3右路
+}
+
+// 服务端返回客户端，队长调整2个队友的站位
+message S_NEW_TEAM_CHANGE_POS{
+	NEW_TEAM_DATA teaminfo = 1;	// 队伍信息
+}
+
+// 查看所有的邀请操作
+message C_NEW_TEAM_INVITE_QUERY{
+
+}
+
+// 服务端返回客户端，新组队副本队伍邀请的结果
+message S_NEW_TEAM_INVITE_QUERY{
+	repeated NEW_TEAM_INVITE invites = 1;	// 所有的邀请数据
+}
+
+// 一键忽略所有邀请数据
+message C_NEW_TEAM_INVITE_IGNORE{
+
+}
+
+// 服务端返回客户端，一键忽略所有邀请数据
+message S_NEW_TEAM_INVITE_IGNORE{
+
+}
+
+// 组队邀请的数据
+message NEW_TEAM_INVITE{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+	int64 playerId = 3;		// 邀请的玩家id
+	string nickName = 4;	// 邀请的玩家昵称
+}
+
+// 获取可以邀请的所有玩家的数据
+message C_NEW_TEAM_INVITE_DATA{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+}
+
+// 服务端返回客户端，可以邀请的所有玩家的数据
+message S_NEW_TEAM_INVITE_DATA{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+	repeated INVITE_PLAYER_DATA playerDatas = 3;
+}
+
+// 可以邀请的玩家数据
+message INVITE_PLAYER_DATA{
+	int64 playerId = 1;		// 邀请的玩家id
+	string nickName = 2;	// 邀请的玩家昵称
+	int32 heroId = 3;		// 主角的武将id
+	int64 fightValue = 4;	// 当前战力值
+	int32 state = 5;		// 邀请状态，1是未邀请，2是已经邀请
+}
+
+// 队长选择连战三场的操作
+message C_NEW_TEAM_BATTLE_TIMES{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+	int32 times = 3;		// 选择的次数，1是不勾选，3是勾选
+}
+
+// 服务端返回客户端，队长选择连战三场的操作
+message S_NEW_TEAM_BATTLE_TIMES{
+	int32 instanceId = 1;	// 副本id
+	int64 teamId = 2;		// 队伍id
+	int32 battleTimes = 3;	// 选择的结果，1是不勾选，3是勾选
+}

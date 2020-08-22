@@ -1,0 +1,260 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+
+//获取副本列表信息
+message C_GET_INSTANCE_LIST{
+	int32 type = 1;  //类型
+}
+
+message S_GET_INSTANCE_LIST{
+	int32 type = 1;  //类型
+	repeated ChapterMsg chapterList = 2;  //章节信息
+	repeated InstanceMsg instanceList = 3;  //关卡信息
+}
+
+message ChapterMsg {
+	int32 chapterId = 1;  //章节ID
+	repeated int32 receiveStar = 2; //已经领取的星级奖励
+	bool isReceiveReward = 3; //是否已经领取世界章节地图奖励,true已领取
+
+}
+message InstanceMsg {
+	int32 instanceId = 1;
+	int32 star=2; // 星级
+	int32 playTimes=3; // 次数
+	bool receiveReward = 4;  //领取奖励
+	int32 resetPlayTimes=5; //重置次数
+	int64 resetTime=6; //下次重置时间
+}
+
+
+
+// 进入副本  进战斗前预先请求
+message C_ENTER_INSTANCE { 
+    int32 instanceId = 1; // 副本ID或玩家id
+	int32 type = 2; // 类型， PVP:101护送任务抢夺，102护送任务復仇
+	int32 seq = 3; // 波次，默认是第一波1
+	int32 otherParam = 5;    // 其它参数，如index。
+}
+
+// 进入副本
+message S_ENTER_INSTANCE { 
+	int32 instanceId = 1; // 副本ID
+	int32 type = 2; // 类型
+
+	int64 seed = 3; // 随机种子
+	int32 seq = 4; // 波次，默认是第一波1
+	
+	int64 battleId = 5; // 战斗ID
+	
+	BattlePlayerMsg myFighter = 6;      // 我方战斗数据
+	BattlePlayerMsg enemyFighter = 7; // 敌方战斗数据
+}
+
+// 获取战报
+message C_GET_WAR_REPORT { 
+    int64 battleId = 1; // 战斗ID
+	int64 seed = 2; // 随机种子
+	int32 type = 3; // 类型， PVP:101护送任务抢夺，102护送任务復仇
+	int32 otherParam = 5;    // 其它参数，如index。
+}
+
+// 获取战报返回
+message S_GET_WAR_REPORT {
+
+	BattlePlayerMsg myFighter = 1;      // 我方战斗数据
+    BattlePlayerMsg enemyFighter = 2; // 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg=3; //战报数据
+	int32 roundNum=4;  //总回合数
+	bool win=5;  //true贏，false輸
+	int64 totalDamage = 6; // 总伤害
+	int64 totalBeDamage = 7; // 被伤总伤害
+	bool selfDead = 8;	//已方武将是否有死亡
+	bool targetDeath = 9;	//敌方武将是否有死亡
+	int32 selfDeadNum = 10;//乙方武将死亡数量
+	int32 seq = 11;	//波次，默认是第一波1
+}
+
+
+// 结算副本
+message C_FINISH_INSTANCE { 
+	int64 battleId = 1; // 战斗ID
+	int64 seed = 2; // 随机种子
+	int32 otherParam = 3;    // 其它参数，如index。
+}
+
+message S_FINISH_INSTANCE{
+	int32 instanceId = 1; // 副本ID
+	int32 nextHangInsId = 2; // 下一个挂机BOSS副本ID,类型是挂机副本2时候
+	int32 type = 3; // 类型
+	int32 star=4; // 星级 0星表示失败
+	InstanceMsg instance = 5; //关卡信息
+	repeated ItemMsg reward = 6; // 奖励信息
+	repeated ItemMsg firstReward = 7; // 首次胜利奖励
+	bool bossOwner = 8;	// 是否是BOSS的归属者，true是，false不是
+}
+
+// 结算副本 跳过
+message C_FINISH_INSTANCE_SKIP {
+	int32 instanceId = 1; // 副本ID
+	int32 type = 2; // 类型
+
+	int64 seed = 3; // 随机种子
+}
+
+//一键扫荡副本
+message C_ONE_KEY_SWEEP_INSTANCE{
+	int32 type = 1;//副本类型
+}
+message S_ONE_KEY_SWEEP_INSTANCE{
+	ItemListMsg reward = 3; // 奖励信息
+}
+
+//扫荡副本
+message C_SWEEP_INSTANCE{
+	int32 instanceId = 1;
+	int32 times = 2;
+}
+
+message S_SWEEP_INSTANCE{
+	InstanceMsg instance = 1; //关卡信息
+	repeated ItemMsg reward = 3; // 奖励信息
+	int64 heroExpReward = 4; //武将经验
+	int64 expReward = 5; //  角色经验奖励
+}
+
+
+//领取副本奖励
+message C_RECEIVE_INSTANCE_REWARD{
+	int32 instanceId = 1; //副本ID
+}
+
+message S_RECEIVE_INSTANCE_REWARD{
+	int32 instanceId = 1; //副本ID
+	repeated ItemMsg reward = 2; // 奖励信息
+}
+
+//领取章节星级奖励
+message C_RECEIVE_CHAPTER_REWARD{
+	int32 chapterId = 1; //章节ID
+	int32 star = 2; //星级
+}
+
+message S_RECEIVE_CHAPTER_REWARD{
+	int32 chapterId = 1; //章节ID
+	int32 star = 2; //星级
+	int32 instanceType = 3; //副本类型
+	repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//领取章节奖励
+message C_RECEIVE_CHAPTER_REWARD2{
+	int32 chapterId = 1; //章节ID
+}
+
+message S_RECEIVE_CHAPTER_REWARD2{
+	int32 chapterId = 1; //章节ID
+	repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//重置副本次数
+message C_INSTANCE_RESET{
+	int32 instanceId = 1; //副本ID
+}
+
+message S_INSTANCE_RESET{
+	InstanceMsg instance = 1; //关卡信息
+}
+
+//进入世界章节地图
+message C_ENTER_CHAPTER{
+	int32 chapterId = 1; //章节ID
+}
+
+message S_ENTER_CHAPTER{
+	int32 chapterId = 1; //章节ID
+}
+
+
+
+//跨服战报信息
+message CrossWarReportMsg {
+    int32 instanceId = 12; // 副本ID
+	int64  blood=14;  // 血量
+	int32 type = 13; // 类型
+	int32 seq = 15; // 波次，默认是第一波1
+
+	BattlePlayerMsg myFighter = 1;      // 我方战斗数据
+    BattlePlayerMsg enemyFighter = 2; // 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg=3; //战报数据
+	int32 roundNum=4;  //总回合数
+	bool win=5;  // 攻方：true贏，false輸
+	int64 totalDamage = 6; // 总伤害
+	int64 totalBeDamage = 7; // 被伤总伤害
+	bool selfDead = 8;		// 攻方：已方武将是否有死亡
+	bool targetDeath = 9;   //被攻击方武将是否有死亡
+	int32 star=24; // 攻方：星级 0星表示失败
+}
+
+//帮派信息
+message CrossGuildMsg {
+    int64 guildId=1; // 帮派ID
+    string name=2;  // 帮派名字
+	int32 level=3; 	// 帮派等级
+}
+
+//玩家信息
+message CrossPlayerMsg {
+    int32 serverId=1;           // 服务器编号
+	int64 playerId=2;            // 角色ID
+    string name=3;  		// 角色名字
+}
+
+//跨服副本检测信息
+message CrossInstanceCheckMsg {
+    int32 instanceId = 1; // 副本ID
+	int32 type = 2; // 跨服副本类型
+	int32 seq = 3; // 波次，默认是第一波1
+	int32 otherParam = 5;    // 其它参数，如index。
+	CrossGuildMsg crossGuildMsg = 6; //帮派信息, 帮派战需要
+	CrossPlayerMsg crossPlayerMsg = 7; //玩家信息, 战场BOSS需要
+	string abiHellParams = 8; // 阿鼻地狱副本的跨服玩家的血量数据
+}
+
+// 打跨服副本、获取战报
+message C_ENTER_CROSS_INSTANCE { 
+    int32 instanceId = 1; // 副本ID
+	int32 type = 2; // 跨服副本类型
+	int32 seq = 3; // 波次，默认是第一波1
+	int32 otherParam = 5;    // 其它参数，如index。
+}
+
+// 打跨服副本、获取战报
+message S_ENTER_CROSS_INSTANCE { 
+	CrossInstanceCheckMsg checkMsg =4; //跨服副本检测信息
+	CrossWarReportMsg warReportMsg = 6; //战报信息
+}
+
+//=======================跨服协议==============================
+
+// 打跨服副本
+message CROSS_C_BATTLE_INSTANCE {
+    int32 serverId=1;           // 服务器编号
+	int64 playerId=3;            // 角色ID
+	CrossInstanceCheckMsg checkMsg =4; //跨服副本检测信息
+	BattlePlayerMsg myFighter = 6;      // 我的战斗数据
+	int64 targetPlayerId = 7;            // pvp对战角色ID
+}
+
+// 打跨服副本 返回
+message CROSS_S_BATTLE_INSTANCE {
+    int64 playerId=1;         // 角色ID
+    bool suceess=2;           // 是否成功
+	CrossWarReportMsg warReportMsg = 3; //战报信息
+	CrossInstanceCheckMsg checkMsg =4; //跨服副本检测信息
+	bool isBattleFinish		=5; //是否战斗已结束了,true是
+}
+

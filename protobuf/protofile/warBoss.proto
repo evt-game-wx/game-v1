@@ -1,0 +1,157 @@
+syntax="proto3";
+package com.message;
+
+//获取boss列表信息
+message C_GET_WAR_BOSS_INFO {
+    int32 subType = 2; //战场boss副本子类型
+}
+
+//获取boss列表信息
+message S_GET_WAR_BOSS_INFO {
+    int32 subType = 1; //战场boss副本子类型
+    repeated WarBossMsg bossMsg = 2;      //boss信息
+    PlayerWarBossMsg playerBossMsg = 3;      //玩家boss信息
+	int32 butTimes = 4;//已购买的次数
+}
+
+//购买战场boss次数
+message C_BUY_WAR_BOSS_TIMES{
+}
+//购买战场boss次数
+message S_BUY_WAR_BOSS_TIMES{
+	int32 times = 1;//已购买的次数
+}
+
+//玩家boss信息
+message PlayerWarBossMsg{
+    int64 playerId = 1; // 玩家id
+	int32 warBossAspCount = 2; // 玩家今天已经获得归属次数
+}
+
+//boss信息
+message WarBossMsg{
+	int32 instanceId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    int64 runTime = 4; // 逃跑时间
+	int64 nextStartTime = 5; // 逃跑时间
+    WarBossAscriptionMsg ascriptionMsgMg = 7; //归属玩家信息
+
+}
+
+//归属信息
+message WarBossAscriptionMsg{
+    int64 playerId = 1; // 玩家id
+    string playerName = 2; // 玩家昵称
+    int32 serverId = 3; // 玩家所在服务器id
+}
+
+//我的归属Boss信息
+message MyAscriptionMsg{
+    int32 instanceId = 1; // bossID/副本id 我的归属
+}
+
+
+//=======================跨服协议==============================
+// 获取跨服战场boss信息
+message CROSS_C_GET_WAR_BOSS_INFO {
+    int32 serverId=1;           // 服务器编号
+    int64 playerId=2;            // 角色ID
+    int32 subType = 3; //战场boss副本子类型
+}
+
+// 获取跨服战场boss信息
+message CROSS_S_GET_WAR_BOSS_INFO {
+    int64 playerId=1;            // 角色ID
+    repeated WarBossMsg bossMsg = 2;      //boss信息
+	MyAscriptionMsg myAscriptionMsgMg = 3; //我的归属boss信息
+	int32 subType = 4; 		//战场boss副本子类型
+}
+
+// 跨服战场boss死亡给玩家发奖励
+message CROSS_S_WAR_BOSS_DEATH {
+    int64 playerId=1;            // 角色ID
+    int32 instanceId = 2; // bossID/副本id
+}
+
+// 跨服战场Boos刷新推送
+message CROSS_S_SYNC_BOSS_REFRESH {
+    int32 type = 1;			//BOSS类型 副本表副本类型
+	int32 instanceId = 2;	// bossID/副本id
+}
+
+
+//==============================每日全服boss===================================
+//获取每日全服boss的信息
+message C_GET_DAY_SERVER_BOSS_INFO {
+	int32 bossId = 1; 			// boss的唯一id
+}
+
+//服务器返还前端 每日全服boss的信息
+message S_GET_DAY_SERVER_BOSS_INFO {
+    int32 bossId = 1; 			// boss的唯一id
+    int64 currHp = 2;			// boss当前的血量
+    int64 maxHp = 3;			// boss的最大血量上限
+    int32 leaveTime = 4;		// 挑战boss剩余的时间，单位秒
+    int32 currLevel = 5;		// boss当前的等级
+    int32 cdTime = 6;			// 挑战CD冷却时间
+    int32 autoType = 7;			// 自动挑战的类型，1是自动挑战，0是取消
+    int32 buyTimes = 8;			// 今日已经购买的挑战CD次数
+}
+
+//获取每日全服boss的伤害排名
+message C_DAY_SERVER_BOSS_RANK {
+	int32 bossId = 1; 			// boss的唯一id
+}
+
+//服务器返还前端 每日全服boss的伤害排名
+message S_DAY_SERVER_BOSS_RANK {
+    int32 bossId = 1; 					// boss的唯一id
+    repeated DAY_BOSS_RANK rank = 2; 	// 排行数据
+    DAY_BOSS_RANK selfRank = 3; 		// 自身在排行的数据
+}
+
+// 伤害排名数据
+message DAY_BOSS_RANK {
+	int64 playerId = 1;			// 玩家的id
+	string playerName = 2;		// 玩家的昵称
+	int32 rank = 3;				// 当前的排名
+	int64 damage = 4;			// 造成的伤害数据
+}
+
+//购买每日全服boss的冷却CD
+message C_DAY_SERVER_BOSS_BUY {
+	int32 bossId = 1; 			// boss的唯一id
+	int32 buyTimes = 2;			// 当前要购买的次数
+}
+
+//服务器返还前端 购买每日全服boss的冷却CD
+message S_DAY_SERVER_BOSS_BUY {
+    int32 bossId = 1; 			// boss的唯一id
+    int32 hadTimes = 2;			// 当前已经购买的次数
+    int32 cdTime = 3;			// 挑战CD冷却时间
+}
+
+//设置全服boss的自动挑战
+message C_DAY_SERVER_BOSS_AUTO_PLAY {
+	int32 bossId = 1; 		// boss的唯一id
+	int32 autoType = 2;		// 自动挑战的类型，1是自动挑战，0是取消
+}
+
+//服务器返还前端 设置全服boss的自动挑战
+message S_DAY_SERVER_BOSS_AUTO_PLAY {
+    int32 bossId = 1; 		// boss的唯一id
+    int32 autoType = 2;		// 自动挑战的类型，1是自动挑战，0是取消
+}
+
+//全服boss发送弹幕聊天
+message C_DAY_SERVER_BOSS_CHAT {
+	int32 bossId = 1; 			// boss的唯一id
+	string chatContent = 2;		// 弹幕聊天的内容
+}
+
+//服务器返还和推送前端 全服boss的弹幕聊天
+message S_DAY_SERVER_BOSS_CHAT {
+    int32 bossId = 1; 			// boss的唯一id
+	string chatContent = 2;		// 弹幕聊天的内容
+}

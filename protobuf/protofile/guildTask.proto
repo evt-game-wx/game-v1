@@ -1,0 +1,101 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//帮派任务信息
+message NewGuildTaskMsg {
+	int64 playerId=1; // 玩家ID
+	int32 count = 2;  // 当天已经完成的任务数
+	int32 taskId = 3;  // 当前接取的任务id
+	int32 taskState = 4;  // 当前接取的任务状态,0进行中，1可领取，2已完成
+    string taskProcess = 5;  // 当前任务进度，id,数量;id2,数量2;...
+    string stageReward = 6;  // 已领取阶段奖励环数，5环,10环...
+    string instanceStr = 7;  // 如果是副本类型任务：副本id,挑战数量
+	int32 scene = 8;  // 如果是副本类型任务，随机的场景id(1-4)
+}
+
+//获取帮派任务信息
+message C_GET_NEW_GUILD_TASK_INFO {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派任务信息
+message S_GET_NEW_GUILD_TASK_INFO {
+	int64 guildId=1; // 帮派ID
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+}
+
+
+//帮派任务-上缴道具
+message C_GUILD_TASK_SUBMIT {
+	int64 guildId=1; // 帮派ID
+}
+
+//帮派任务-上缴道具
+message S_GUILD_TASK_SUBMIT {
+	int64 guildId=1; // 帮派ID
+	NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+}
+
+//帮派任务-采集
+message C_GUILD_TASK_COLLECT{
+	int64 guildId=1; // 帮派ID
+    int32 id = 2; // 采集id
+}
+
+//帮派任务-采集
+message S_GUILD_TASK_COLLECT{
+    int64 guildId=1; // 帮派ID
+    int32 id = 2; // 采集id
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+	int64 timed = 4; // 操作时间
+}
+
+//帮派任务-怪物搜索
+message C_GUILD_TASK_SEARCH{
+	int64 guildId=1; // 帮派ID
+    int32 id = 2; // 搜索副本id
+}
+
+//帮派任务-怪物搜索
+message S_GUILD_TASK_SEARCH{
+    int64 guildId=1; // 帮派ID
+    int32 id = 2; // 搜索副本id
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+	int64 timed = 4; // 操作时间
+}
+
+//帮派任务-同步打怪完成
+message S_SYNC_GUILD_TASK_FINISH{
+    int64 guildId=1; // 帮派ID
+    int32 id = 2; // 副本id
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+}
+
+//领取帮派任务奖励
+message C_GET_GUILD_TASK_REWARD{
+	int64 guildId=1; // 帮派ID
+}
+
+//领取帮派任务奖励
+message S_GET_GUILD_TASK_REWARD{
+    int64 guildId=1; // 帮派ID
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+	ItemListMsg reward = 4; // 奖励信息
+}
+
+
+//领取帮派任务阶段奖励
+message C_GET_GUILD_TASK_STAGE_REWARD{
+	int64 guildId=1; // 帮派ID
+	int32 id = 2; // 要领取的环数奖励
+}
+
+//领取帮派任务阶段奖励
+message S_GET_GUILD_TASK_STAGE_REWARD{
+    int64 guildId=1; // 帮派ID
+	int32 id = 2; // 要领取的环数奖励
+    NewGuildTaskMsg guildTaskMsg=3; //帮派任务信息
+	ItemListMsg reward = 4; // 奖励信息
+}
+

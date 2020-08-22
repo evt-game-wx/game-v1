@@ -1,0 +1,38 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 领取套装收集奖励
+message C_GET_SUIT_COLLECT_REWARD {
+    int32 index = 1;       // 部位1-6, 0表示全套奖励
+}
+
+// 领取套装收集奖励
+message S_GET_SUIT_COLLECT_REWARD {
+    int32 index = 1;       // 部位1-6, 0表示全套奖励
+	string rewardInfo=2; // 已领取奖励位置信息1,2,3,4,5,6
+	int32  configId = 3; // 收集配置id
+    ItemListMsg itemList = 4;   //道具奖励
+}
+
+//套装收集信息
+message SuitCollectMsg{
+	int32 index = 1; //部位
+	int32 level = 2; // 最大等级等级
+}
+
+//拉取套装收集信息
+message C_GET_SUIT_COLLECT_INFO{
+}
+
+//拉取套装收集信息
+message S_GET_SUIT_COLLECT_INFO{
+	repeated SuitCollectMsg suitCollectInfo=1; // 已收集装备信息
+	string rewardInfo=2; // 已领取奖励位置信息1,2,3,4,5,6
+	int32  configId= 3; // 收集配置id
+}
+
+//套装收集信息更新
+message S_SYNC_SUIT_COLLECT_UPDATE {
+    SuitCollectMsg suitCollectInfo=1; // 已收集装备信息
+}

@@ -1,0 +1,184 @@
+syntax="proto3";
+package com.message;
+import "playerMsg.proto";
+
+
+message FighterPropertyMsg{
+     int64 hp=1;
+     int64 hpMax=2;
+	 int32 attack=3;
+	 int32 defence=4;
+
+     int32 speed=5;
+
+	 int32 hit=6;
+	 int32 dodge=7;
+	 int32 crit=8;
+	 int32 critDeffence=9;
+
+	 int32 dunt=10;
+	 int32 block=11;
+     int32 pvpHurt=12;
+     int32 pvpAvoidHurt=13;
+
+}
+
+message FighterAttrMsg{
+	int64 hp=1;
+	int64 hpMax=2;
+
+	int32 fireEnergy=3;
+	int32 maxFireEnergy=4;
+	 
+	 //内部传输需要---
+	int32 attack=11;
+	int32 defence=12;
+	int32 level=13;
+
+	int32 hit=14;
+	int32 dodge=15;
+	int32 crit=16;
+	int32 critDeffence=17;
+
+	int32 critHurt=18;
+	int32 critMultRate=19;
+	int32 critDefRate=20;
+	int32 critRate=21;
+	int32 dodgeRate=22;
+	int32 hitRate=23;
+	int32 speed=24;
+
+	int32 pvpAvoidHurtAllRate=25;
+	int32 pvpHurtAllRate=26;
+	int32 blockAllRate=27;
+	int32 duntAllRate=28;
+	int32 speedAllRate=29;
+	int32 critDeffenceAllRate=30;
+	int32 critAllRate=31;
+	int32 dodgeAllRate=32;
+	int32 hitAllRate=33;
+	int32 defenceAllRate=34;
+	int32 attackAllRate=35;
+	int32 hpAllRate=36;
+	int32 pvpAvoidHurt=37;
+	int32 pvpHurt=38;
+	int32 avoidHurtRate=39;
+	int32 hurtRate=40;
+	int32 block=41;
+	int32 dunt=42;
+	int32 heartHurt=43;
+	int32 heartDefRate=44;
+	int32 heartMultRate=45;
+	int32 heartRate=46;
+}
+
+message FighterBuffMsg{
+	 int32 buffId=1;
+	 int32 startRound=2;
+	 
+}
+
+message FighterSkillMsg{
+	 int32 skillId=1;
+	 int32 skillType=2;
+	 int32 seq=3;
+	 int32 subType=4;
+}
+
+message FighterPassiveSkillMsg{
+	 int32 skillId=1;
+	 int32 triggerTime=2;
+	 int32 seq=3;
+}
+
+
+//玩家战斗数据
+message BattlePlayerMsg {
+	 BasePlayerMsg playerMsg = 1; // 玩家信息
+	 repeated BattleFormationMsg fighters=3; // 阵形数据信息
+	 BlessBattleInfoMsg blessBattleMsg = 4; //进阶系统战斗信息
+}
+
+
+//进阶系统战斗信息
+message BlessBattleInfoMsg {
+	 BattleFormationMsg fighter=1; // 主角阵形数据信息
+	 repeated FighterSkillMsg skills=2; //玩家进阶系统主动技能
+	 int64 playerFightVal=3; // 玩家总战力
+}
+
+
+//战斗阵型
+message BattleFormationMsg {
+	 int32 fighterId = 1;//战斗id
+	 int32 pos=2; // 上阵武将位置1-6
+	 int32 heroId=3; // 武将id
+	 int32 monsterId=4; // 武将id
+	 FighterAttrMsg property=5; //属性
+	 
+     int32 heroLevel=6; //武将等级
+	 
+	 repeated ImageDressMsg imageDressMsg = 7; //幻化形象信息
+	
+	 int64 playerId = 8;//所属玩家id
+	
+     repeated FighterBuffMsg buffs=10; //buff
+	 
+     repeated FighterSkillMsg skills=11; //skills
+     repeated FighterPassiveSkillMsg passvieSkills=12; //passvieSkills
+     int32 heroQuality = 13; // 武将的品质
+}
+
+
+
+message FighterRoundMsg {
+    int32 round=1;  //第几回合
+    repeated FighterSubRoundMsg subRoundList=2;
+}
+
+message FighterSubRoundMsg {
+    int32 fighterId=1;           //战斗id
+    FighterStateMsg beginState=2; //开始状态
+    int32 skillId=3;             //释放的技能id
+    int32 passiveSkillId=4;      //释放的被动技能id
+    repeated TargetFighterMsg targetList=5; //目标列表
+	repeated int32 upSkillId = 6;		//升级技能id
+	repeated int32 upPassiveSkillId = 7;	//升级被动技能id 预留字段
+    FighterStateMsg endState=12; //结束状态
+}
+
+message TargetFighterMsg {
+    int32 fighterId=1;            //目标战斗id
+    FighterStateMsg beginState=2; //开始状态
+    BeHurtMsg beHurtMsg=3;        //伤害信息
+    FighterStateMsg endState=12; //结束状态
+}
+
+message BeHurtMsg {
+    HurtType type=1;       //1会心一击，2闪避，3暴击，4普通伤害,5治疗,@link HurtType
+    int32 value=2;      //伤害|暴击|加血 值
+}
+
+//战斗单位状态
+message FighterStateMsg {
+	 FighterAttrMsg property=1; //属性
+     repeated FighterBuffMsg buffs=2; //buff
+}
+
+    enum HurtType {
+        //1会心一击，2闪避，3暴击，4普通伤害,5治疗
+        /** 无*/
+        NONE = 0;
+        /** 会心一击*/
+        HEART_BIT = 1;
+        /** 闪避*/
+        DODGE = 2;
+        /** 暴击*/
+        CRIT = 3;
+        /** 普通伤害*/
+        BASE_HIT = 4;
+        /** 治疗*/
+        TREATMENT = 5;
+    }
+
+

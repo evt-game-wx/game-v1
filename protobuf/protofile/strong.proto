@@ -1,0 +1,27 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//拉取所有模块信息 只要拉一次
+message C_GET_ALL_MODULE_FIGHT{
+}
+
+message S_SYN_MODULE_FIGHT{
+	int32 moduleType = 1;//模块名  3
+	int32 posIndex = 2;//槽位   1
+	int64 fight = 3;//战力值  100
+}
+
+message C_GET_STRONGER_INFO{
+}
+message S_GET_STRONGER_INFO{
+	int32 fight = 1;//已领取战力
+}
+
+message C_GET_STRONGER_REWARD{
+}
+message S_GET_STRONGER_REWARD{
+	int32 fight = 1;//领取战力
+	ItemListMsg itemList = 2;   //道具奖励
+}
+

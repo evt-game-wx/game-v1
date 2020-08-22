@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="CommonTipSkin" height="45" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="content" verticalCenter="0" touchThrough="true" touchEnabled="false" height="45" width="640"  touchChildren="false">
+		<e:Group id="common_g" height="45"   horizontalCenter="0" y="0">
+			<e:Image id="img_bg" left="0" right="0" source="preloading_ui_ty_tishikuang_png" y="-4"/>
+			<e:Group height="45" y="0" scaleX="1" scaleY="1" horizontalCenter="0">
+				<e:Image id="img_icon" width="45" height="45" x="-205" y="10" scaleX="1" scaleY="1"/>
+				<e:Label stroke="1" id="lbl_tipMsg" text="" size="28" textAlign="center" verticalAlign="middle" height="40" fontFamily="specialGameFont" touchEnabled="false" y="3" wordWrap="false" multiline="false" x="100" scaleX="1" scaleY="1"/>
+				<e:layout>
+					<e:HorizontalLayout horizontalAlign="center" verticalAlign="middle"/>
+				</e:layout>
+			</e:Group>
+
+
+
+		</e:Group>
+	</e:Group>
+</e:Skin>

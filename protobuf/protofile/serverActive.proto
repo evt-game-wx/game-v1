@@ -1,0 +1,55 @@
+syntax="proto3";
+package com.message;
+
+//获得开服活动系统信息
+message C_GET_SERVER_ACTIVE_INFO {
+	int32 type = 1;//拉取此类型的开服活动信息
+}
+
+//获得开服活动系统信息
+message S_GET_SERVER_ACTIVE_INFO {
+   repeated int32 activeId = 1;
+   int64 value = 2;//进度值
+   int32 type = 3;//类型
+   string paramStr=4;  // 额外信息
+   int64 params = 5;//辅助参数,帮助计算进度值
+}
+
+//领取开服活动目标奖励
+message C_GET_SERVER_ACTIVE_REWARD{
+	int32 id = 1;//活动id
+	int32 type =2;//活动类型
+}
+//领取开服活动目标奖励
+message S_GET_SERVER_ACTIVE_REWARD{
+	int32 id = 1;//活动id
+	int32 type = 2;//活动类型
+	string params=4;  // 额外信息
+}
+
+//0元特惠 拉取信息
+message C_GET_ZERO_PREFERENTIAL_INFO{	
+}
+message S_GET_ZERO_PREFERENTIAL_INFO{
+	repeated ZERO_PREFERENTIAL zeroInfo = 1;//已经购买的0元特惠的信息
+}
+message ZERO_PREFERENTIAL{
+	int32 id = 1;//已经购买的id
+	int64 returnTime = 2;//返还消耗可领取的时间戳
+	bool isGetReturn = 3;//是否已经领取返还的消耗
+}
+//买0元特惠
+message C_BUY_ZERO_PREFERENTIAL{
+	int32 id = 1;//买0元特惠id
+}
+message S_BUY_ZERO_PREFERENTIAL{
+	int32 id = 1;//买0元特惠id
+	int64 returnTime = 2;//返还消耗可领取的时间戳
+}
+//领取0元特惠最后的返还
+message C_GET_ZERO_PREFERENTIAL_RETURN{
+	int32 id = 1;
+}
+message S_GET_ZERO_PREFERENTIAL_RETURN{
+	int32 id = 1;
+}

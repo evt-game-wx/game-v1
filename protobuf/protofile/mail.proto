@@ -1,0 +1,83 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//简略邮件信息
+message MailHead {
+	int64 mailId					=	1; 		// 	邮件ID
+    string configId 				=	2; 		// 	邮件配置表ID
+	int32 readable					=	3;		//	读取状态
+	int64 sendTime					=	4;		//	邮件时间
+	int32 hasAccessory				=	5;		//	是否有附件
+	int32 accessoryReceived			= 	6;		//  邮件的附件领取状态
+} 
+
+//邮件详情
+message MailInfo { 
+	int64 mailId					=	1; 		// 	邮件ID
+    string configId 				=	2; 		// 	邮件配置表ID
+	string content					= 	3;		//	邮件内容，参数 
+	int32 readable					=	4;		//	读取状态
+	int64 sendTime					=	5;		//	邮件时间  
+	int32 accessoryReceived			= 	6;		//  邮件的附件领取状态
+	repeated ItemMsg accessory 		= 	7;		//	邮件的附件数组
+}
+ 
+
+//C->S 请求: 拉取邮件, 显示邮件头列表信息
+message C_LIST_MAIL { 
+}
+
+//S->C 响应: 拉取邮件, 显示邮件头列表信息
+message S_LIST_MAIL {
+    repeated MailHead mailList 	= 1;			//邮件列表
+}
+
+//C->S 请求: 读取邮件详情.
+message C_READ_MAILINFO { 
+	int64 mailId				=	1;			//邮件ID
+}
+
+//S->C 响应: 读取邮件详情.
+message S_READ_MAIL_INFO {
+    MailInfo mailInfo			=	1;			//邮件信息		
+}
+
+
+//C->S 请求: 领取附件
+message C_RECEIVE_MAIL_ACCESSORY { 
+	int64 mailId				=	1;			//邮件ID		
+}
+
+//S->C 响应: 领取附件
+message S_RECEIVE_MAIL_ACCESSORY {
+	int64 mailId				=	1;			//邮件ID	
+	ItemListMsg itemList		=   2;			//奖励
+}
+
+//C->S 请求: 删除邮件
+message C_DELETE_MAIL { 
+	repeated int64 mailId		=	1;			//邮件ID		
+}
+
+//S->C 响应: 删除邮件
+message S_DELETE_MAIL {
+	repeated int64 mailId		=	1;			//邮件ID	
+}
+
+//S->C 通知: 新邮件
+message S_NOTIFY_NEW_MAIL { 	
+}
+
+//C->S 请求: 一键领取所有邮件附件
+message C_RECEIVE_ALL_MAIL { 
+	repeated int64 mailId		=	1;			//邮件ID列表
+}
+
+//S->C 响应: 一键领取所有邮件附件
+message S_RECEIVE_ALL_MAIL { 
+	ItemListMsg itemList		=   2;			//奖励
+}
+
+
+ 

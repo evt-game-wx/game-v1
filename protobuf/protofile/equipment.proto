@@ -1,0 +1,263 @@
+syntax="proto3";
+package com.message;
+import "backpack.proto";
+
+//获取装备槽位信息
+message C_EQUIPMENT_SLOT_INFO {
+}
+
+//获取装备槽位信息
+message S_EQUIPMENT_SLOT_INFO {
+	map<int32,EQUIPMENT_FORMATION_INFO> einfo = 1;//阵型装备信息 key->1-6
+}
+
+//英雄阵型组
+message EQUIPMENT_FORMATION_INFO{
+	map<int32,EQUIPMENT_INFO_FOR_TYPE> eSlotType = 1;//装备类型槽位 key-1->2战装神装
+}
+
+//装备类型组
+message EQUIPMENT_INFO_FOR_TYPE{
+	repeated EQUIPMENT_SLOT_INFO eSlotinfo = 1;//栏位基础信息
+}
+
+//装备栏位信息
+message EQUIPMENT_SLOT_INFO{
+	int64 equipId=1; // 装备id(物品id)
+	int32 equipmentSlotIndex=2; // 装备槽位下标
+	int32 itemId = 3;//装备道具id
+	int32 equipmentStrengthenLevel = 4; // 装备槽位强化等级
+	int32 equipmentGemLevel = 5; // 装备槽位宝石等级
+	int32 equipmentStar = 6; // 装备星级
+	int32 equipmentStarExp = 7; //装备星级经验 
+	int32 equipmentEnchanting = 8; // 装备附魔等级
+	int32 equipmentEnchantingExp = 9; //装备附魔经验 
+	int32 equipmentSprite = 10; // 装备注灵等级
+	int32 equipmentSpriteExp = 11; //装备注灵经验
+	int32 equipmentWake= 12; // 装备觉醒条件等级
+	int32 equipmentWakeLevel= 13;//觉醒等级
+	int32 equipmentSuitLevel = 14;//套装等级
+	
+	BackpackGoodsMsg goodsMsg = 20; //装备(物品)信息
+}
+
+//穿戴装备C2S
+message C_EQUIPMENT_SWITCH {
+	int32 formationIndex=1; //阵形标识
+	int64 equipId=2; // 装备id(物品id)
+	int32 equipmentType = 3;//装备类型(战装|神装)
+	int32 equipmentSlotIndex = 4; // 装备槽位下标
+}
+
+//穿戴装备S2C
+message S_EQUIPMENT_SWITCH {
+	int32 index=1; //阵形标识
+	int64 equipId=2; // 装备id(物品id)
+	int32 equipmentType = 3;//装备类型
+	int32 equipmentSlotIndex=4; // 装备槽位下标
+	int32 itemId = 5;//装备道具id
+}
+
+//装备卸下
+message C_EQUIPMENT_DRESS_OFF {
+	int32 formationIndex=1; //阵形标识
+	int32 equipmentType = 3;//装备类型(战装|神装)
+	int32 equipmentSlotIndex = 4; // 装备槽位下标
+}
+
+//装备卸下
+message S_EQUIPMENT_DRESS_OFF {
+	int32 index=1; //阵形标识
+	int32 equipmentType = 3;//装备类型
+	int32 equipmentSlotIndex=4; // 装备槽位下标
+	int32 itemId = 5;//装备道具id
+}
+
+
+//槽位间装备卸下穿上
+message C_EQUIPMENT_FORMATION_SWITCH {
+	int32 fromIndex = 1;			 //源阵形标识
+	int32 fromEquipmentType = 2;	 //源装备类型
+	int32 fromEquipIndex = 3; 	// 源装备槽位下标
+	int32 toIndex = 4;			 	//目标阵形标识
+	int32 toEquipmentType = 5;	 	//目标装备类型
+	int32 toEquipIndex = 6; 		// 目标装备槽位下标
+}
+
+//槽位间装备卸下穿上
+message S_EQUIPMENT_FORMATION_SWITCH {
+	int32 fromIndex=1; 				//源阵形标识
+	int64 fromEquipId=2; 			// 源装备id(物品id)
+	int32 fromEquipmentType = 3;	//源装备类型
+	int32 fromEquipmentSlotIndex=4; // 源装备槽位下标
+	int32 fromItemId = 5;			//源装备道具id
+	int32 toIndex=6; 				//目标阵形标识
+	int64 toEquipId=7; 			// 目标装备id(物品id)
+	int32 toEquipmentType = 8;		//目标装备类型
+	int32 toEquipmentSlotIndex=9;  // 目标装备槽位下标
+	int32 toItemId = 10;			//目标装备道具id
+}
+
+//一键穿戴|替换装备C2S
+message C_ONEKEY_EQUIPMENT_SWITCH {
+	int32 formationIndex=1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+}
+
+//一键穿戴|替换装备S2C
+message S_ONEKEY_EQUIPMENT_SWITCH {
+	int32 index=1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	repeated EQUIPMENT_SLOT_INFO eSlotinfo = 3;//装备信息
+}
+
+//一键强化装备槽位
+message C_EQUIPMENT_STRENGTHEN_ONEKEY{
+	int32 index=1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+}
+message S_EQUIPMENT_STRENGTHEN_ONEKEY{
+	repeated S_EQUIPMENT_STRENGTHEN info = 1;//强化装备槽位信息
+}
+//强化装备槽位C2S
+message C_EQUIPMENT_STRENGTHEN{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//强化装备槽位S2C
+message S_EQUIPMENT_STRENGTHEN{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentStrengthenLevel = 4; // 装备槽位强化等级
+	int32 success = 5; // 0为失败  1为成功
+	int32 strengthIndex=6;//当前要强化的槽位
+}
+//一键强化宝石槽位
+message C_EQUIPMENT_GEM_UPGRADE_ONEKEY{
+	int32 index=1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+}
+message S_EQUIPMENT_GEM_UPGRADE_ONEKEY{
+	repeated S_EQUIPMENT_GEM_UPGRADE info = 1;//强化装备槽位宝石信息
+}
+
+//强化装备槽位宝石C2S
+message C_EQUIPMENT_GEM_UPGRADE{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//强化装备槽位宝石S2C
+message S_EQUIPMENT_GEM_UPGRADE{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentGemLevel = 4; // 装备槽位宝石等级
+	int32 success = 5; // 0为失败  1为成功
+}
+
+//装备升级 (只有神装有)
+message C_EQUIPMENT_UPGRADE{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+	int64 goodsId = 4; // 物品id
+}
+
+//装备升级 (只有神装有)
+message S_EQUIPMENT_UPGRADE{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int64 goodsId = 4; // 物品id
+	int32 itemId = 5; // 装备道具id
+	int32 success = 6; // 0为失败  1为成功
+}
+
+//装备升星 (只有战装有)
+message C_EQUIPMENT_UPGRADE_STAR{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//装备升星 (只有战装有)
+message S_EQUIPMENT_UPGRADE_STAR{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentStar = 4; // 装备星级
+	int32 equipmentStarExp = 5; //装备星级经验 
+	int32 success = 6; // 0为失败  1为成功
+}
+
+//装备附魔 (只有战装有)
+message C_EQUIPMENT_ENCHANTING{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//装备附魔 (只有战装有)
+message S_EQUIPMENT_ENCHANTING{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentEnchanting = 4; // 装备附魔等级
+	int32 equipmentEnchantingExp = 5; //装备附魔经验 
+	int32 success = 6; // 0为失败  1为成功
+}
+
+//装备注灵 (只有战装有)
+message C_EQUIPMENT_SPRITE{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//装备注灵 (只有战装有)
+message S_EQUIPMENT_SPRITE{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentSprite = 4; // 装备注灵等级
+	int32 equipmentSpriteExp = 5; //装备注灵经验
+	int32 success = 6; // 0为失败  1为成功
+}
+
+//装备觉醒 (只有战装有)
+message C_EQUIPMENT_WAKE{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//装备觉醒 (只有战装有)
+message S_EQUIPMENT_WAKE{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentWake= 4; // 装备觉醒条件等级
+	int32 equipmentWakeLevel= 5;//觉醒等级
+	int32 success = 6; // 0为失败  1为成功
+}
+
+//套装升阶
+message C_EQUIPMENT_SUIT_UPGRADE{
+	int32 formationIndex= 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex= 3; // 装备槽位下标
+}
+
+//套装升阶
+message S_EQUIPMENT_SUIT_UPGRADE{
+	int32 formationIndex = 1; //阵形标识
+	int32 equipmentType = 2;//装备类型
+	int32 equipmentSlotIndex = 3; // 装备槽位下标
+	int32 equipmentSuitLevel= 4;//套装阶级
+	int32 success = 5; // 0为失败  1为成功
+}

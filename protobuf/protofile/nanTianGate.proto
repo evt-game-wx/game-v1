@@ -1,0 +1,108 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+// 获取南天门副本的信息
+message C_GET_NAN_TIAN_GATE_INFO {
+}
+
+// 返回客户端南天门的信息
+message S_GET_NAN_TIAN_GATE_INFO {
+	int32 hadCount = 1;						// 当前已经挑战的次数
+	int32 buyCount = 2;						// 当前已经购买的挑战次数
+	int32 refreshCount = 3;					// 当前已经刷新的次数
+	int32 dayScore = 4;						// 今日已经获取的天庭积分
+	int32 box3 = 5;							// 三连斩当前的次数
+	int32 streakWin = 6;					// 当前连胜的次数
+	string winBoxData = 7;					// 连胜宝箱的领取数据，逗号分隔，格式：1,2,3...
+	int32 buffTime = 8;						// 鼓舞buff剩余的场次
+	repeated NAN_TIAN_GATE_INFO datas = 9;	// 对手数据
+	int32 box3Id = 10;						// 三连斩当前的宝箱配置唯一id
+	string hadPlayerIds = 11;				// 已经挑战胜利的玩家的id，逗号分隔，格式：1,2,3...
+	int32 buffBuyTime = 12;					// 鼓舞buff已经购买的次数
+}
+
+// 进行南天门对手刷新操作
+message C_NAN_TIAN_GATE_REFRESH {
+	int32 refreshCount = 1;		// 当前是第几次刷新
+}
+
+// 返回客户端刷新南天门对手数据
+message S_NAN_TIAN_GATE_REFRESH{
+	int32 refreshCount = 1;					// 当前刷新的次数
+	repeated NAN_TIAN_GATE_INFO datas = 2;	// 对手数据
+	int32 box3Id = 3;						// 三连斩当前的宝箱配置唯一id
+	string hadPlayerIds = 4;				// 已经挑战胜利的玩家的id，逗号分隔，格式：1,2,3...
+}
+
+// 对手数据
+message NAN_TIAN_GATE_INFO {
+	BattlePlayerMsg player = 1;	// 角色信息
+	int32 rank = 2;				// 排名信息
+	int32 score = 3;			// 当前的积分
+}
+
+// 角色领取南天门三连斩宝箱奖励操作
+message C_NAN_TIAN_GATE_WIN_BOX {
+
+}
+
+// 返回客户端领取南天门三连斩宝箱奖励数据
+message S_NAN_TIAN_GATE_WIN_BOX{
+	int32 box3 = 1;							// 当前三连斩的次数
+	ItemListMsg itemList = 2;				// 本次获得的奖励物品
+	repeated NAN_TIAN_GATE_INFO datas = 3;	// 对手数据
+	int32 box3Id = 4;						// 三连斩当前的宝箱配置唯一id
+}
+
+// 领取南天门连胜宝箱奖励的数据
+message C_NAN_TIAN_GATE_BOX{
+	int32 boxId = 1;			// 要领取的胜利宝箱的id
+}
+
+// 返还客户端领取南天门连胜宝箱奖励
+message S_NAN_TIAN_GATE_BOX {
+	int32 boxId = 1;				// 领取的胜利宝箱的id
+	ItemListMsg itemList = 2;		// 本次获得的奖励物品
+	string boxDatas = 3;			// 胜利宝箱的领取id，格式：1,2,3,4
+}
+
+//购买南天门挑战次数
+message C_NAN_TIAN_GATE_BUY_TIMES{
+
+}
+
+// 返还客户端购买南天门挑战次数
+message S_NAN_TIAN_GATE_BUY_TIMES {
+	int32 hadBuy = 1;		//已经购买的挑战次数
+}
+
+// 购买南天门鼓舞buff的数据
+message C_NAN_TIAN_GATE_BUY_BUFF{
+}
+
+// 返还客户端购买南天门鼓舞buff数据
+message S_NAN_TIAN_GATE_BUY_BUFF {
+	int32 leaveTimes = 1;		// buff持续剩余的场次
+	int32 buyTimes = 2;			// 购买次数
+}
+
+// 查询南天门排行榜的数据
+message C_NAN_TIAN_GATE_RANK{
+
+}
+
+// 返还客户端南天门排行榜数据
+message S_NAN_TIAN_GATE_RANK {
+	repeated GATE_RANK_INFO rankDatas = 1;		// 排行榜数据
+	int32 curRank = 2;							// 我当前的排名
+}
+
+message GATE_RANK_INFO {
+	string nickName = 1;		// 角色的昵称
+	int32 score	= 2;			// 角色当前的积分
+	int32 rank = 3;				// 角色当前的排名
+	int64 playerId = 4;			// 角色的id
+	int32 winCount = 5;			// 角色胜利的场次
+}

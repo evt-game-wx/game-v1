@@ -1,0 +1,87 @@
+syntax="proto3";
+package com.message;
+
+
+//发送聊天信息
+message C_SEND_CHAT_INFO {
+    int32 type           	=   1; 		//聊天频道类型
+    string chatInfo         =   2;      //聊天内容
+    int64 targetId          =   3;      //目标玩家ID
+}
+
+//接收聊天信息
+message S_SEND_CHAT_INFO {
+    int32 type           	=   1; 		//聊天频道类型
+    int64 chatTime          =   2;      //发送聊天消息的时间戳(单位: 毫秒)
+    string chatInfo   		=   3;      //聊天内容
+    int32 linkId            =   4;      //超链接ID
+    RoleInfo roleInfo       =   5;      //发送聊天消息的角色信息
+    repeated int32 channel  =   6;      //聊天或者显示频道.
+	int32 noticeId            =   7;      //公告id
+	repeated string noticeParam   =   8;      //公告参数
+}
+
+//聊天频道类型
+enum ChatType {
+	NONE					=   0;		//保留频道
+    SYSTEM_NOTICE           =   1;      //系统信息/公告
+	WORLD_CHAT              =   2;      //世界聊天
+	TEAM_CHAT               =   3;      //组队聊天
+	PRIV_CHAT               =   4;      //私聊
+	GUILD_CHAT              =   5;      //帮会聊天
+	CROSS_CHAT				=	6;		// 跨服聊天
+}
+
+//角色信息
+message RoleInfo {
+    int64  roleId           =   1;        //角色ID
+    string roleName         =   2;        //角色名
+	int32 vipLevel			=	3;		  //角色的VIP等级
+	int32 level 			=   4;		  //角色等级
+	int64 guild				=   5;		  //帮派id
+	string guildName		=	6;		  //帮派名称
+	int32 heroId			=	7;		  //英雄id
+	int32 heroQuality 		=	8;		  //主角武将品质
+	int32 useTitle 			=	9;		  //当前使用的称号id
+	int32 useHeadFrame 		=	10;		  //当前使用的头像框id
+	int32 useChatBubble 	=	11;		  //当前使用的聊天气泡id
+	int32 isGm				=	12;		  // 是不是是GM账号，0否1是
+	string userName			=	13;		  //角色用户名
+	string gameSite			=	14;		  //角色区服
+}
+
+//聊天频道
+enum ChatChannel {
+	CHAT_BOX           		=   0;        //聊天框显示
+	HORSE_LAMP         		=   1;        //跑马灯显示
+}
+
+//发送聊天信息
+message CROSS_C_SEND_CHAT_INFO {
+	int32 serverId			=	1;		// 发送聊天内容的服id
+    string chatInfo   		=   2;      //聊天内容
+    int32 linkId            =   3;      //超链接ID
+    RoleInfo roleInfo       =   4;      //发送聊天消息的角色信息
+    repeated int32 channel  =   5;      //聊天或者显示频道.
+}
+
+//接收聊天信息
+message CROSS_S_SEND_CHAT_INFO {
+    int64 chatTime          =   1;      //发送聊天消息的时间戳(单位: 毫秒)
+    string chatInfo   		=   2;      //聊天内容
+    int32 linkId            =   3;      //超链接ID
+    RoleInfo roleInfo       =   4;      //发送聊天消息的角色信息
+    repeated int32 channel  =   5;      //聊天或者显示频道.
+    int32 serverId			=	6;		// 发送聊天内容的服id
+}
+
+// 当前频道的聊天次数
+message C_CHAT_TIMES_INFO {
+	int32 type           	=   1; 		//聊天频道类型
+}
+
+// 服务器返还客户端 当前频道的聊天次数
+message S_CHAT_TIMES_INFO {
+	int32 type           	=   1; 		//聊天频道类型
+	int32 hadTimes          =   2; 		//当前聊天频道今日已经聊天的次数
+}

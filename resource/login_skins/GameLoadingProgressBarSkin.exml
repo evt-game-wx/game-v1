@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="GameLoadingProgressBarSkin" width="600" height="123" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="imgProgressBg" source="preloading_ui_jindu_di_png" y="33" scale9Grid="59,6,3,42"  width="600" />
+	<e:Image id="imgProgress" source="preloading_ui_denglu_jindu_png" y="48"  width="0" scale9Grid="15,3,40,19" x="35" fillMode="repeat"/>
+	<e:Image id="imgCloud" source="preloading_ui_denglu_yun_png"  y="-41"/>
+	<e:Label id="labHint" text="首次加载时间稍长，请耐心等待" y="89" horizontalCenter="0" fontFamily="specialGameFont" textColor="0xffffff" size="25" stroke="1" strokeColor="0xc89f64"/>
+</e:Skin>

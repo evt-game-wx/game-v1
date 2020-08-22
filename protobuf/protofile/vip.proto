@@ -1,0 +1,44 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//拉取vip信息
+message C_GET_VIP_INFO{
+}
+
+message S_GET_VIP_INFO{
+	int32 level = 1;//vip等级
+	int32 value = 2;//vip充值进度
+	repeated int32 getIds = 3;//已经领取过的vip等级礼包（vip等级即id）
+	repeated VIP_BUY_INFO buydayIds = 4;//已经购买过的vip每日礼包ids
+	repeated VIP_BUY_INFO buyGiftIds = 5;//已经购买过的vip礼包ids
+	repeated VIP_BUY_INFO buyMarketIds = 6;//已经购买过的特权商店ids
+	string dayFreeCan = 7; // vip每日免费奖励可领取的id集合，格式：id1,id2,id3...
+}
+message VIP_BUY_INFO{
+	int32 id = 1 ;//购买的id
+	int32 limit = 2 ;//已经购买过的次数
+}
+
+//领取vip等级礼包
+message C_GET_VIP_REWARD{
+	int32 id = 1;//领取的vip等级礼包id
+	int32 type = 2; // 领取类型，1是首次礼包，2是每日免费礼包
+}
+
+message S_GET_VIP_REWARD{
+	int32 id = 1; //领取的vip等级礼包id
+	ItemListMsg itemlist = 2;
+	int32 type = 3; // 领取类型，1是首次礼包，2是每日免费礼包
+}
+
+//购买vip礼包、商品、每日礼包等等
+message C_BUY_VIP_GIFT{
+	int32 id = 1;//要购买的id
+	int32 type = 2;//购买的类型  0每日等级礼包，1vip礼包 2特权商店
+}
+message S_BUY_VIP_GIFT{
+	int32 id = 1;//要购买的id
+	int32 type = 2;//购买的类型  0每日等级礼包，1vip礼包 2特权商店
+	ItemListMsg itemlist = 3;
+}

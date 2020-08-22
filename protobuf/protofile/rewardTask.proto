@@ -1,0 +1,64 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+//拉取悬赏任务信息
+message C_GET_REWARD_TASK_INFO{
+}
+message S_GET_REWARD_TASK_INFO{
+	int64 refreshTime = 1;//下次刷新时间
+	repeated REWARD_TASK_INFO taskInfo = 2;//悬赏任务列表
+	int32 rewardTaskNum = 3;//今日已接取数量
+}
+
+message REWARD_TASK_INFO{//单个悬赏任务信息
+	int64 taskId = 8;//任务id
+	int32 id = 1;//悬赏品质id
+	string name = 2;//悬赏任务名称
+	int32 reward = 3;//悬赏奖励id
+	int32 state = 4;//悬赏状态 0未开始，1开始中，2已完成成功道具未领取，3已完成成功道具已领取，4已完成失败
+	int32 sucRate = 5;//成功率
+	int64 time = 6;//完成时间 如果是进行中 则有值 否则为0 
+	repeated REWARD_TASK_HERO_INFO heroInfo = 7;//单个武将槽位需要的信息
+	int32 durationTime = 9;//任务持续时间 前端显示
+}
+message REWARD_TASK_HERO_INFO{//单个武将槽位需要的信息
+	int32 heroId = 1;//上阵的武将id
+	int32 quality = 2;//需求品质 
+	int32 type = 3;//需求类型
+	int32 wakeUp = 4;//需求觉醒等级
+	int32 star = 5;//需求星级
+	int32 level = 6;//需求等级
+}
+//刷新悬赏任务
+message C_REFRESH_REWARD_TASK_INFO{
+}
+message S_REFRESH_REWARD_TASK_INFO{
+	repeated REWARD_TASK_INFO taskInfo = 1;//悬赏任务列表
+}
+//设置上阵 一键上阵 也走这个 前端算最佳阵容，算的是什么就是什么 设置必定成功，除非你没有这个武将
+message C_REWARD_TASK_SET_HERO{
+	string heros = 1;//上阵武将id 102,0,0  或者 0,0,102 或者 0,102 有几个武将槽就上几个武将 超过的就会干掉
+	int64 taskId = 2;//任务id
+}
+message S_REWARD_TASK_SET_HERO{
+	int64 taskId = 1;//任务id
+	int32 sucRate = 2;//成功率
+	string heros = 3;
+}
+//开始悬赏任务
+message C_START_RWEARD_TASK{
+	int64 taskId = 1;//任务id 
+}
+message S_START_REWARD_TASK{
+	int64 taskId = 1;
+	int64 time = 2;//完成时间戳
+}
+//查看任务 如果是成功即领取奖励
+message C_REWARD_TASK_WATCH_AND_GET_REWARD{
+	int64 taskId = 1;
+}
+message S_REWARD_TASK_WATCH_AND_GET_REWARD{
+	int64 taskId = 1;
+	int32 state = 2;//悬赏状态
+	ItemListMsg itemList = 3;//你获得的奖励 成功了才有
+}

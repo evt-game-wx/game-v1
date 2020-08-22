@@ -1,0 +1,29 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+//拉取投资活动信息
+message C_GET_INVEST_INFO{
+	int32 type = 1;//投资类型
+}
+message S_GET_INVEST_INFO{
+	int32 id = 1;//投资id
+	int32 prama = 2;//例如 ： 月卡类型则是还剩余天数  投资返利代表累计登陆天数 其他类型根据需求对应 没有需求则为0，-1代表默认没有开启
+	string hasGet = 3;//已领取的目标  如1,2,3,4,5,6,7,8,10
+}
+//领取投资活动奖励
+message C_GET_INVEST_REWARD{
+	int32 id = 1;//投资id
+	int32 prama = 2;//领取的天数
+}
+message S_GET_INVEST_REWARD{
+	int32 id = 1;//投资id
+	int32 prama = 2;//领取的天数
+	ItemListMsg itemList = 3;//奖励
+}
+//购买投资活动
+message C_BUY_INVEST{
+	int32 id = 1;//充值表id
+}
+message S_BUY_INVEST{
+	int32 id = 1;//充值表id  购买成功后记得拉取一下对应类型的投资信息
+}

@@ -1,0 +1,14 @@
+syntax="proto3";
+package com.message;
+//异常信息
+message S_EXCEPTION_MSG {
+	int32 code = 1; // 异常编号
+}
+//跨服异常信息
+message CROSS_S_EXCEPTION_MSG {
+	int64 playerId = 1;
+	int32 code = 2; // 异常编号
+}
+
+
+

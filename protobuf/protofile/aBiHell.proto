@@ -1,0 +1,66 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获取阿鼻地狱副本的数据
+message C_GET_ABI_HELL_INFO{
+
+}
+
+// 服务器返还给客户端阿鼻地狱副本的数据
+message S_GET_ABI_HELL_INFO{
+	int32 playTimes = 1;					// 玩家今天已经挑战的次数
+	int32 currInstanceid = 2;				// 玩家当前处在第几个副本下标，从下往上，从左往右，从1开始到12结束，如果是0表示，1、2、3都可以打
+	int32 currLayer = 3;					// 玩家当前处于第几层
+	string hadPlayIds = 4;					// 玩家当前层已经打过的副本下标，格式：1,3,5,2,6,...
+	string currMonster = 5;					// 当前关卡的对手玩家的血量数据，格式：heroId,hp,maxHp;heroId,hp,maxHp;...
+	repeated ABI_HELL_PLAYER allDatas = 6;	// 当前层数的所有玩家数据
+	int32 boxRewardNum = 7;					// 当前层的宝箱已经打开的次数
+	int32 serverId = 8;						// 当前玩家所在的区服id，合服后会变化
+	int32 buyTimes = 9;						// 玩家今天已经购买挑战的次数
+}
+
+message ABI_HELL_PLAYER {
+	int32 serverId = 1;			// 玩家所在的服务器id
+	int64 playerId = 2;			// 玩家的id
+	string nickName = 3;		// 玩家的昵称
+	int64 fightValue = 4;		// 玩家的战力
+	int32 layerIndex = 5;		// 玩家当前处在本层的那个位置 从下往上，从左往右，从1开始到12结束
+}
+
+//领取阿鼻地狱副本当前层数的宝箱奖励操作
+message C_GET_ABI_BOX_REWARD{
+	int32 boxId = 1; 		// 要领取的宝箱id
+	int32 rewardNum = 2;	// 第几次领取
+}
+
+// 服务器返还给客户端阿鼻地狱副本领取当前宝箱奖励
+message S_GET_ABI_BOX_REWARD{
+	int32 boxId = 1; 			// 要领取的宝箱id
+	int32 rewardNum = 2;		// 第几次领取
+	ItemListMsg itemList = 3;	// 本次获得的奖励物品
+}
+
+//进入阿鼻地狱副本的下一层操作
+message C_GET_ABI_HELL_NEXT{
+	int32 nextLayer = 1; 		//下一层的id
+}
+
+// 服务器返还给客户端阿鼻地狱副本的下一层操作
+message S_GET_ABI_HELL_NEXT{
+	int32 playTimes = 1;					// 玩家今天已经挑战的次数
+	int32 currInstanceid = 2;				// 玩家当前处在第几个副本下标，从下往上，从左往右，从1开始到12结束，如果是0表示，1、2、3都可以打
+	int32 currLayer = 3;					// 玩家当前处于第几层
+	repeated ABI_HELL_PLAYER allDatas = 4;	// 当前层数的所有玩家数据
+}
+
+//购买阿鼻地狱副本挑战次数的操作
+message C_GET_ABI_BUY_TIMES{
+	int32 buyTimes = 1; 	// 购买的次数
+}
+
+// 服务器返还给客户端购买阿鼻地狱副本挑战次数的操作
+message S_GET_ABI_BUY_TIMES{
+	int32 buyTimes = 1; 	// 购买的次数
+	int32 playTimes = 2;	// 玩家今天已经挑战的次数
+}

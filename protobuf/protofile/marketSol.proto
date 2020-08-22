@@ -1,0 +1,37 @@
+syntax="proto3";
+package com.message;
+
+message C_GET_MARKET_SOL_INFO{
+}
+message S_GET_MARKET_SOL_INFO{
+	repeated MARKET_SOL_INFO marketInfos = 1;//将魂商店商品信息
+	int64 refreshTime = 2;//刷新时间戳
+	int32 refreshCount = 3;//免费可用刷新次数(每小时+1)
+	int32 itemRefreshCount = 4;//刷新令已用刷新次数(每天刷新)
+	int32 maxBuyCount = 5;//最大购买次数
+}
+
+message MARKET_SOL_INFO{
+	int32 marketId = 1;//商品id
+	int32 posId = 2;//槽位id
+	int32 limitNum = 3;//限购数量
+}
+
+message C_BUY_MARKET_SOL{
+	int32 posId = 1;//要购买的槽位id
+	int32 num = 2;//购买数量
+}
+message S_BUY_MARKET_SOL{
+	MARKET_SOL_INFO marketInfo = 1;//商品信息
+}
+
+message C_REFRESH_MARKET_SOL{
+	int32 count = 1;//刷新将魂商店，刷新次数:1或5。
+}
+message S_REFRESH_MARKET_SOL{
+	repeated MARKET_SOL_INFO marketInfos = 1;//将魂商店商品信息
+	int64 refreshTime = 2;//刷新时间戳
+	int32 refreshCount = 3;//可用刷新次数
+	int32 itemRefreshCount = 4;//刷新令可用刷新次数(每天刷新)
+	int32 maxBuyCount = 5;//最大购买次数
+}

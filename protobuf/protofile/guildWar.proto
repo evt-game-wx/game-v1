@@ -1,0 +1,241 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+//帮派城门伤害信息
+message GuildDamageMsg {
+    int64 guildId=1; // 帮派ID
+    string name=2; // 帮派名字
+    int32 rank=6; //排名
+    int64 damageVal=7; //总伤害值
+}
+
+//城门信息
+message GuildGateMsg {
+	int32 gateId=1; // 城门id/副本id
+	int64 blood=2; // 城门血量
+	int64 maxBlood=3; // 城门最大血量
+    repeated GuildDamageMsg damageList=4; // 城门伤害信息
+}
+
+//布阵信息
+message GuildWarFormationMsg {
+    repeated int32 indexHeroId = 2; //默认123456槽位  可以打乱顺序
+    repeated int32 posHeroId = 3; //按123456阵型顺序排列上阵heroid，为空设置0
+}
+
+//守城帮派信息
+message GuildWarMsg {
+    int64 guildId=1; // 帮派ID
+    string name=2;  // 帮派名字
+    int32 gateId=3; 	// 门副本id
+    int64 gateBlood=4;  // 门血量
+	int64 gateMaxBlood=10;  // 门最大血量
+	int32 bossId=5; // 守护Boss副本id
+    int64 blood=6;  // 守护Boss血量
+	int64 maxBlood=11;  // 守护Boss最大血量
+	int32 level=7; 	// 帮派等级
+    repeated GuildDamageMsg damageList=8; // 伤害排行信息
+	bool updateSate=9;  //更新状态，true当天更新的守城帮派不可被打，首次、更换
+}
+
+//帮派战信息
+message GuildWarMyMsg {
+    string guildDec=2;                  // 帮派战公告
+    int32 partIn=3;                 // 是否参加了，0否，1是
+    int64 reviveTime=4;             // 复活时间
+	bool dailyReward=5;                 // 是否领取了当日奖励，true是
+	bool dailyDianZan=6;                 // 是否领取了当日点赞奖励，true是
+	bool inDefend=7;                 // 是否防守中
+}
+
+//获取帮派站信息
+message C_GET_GUILD_WAR_INFO {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派站信息
+message S_GET_GUILD_WAR_INFO {
+	repeated GuildGateMsg gateList=1;   // 城门信息
+    GuildWarMsg guildWarMsg=2;            // 守城帮派信息
+    GuildWarFormationMsg formationMsg=3;        // 我的布阵
+    GuildWarMyMsg myGuildWarMsg=4;          //帮派战信息
+	int64 starTime=6;            //活动开始时间
+	int64 endTime=7;            //活动结束时间
+}
+
+//参加帮派战
+message C_GUILD_WAR_PART_IN {
+	int64 guildId=1; // 帮派ID
+}
+
+//参加帮派战
+message S_GUILD_WAR_PART_IN {
+	int64 guildId=1; // 帮派ID
+    int32 partIn=2;     // 是否参加了，0否，1是
+    int64 reviveTime=3;       // 复活时间
+}
+
+//帮派战复活
+message C_GUILD_WAR_REVIVE {
+    int64 guildId=1; // 帮派ID
+}
+
+//帮派战复活
+message S_GUILD_WAR_REVIVE {
+    int64 guildId=1; // 帮派ID
+    int32 partIn=2;     // 是否参加了，0否，1是
+    int64 reviveTime=3;       // 复活时间
+}
+
+//修改帮派战公告
+message C_GUILD_WAR_EDIT_DEC {
+    int64 guildId=1;            // 帮派ID
+    string guildDec=2;         // 帮派战公告
+}
+
+//修改帮派战公告
+message S_GUILD_WAR_EDIT_DEC {
+    int64 guildId=1;            // 帮派ID
+    string guildDec=2;         // 帮派战公告
+}
+
+//领取帮派战奖励，点赞/领取奖励
+message C_GUILD_WAR_REWARD {
+    int64 guildId=1;            // 帮派ID
+	int32 type = 2;			//1领取胜利宝箱奖励，0点赞
+}
+
+//领取帮派战奖励，点赞/领取奖励
+message S_GUILD_WAR_REWARD {
+    int64 guildId=1;            // 帮派ID
+	int32 type = 2;			//1领取胜利宝箱奖励，0点赞
+    repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//帮派战战报信息
+message GuildWarBattleMsg {
+   int32 instanceId = 12; // 副本ID
+	int64  blood=14;  // 血量
+	int32 type = 13; // 类型
+	
+	BattlePlayerMsg myFighter = 1;      // 我方战斗数据
+    BattlePlayerMsg enemyFighter = 2; // 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg=3; //战报数据
+	int32 roundNum=4;  //总回合数
+	bool win=5;  //true贏，false輸
+}
+
+//守护 cross上报战斗信息
+message C_GUILD_WAR_DEFEND {
+    int64 guildId=1;            // 帮派ID
+}
+
+//守护
+message S_GUILD_WAR_DEFEND {
+    int64 guildId=1;            // 帮派ID
+	bool suceess=2;           // 是否成功,true，则守护中..
+}
+
+//取消守护
+message C_GUILD_WAR_CANCEL_DEFEND {
+    int64 guildId=1;            // 帮派ID
+}
+
+//取消守护
+message S_GUILD_WAR_CANCEL_DEFEND {
+    int64 guildId=1;            // 帮派ID
+	bool suceess=2;           // 是否成功
+}
+
+//帮派战攻防结束奖励推送
+message SYNC_GUILD_WAR_FINISH {
+    int64 guildId=1;            // 帮派ID
+	bool win =2;           // 是否赢
+	string guildName=3;         // 胜利帮派名称
+	repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//=======================跨服协议==============================
+// 获取跨服帮派战信息
+message CROSS_C_GET_GUILD_WAR_INFO {
+    int32 serverId=1;           // 服务器编号
+    int64 playerId=2;            // 角色ID
+}
+
+// 获取跨服帮派战信息
+message CROSS_S_GET_GUILD_WAR_INFO {
+    int64 playerId=1;            // 角色ID
+    repeated GuildGateMsg gateList=2;   // 城门信息
+    GuildWarMsg guildWarMsg=3;            // 守城帮派信息
+	bool inDefend=5;                 // 是否防守中
+	int64 starTime=6;            //活动开始时间
+	int64 endTime=7;            //活动结束时间
+}
+
+// 帮派战同步伤害到跨服
+message CROSS_C_GUILD_WAR_DAMAGE {
+    int32 serverId=1;           // 服务器编号
+    int64 guildId=2;            // 帮派ID
+    int64 damageVal=3;          //伤害值
+}
+
+// 帮派战同步伤害到跨服
+message CROSS_S_GUILD_WAR_DAMAGE {
+    repeated GuildGateMsg gateList=1;   // 城门信息
+    GuildWarMsg guildWarMsg=2;            // 守城帮派信息
+}
+
+
+// 帮派战同步战斗数据到跨服
+message CROSS_C_GUILD_WAR_DEFEND {
+    int32 serverId=1;           // 服务器编号
+    int64 guildId=2;            // 帮派ID
+	int64 playerId=3;            // 角色ID
+    BattlePlayerMsg myFighter = 6;      // 我的战斗数据	
+}
+
+// 帮派战同步战斗数据到跨服
+message CROSS_S_GUILD_WAR_DEFEND {
+    int64 playerId=1;         // 角色ID
+    bool suceess=2;           // 是否成功
+}
+
+
+// 帮派战取消守护
+message CROSS_C_GUILD_WAR_CANCEL_DEFEND {
+    int32 serverId=1;           // 服务器编号
+    int64 guildId=2;            // 帮派ID
+	int64 playerId=3;            // 角色ID
+}
+
+// 帮派战同步战斗数据到跨服
+message CROSS_S_GUILD_WAR_CANCEL_DEFEND {
+    int64 playerId=1;         // 角色ID
+    bool suceess=2;           // 是否成功
+}
+
+
+// 帮派战攻防结束奖励推送
+message CROSS_SYNC_GUILD_WAR_FINISH {
+    int64 guildId=1;            // 帮派ID
+    bool win=2;           // true贏，false輸
+	string guildName=3;         // 胜利帮派名称
+	int32 level=7; 	// 占领帮派等级
+}
+
+
+// 帮派战守护帮派等级提升
+message CROSS_SYNC_GUILD_WAR_LEVEL_UP {
+    int32 serverId=1;           // 服务器编号
+    int64 guildId=2;            // 帮派ID
+	int32 guildNewLevel=3;      // 帮派等级
+}
+
+// 帮派战守护帮派解散
+message CROSS_SYNC_GUILD_WAR_DISSOLVE {
+    int32 serverId=1;           // 服务器编号
+    int64 guildId=2;            // 帮派ID
+}
+

@@ -1,0 +1,31 @@
+{
+	"groups": [
+		{
+			"keys": "createrole_json",
+			"name": "createrole"
+		}
+	],
+	"resources": [
+		{
+			"url": "unpack/bg/cjbg2.jpg",
+			"type": "image",
+			"name": "cjbg2_jpg"
+		},
+		{
+			"url": "unpack/bg/cjbg3.jpg",
+			"type": "image",
+			"name": "cjbg3_jpg"
+		},
+		{
+			"url": "unpack/bg/cjbg1.jpg",
+			"type": "image",
+			"name": "cjbg1_jpg"
+		},
+		{
+			"url": "sheet/createrole.json",
+			"type": "sheet",
+			"name": "createrole_json",
+			"subkeys": "createrole_anniud_dis_png,createrole_anniud_down_png,createrole_anniud_png,createrole_ui_cjjs_nan1_png,createrole_ui_cjjs_nan2_png,createrole_ui_cjjs_nv1_png,createrole_ui_cjjs_nv2_png,createrole_ui_cjjs_shaizi_png,createrole_ui_cjjs_touxiangdi_png"
+		}
+	]
+}

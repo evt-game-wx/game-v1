@@ -1,0 +1,84 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获取护送信息
+message C_GET_CONVOY_INFO {
+}
+
+//获取护送信息
+message S_GET_CONVOY_INFO {
+    repeated ConvoyRankMsg convoyRankMsg = 1;      //护送列表信息
+    ConvoyMsg convoyMsg = 2;                        //个人护送信息
+}
+
+//护送信息
+message ConvoyMsg{
+    int32 convoyId  = 1;		// 护送的经书id
+    int64 endTime   = 2;		// 护送结束时间
+    int32 convoyCount = 3;		// 已护送次数
+    int32 robCount    = 5;		// 抢夺次数
+    int32 beRobCount    = 6;	// 单次运送被抢夺次数
+    bool isDoubleReward = 7;	// 本次是否是双倍奖励，true是false否
+}
+
+//护送列表信息
+message ConvoyRankMsg{
+    int64 playerId = 2; // 玩家id
+    string playerName = 3; // 玩家昵称
+	int32 playerHeroId=4; // 玩家武将id，头像
+    int32 convoyId = 5; //  护送的经书id
+    int32 beRobCount    = 6;             //单次运送被抢夺次数
+	int64 endTime   = 7;              // 护送结束时间
+}
+
+//开始护送任务
+message C_CONVOY_STAR{
+}
+
+//开始护送任务
+message S_CONVOY_STAR{
+    ConvoyMsg convoyMsg = 1;                        //个人护送信息
+}
+
+//领取护送奖励
+message C_GET_CONVOY_REWARD{
+}
+
+//领取护送奖励
+message S_GET_CONVOY_REWARD{
+    ConvoyMsg convoyMsg = 1;                        //个人护送信息
+	repeated ItemMsg reward = 2; // 奖励信息
+}
+
+//经书刷新
+message C_CONVOY_REFRESH{
+    int32 type = 1; //刷新类型，1普通刷新，2一键真经
+}
+
+//经书刷新
+message S_CONVOY_REFRESH{
+    ConvoyMsg convoyMsg = 1;                        //个人护送信息
+}
+
+//获取记录信息
+message C_GET_CONVOY_LOG {
+}
+
+//获取记录信息
+message S_GET_CONVOY_LOG {
+    repeated ConvoyLogMsg logList=3; //记录信息
+}
+
+//记录信息
+message ConvoyLogMsg {
+    int64 playerId=1; // 玩家id
+    string name=2; // 玩家名字
+    int64 targetId=3; // 被攻击方玩家id
+    string targetName=4; // 目标玩家名字
+    int32 type=5; //记录类型，1赢了
+    int64 logTime=6; // 日志时间
+    string info = 7; // 记录信息,经书id
+	int32 operate=8; //是否已經操作过,1已结复仇过
+}
+

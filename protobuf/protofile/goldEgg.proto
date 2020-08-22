@@ -1,0 +1,25 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取砸金蛋活动的信息
+message C_GET_HIT_GOLD_EGG_INFO {
+}
+
+// 返回客户端砸金蛋活动的信息
+message S_GET_HIT_GOLD_EGG_INFO {
+	int32 curIndex = 1; 			// 当前是第几轮的奖励展示
+	string hadItemIds = 2;			// 当前已经获得过的奖励下标id，例如：1,5,6,3,9
+}
+
+// 角色进行砸金蛋的操作
+message C_HIT_GOLD_EGG {
+}
+
+// 返回客户端砸金蛋后的数据
+message S_HIT_GOLD_EGG{
+	int32 curIndex = 1;				// 当前是第几轮的奖励展示
+	ItemListMsg itemList = 2;		// 本次获得的奖励物品
+	int32 rewardIndex = 3;			// 本次砸蛋的奖励下标
+	string hadItemIds = 4;			// 当前已经获得过的奖励下标id，例如：1,5,6,3,9
+}

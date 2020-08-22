@@ -1,0 +1,25 @@
+syntax="proto3";
+package com.message;
+
+//拉取修行系统信息  拉取系统就当做任务活动开启
+message C_GET_PRACTICE_INFO{
+}
+message S_GET_PRACTICE_INFO{
+	repeated PRACTICE_PART_INFO partInfo = 1;//部位信息
+	int32 task = 2;//任务期数  当任务没完成 或者全部完成 则变为0
+	int32 endTime = 3;//当期任务结束时间（秒） 当任务没完成 或者全部完成 则变为0
+	repeated int32 taskId = 4;//当期任务已领取的id数组 
+}
+
+message PRACTICE_PART_INFO{
+	int32 part = 1;//部位
+	int32 level = 2;//阶数
+}
+
+//升级部位
+message C_UPGRADE_PRACTICE_PART{
+	int32 part = 1;//升级部位 发7代表突破
+}
+message S_UPGRADE_PRACTICE_PART{
+	PRACTICE_PART_INFO partInfo = 1;//部位信息
+}

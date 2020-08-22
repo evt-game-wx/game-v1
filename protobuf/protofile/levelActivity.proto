@@ -1,0 +1,32 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获取玩家等级的限时礼包的活动数据
+message C_GET_LEVEL_BUY_INFO {
+
+}
+
+message S_GET_LEVEL_BUY_INFO{
+	int32 activityId = 1; 	// 活动配置的唯一id
+	int32 leaveTime = 2;	// 活动剩余的时间，单位秒
+}
+
+
+// 购买限时礼包
+message C_GET_LEVEL_BUY_REWRAD{
+	int32 activityId = 1; 	// 活动配置的唯一id
+}
+
+message S_GET_LEVEL_BUY_REWARD{
+	int32 activityId = 1; 		// 当前领奖的活动配置的唯一id
+	int32 nextActivityId = 2; 	// 下一个活动配置的唯一id,如果是0表示没有活动了
+	int32 leaveTime = 3;		// 活动剩余的时间，单位秒
+	ItemListMsg itemList = 4;	// 获得的奖励
+}
+
+// 推送客户端活动开启的操作
+message S_PUSH_LEVEL_BUY_INFO{
+	int32 activityId = 1; 	// 活动配置的唯一id
+	int32 leaveTime = 2;	// 活动剩余的时间，单位秒
+}

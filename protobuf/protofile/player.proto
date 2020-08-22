@@ -1,0 +1,201 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+//战斗类属性
+message S_SYN_FIGHTER_PROPERTY{
+	repeated IntFloatMapMsg mapMsg=1;
+}
+
+//非战斗属性 如金币,经验等货币类的数值
+message S_SYN_PROPERTY{
+	repeated IntLongMapMsg mapMsg=1;
+}
+
+
+enum PropertyID {
+		LEVEL = 0;
+		EXP = 1;
+		DIAMOND = 2;
+		MONEY = 3;
+		EXP_POOL = 4;
+		GUILD_DONATE = 5; //个人帮贡
+		HONOR = 8; //荣誉
+		DEMON_SOCRE = 9;//降妖除魔积分
+		FIGHT_VAL = 10; //角色战力
+		PRACTICE = 11;//修行碎片
+		BIND_DIAMOND = 12;//绑元
+		TOWER_CHIP = 13;//玲珑塔碎片
+		HERO_QUALITY = 14; //主角武将品质变化
+		OP_LUCK_SCORE = 15; //运营活动中的幸运转盘的积分
+		NAN_TIAN_GATE_SCORE = 16; //南天门的天庭积分
+		XIAN_JING = 17; //九天仙脉的仙晶
+		FRIEND_SCORE = 18; //好友系统的友情点
+		ABI_HELL_SCORE = 19; //阿鼻地狱副本的刀币
+		HERO_SOL = 20; //将魂
+}
+
+//客户端 查看其它角色信息
+message C_GET_PLAYER_INFO{
+	int64 playerId=1;               //玩家id
+	int32 serverId = 2;				//玩家服务器id
+	int32 formationType = 3;//	阵型id
+}
+
+//查看其它角色信息
+message S_GET_PLAYER_INFO{
+	PlayerBaseInfoMsg playerInfo=1;   //角色信息
+	PLAYER_ALL_INFO	playerAllInfo = 2;//被查看得玩家所有信息
+	int32 formationType = 3;//阵型id
+	
+}
+//被查看得玩家所有信息
+message PLAYER_ALL_INFO{
+	repeated FORMATION_HERO_INFO1 formationHeros = 1;//上阵的武将阵型
+	repeated HERO_INFO heros = 2;//所有的武将信息
+}
+
+//属性信息
+message PROPERTY_INFO{
+	int32 propId = 1;//属性id
+	int64 propVal = 2;//属性值
+}
+//上阵武将信息
+message FORMATION_HERO_INFO1{
+	int32 heroId = 1;//武将id
+	int32 pos = 2;//阵位
+	int32 index = 3;//槽位
+	repeated PROPERTY_INFO propInfos =4;//总属性信息
+}
+//武将信息
+message HERO_INFO{
+	int32 heroId = 1;//武将id
+	int32 heroLevel = 2; //武将的等级
+	int32 heroTuPoLevel = 3; //武将突破的等级
+	int32 wakeUpLevel = 4;//觉醒等级
+	int32 starUpLevel = 5;//升星等级
+	repeated int32 skills = 6;//武将已激活的技能
+	int32 flyLevel = 7;	// 武将飞升等级
+}
+
+
+//修改角色昵称
+message C_EDIT_PLAYER_NICKNAME{
+    string nickname=2;              // 玩家昵称
+}
+
+//修改角色昵称
+message S_EDIT_PLAYER_NICKNAME{
+    string nickname=2;              // 玩家昵称
+}
+
+//登录注册完成请求 角色信息
+message PlayerBaseInfoMsg{
+	int64 playerId=1;               //玩家id
+	string nickname=2;              // 玩家昵称
+	int32 level=3;                  //等级
+    int32 heroId = 4; 		        //角色武将id
+    int32 vipLevel=5;               //VIP等级
+    int64 fightVal=6;          		//个人总战力
+    int64 loverPlayerId=7;          //玩家id
+    string loverName=8;             // 伴侣玩家昵称
+    string guildName=9;             // 帮会名称
+	int64 guildId=10; 				// 帮派ID
+	int32 friendType = 11;			//好友类型
+	int32 friendSubType = 12;		//好友子类型
+	int32 wingId = 13;				//翅膀星级
+	int32 wingImageId = 14;			//翅膀幻化
+	int32 mountId = 15;				//坐骑星级
+	int32 mountImageId = 16;		//坐骑幻化
+	int32 holoId = 17;				//光环星级
+	int32 holoImageId = 18;			//光环幻化
+	int32 shouhuId= 19;				//守护星级
+	int32 shouhuImageId = 20;		//守护幻化
+	int32 heroQuality = 21; 		// 主角武将的品质
+	int32 useTitle = 22;			//当前使用的称号id
+	int32 useHeadFrame = 23;		//当前使用的头像框id
+}
+
+message CROSS_C_GET_PLAYER_INFO{
+	int64 playerId=1;               //玩家id
+	int32 serverId = 2;				//玩家服务器id
+	int64 targetId = 3; 			//查看玩家id
+	int32 targetServerId = 4; 		//查看服务器id
+	int32 formationType = 5;//	阵型id
+}
+message CROSS_S_GET_PLAYER_INFO{
+	int64 playerId=1;               //玩家id
+	int32 serverId = 2;				//玩家服务器id
+	PlayerBaseInfoMsg playerInfo=3;   //角色信息
+	PLAYER_ALL_INFO	playerAllInfo = 4;//被查看得玩家所有信息
+	int32 formationType = 5;//	阵型id
+}
+
+// 推送前端显示气泡消息的操作
+message S_SYN_SHOW_BUBBLE{
+	int32 bubbleId = 1;		// 气泡消息的配置唯一id
+}
+
+message CROSS_C_SEND_PLYAER_DATA{
+	int32 serverId = 1;						//当前服务器id
+	repeated CROSS_PLAYER_DATA datas = 2;	// 玩家的数据
+}
+
+message CROSS_S_SEND_PLAYER_DATA{
+	int32 serverId = 1;				//玩家服务器id
+	int32 updateNum = 2;            //更新的玩家数量
+}
+
+message CROSS_PLAYER_DATA {
+	int64 playerId = 1;             // 玩家id
+	int32 playerLevel = 2;			// 玩家的等级
+	string nickName = 3;			// 玩家的昵称
+	int64 fightValue = 4;			// 玩家的战力
+}
+
+message CROSS_C_GET_PLAYER_BATTLE_INFO{
+	int32 serverId = 1;			//当前玩家所在的服务器id
+	int64 playerId = 2;			// 当前玩家的id
+	int32 targetServerId = 3;	// 目标玩家所在的服务器id
+	int64 targetPlayerId = 4;	// 目标玩家的id
+}
+
+message CROSS_S_GET_PLAYER_BATTLE_INFO{
+	int32 serverId = 1;						// 当前玩家服务器id
+	int64 playerId = 2;						// 当前玩家的id
+	BattlePlayerMsg targetBattleInfo = 3;	// 目标玩家的战斗数据
+}
+
+message CROSS_C_GET_PLAYER_ABI_HELL{
+	int32 serverId = 1;			//当前玩家所在的服务器id
+	int64 playerId = 2;			// 当前玩家的id
+	int32 playerLevel = 3;		// 当前玩家的等级
+}
+
+message CROSS_S_GET_PLAYER_ABI_HELL{
+	int32 serverId = 1;						// 当前玩家服务器id
+	int64 playerId = 2;						// 当前玩家的id
+	string targetDatas = 3;					// 今日所有战斗玩家的数据,格式：id,nickName,playerId,fight;...
+}
+
+message CROSS_C_PLAYER_SYS_BATTLE_INFO{
+	int64 playerId = 1;			// 当前玩家的id
+	string recordId = 2;		// 本次战斗的记录唯一id
+	int32 paramType = 3;		// 战斗的类型数据 1海选赛2是排名赛
+}
+
+message CROSS_S_PLAYER_SYS_BATTLE_INFO{
+	int64 playerId = 1;						// 当前玩家的id
+	string recordId = 2;					// 本次战斗的记录唯一id
+	BattlePlayerMsg targetBattleInfo = 3;	// 目标玩家的战斗数据
+	int32 paramType = 4;					// 战斗的类型数据 1海选赛2是排名赛
+}
+
+message CROSS_C_PLAYER_QUERY_INFO{
+	repeated int64 playerIds = 1;			// 要删除的玩家的id
+}
+
+message CROSS_S_PLAYER_QUERY_INFO{
+	repeated int64 playerIds = 1;			// 要验证的玩家的id
+}

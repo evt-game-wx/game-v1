@@ -1,0 +1,68 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得阵法系统信息
+message C_GET_ZHEN_FA_INFO {
+    int32 type = 1; 		//阵法系统类型
+}
+
+//获得阵法系统信息
+message S_GET_ZHEN_FA_INFO {
+    int32 type = 1; 		//阵法系统类型
+	repeated ZhenfaMsg zhenfaInfo = 2; //阵法系统信息
+	int64 fightValue = 7;//战力
+}
+
+//阵法系统信息
+message ZhenfaMsg {
+	int32 subType = 1; 			//阵法系统子类型，节点
+	int32 stage = 2; 		    //阶级
+}
+
+//阵法系统升级
+message C_ZHEN_FA_STAR_UP{
+	int32 type = 1; 	//阵法系统类型
+	int32 subType = 2; 			//阵法系统子类型，节点
+}
+
+//阵法系统升级
+message S_ZHEN_FA_STAR_UP{
+	int32 type = 1; 	//阵法系统类型
+	int32 subType = 2; 			//阵法系统子类型，节点
+	int32 stage = 3; 		    //阶级
+	int64 fightValue = 7;	//总战力
+}
+
+//阵法系统使用
+message C_ZHEN_FA_USE{
+	int32 type = 1; 	//阵法系统类型
+}
+
+//阵法系统使用
+message S_ZHEN_FA_USE{
+	int32 type = 1; 	//阵法系统类型
+	int64 fightValue = 7;//战力
+}
+
+//获取阵法大师的等级
+message C_ZHEN_FA_MASTER{
+}
+
+//阵法大师的等级
+message S_ZHEN_FA_MASTER{
+	int32 star = 1; 	//阵法大师当前的等级
+}
+
+//阵法重生的操作
+message C_ZHEN_FA_RELIVE{
+	int32 type = 1; 	//阵法系统类型
+}
+
+//阵法重生
+message S_ZHEN_FA_RELIVE{
+	int32 type = 1; 					//阵法系统类型
+	repeated ZhenfaMsg zhenfaInfo = 2;	//阵法系统信息
+	int32 masterStar = 3; 				//阵法大师当前的等级
+	ItemListMsg itemList = 4;			// 重生获得的奖励
+}

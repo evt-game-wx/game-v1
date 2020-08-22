@@ -1,0 +1,74 @@
+syntax="proto3";
+package com.message;
+
+//签到天数的状态
+message SIGNIN_DAY_STATE {
+	int32 day	=	1;	//当前第几天签到
+	int32 stat	=	2;	//当前天数签到状态. 0-未签到, 1-已签到
+}
+
+//C->S 请求: 七天登录的状态
+message C_7DAYLOGIN_GETSTATE {
+
+}
+
+//C->S 响应: 七天登录的状态
+message S_7DAYLOGIN_GETSTATE {
+	int32 loginDay								=	1;	//登录天数
+	repeated int32 rewardDays					=	2;	//领奖励天数
+	repeated int32 vipRewardDays				=	3;	//vipRewardDays领奖励天数
+}
+
+//C->S 请求: 领取七天登录奖励
+message C_7DAYLOGIN_RECVREWARD {
+	int32 rewardDay								=	1;	//领哪天的奖励
+	int32 type 									=   2;	//领取类型   1vip  0普通
+}
+
+//C->S 响应: 领取七天登录奖励
+message S_7DAYLOGIN_RECVREWARD {
+	int32 rewardDay								=	1;	//领哪天的奖励
+	int32 type 									=   2;	//领取类型
+}
+
+
+
+//C->S 请求: 取得签到记录
+message C_DAILY_SIGNIN_GETSTATE { 
+}
+
+//S->C 响应: 取得签到记录
+message S_DAILY_SIGNIN_GETSTATE {
+	int32 currentDay							=	1;	//当前是第几天
+	int32 suppleSigninNum						=	2;	//补签次数 
+	repeated int32 signDayReward				=	3;	//已经哪几天的签到奖励
+	repeated SIGNIN_DAY_STATE signinDayState	=	4;	//签到栏的状态 
+}
+
+//C->S 请求: 签到
+message C_DAILY_SIGNIN_SIGN {
+	int32 signType								=	1;	//签到类型. 0-正常签到, 1-补签
+	int32 signDay								=	2;	//签到日期. 哪一天的签到
+}
+
+//S->C 响应: 签到
+message S_DAILY_SIGNIN_SIGN {
+	int32 signType								=	1;	//签到类型. 0-正常签到, 1-补签
+	int32 suppleSigninNum						=	2;	//补签次数
+	SIGNIN_DAY_STATE signDay					=	3;	//签到状态
+}
+
+
+//C->S 请求: 领取签到奖励
+message C_DAILY_SIGNIN_REWARD {
+	int32 rewardDay								=	1;	//领取多少天的签到奖励
+}
+
+//S->C 响应: 领取签到奖励
+message S_DAILY_SIGNIN_REWARD {
+	int32 rewardDay								=	1;	//领取多少天的签到奖励
+}
+
+
+
+

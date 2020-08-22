@@ -1,0 +1,394 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//帮派信息
+message GuildMsg {
+	int64 guildId=1; // 帮派ID
+	string name=2; // 帮派名字
+	string dec=3; // 帮派宣言
+	int64 fundVal=4; // 资金
+	int64 fightVal=5; // 战斗力
+	int32 level=6; // 等级
+	int64 chairId=7; //会长id
+	string chairName=8; //会长名字
+	int32 memberNum=9; //成员数量
+	int64 inFightVal=10; // 加入公会需要战力值
+	int32 panTao=11; //蟠桃值
+	int32 autoIn=12; // 是否勾选自动加入，1是，0否
+    int32 chairHeroId=15; //会长武将id
+    int32 heroQuality = 16; //会长主角武将品质
+}
+
+//获取帮派列表
+message C_GET_GUILD_PAGE_LIST {
+	int32 page = 1;//页数.
+}
+
+//获取帮派列表
+message S_GET_GUILD_PAGE_LIST {
+	repeated GuildMsg pageList=1; // 帮派信息
+	int32 num=2; // 帮派总数量
+	int32 page=3; // 当前页
+	int32 highCreateNum=4; // 直接创建2级帮派数量
+	int32 leaveTime = 5;	// 我退帮派加入新帮派的剩余时间
+}
+
+//帮派成员信息
+message GuildMemberMsg {
+	int64 playerId=1; // 玩家ID
+	string name=2; // 玩家名字
+	int32 playerHeroId=3; // 玩家名字
+	int32 level=4; // 玩家等级
+	int32 grade=5; // 职位
+	int32 donateId=6; //捐献id
+	int64 fightVal=7; // 战斗力
+	int64 lastLogoutTime=8; //最后登录时间
+	int64 dayDonate=9; // 当天献值
+	repeated int32 boxId=10; // 已领取奖励宝箱id
+	int32 isOnline=12; // 是否在线，1是，0否
+	int64 totalDonate=13; // 总贡献值
+	int32 heroQuality = 14; //主角武将品质
+}
+
+//获取帮派成员列表
+message C_GET_GUILD_MEMBER_LIST {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派成员列表
+message S_GET_GUILD_MEMBER_LIST {
+	int64 guildId=1; // 帮派ID
+	repeated GuildMemberMsg pageList=2; //帮派成员信息
+	int32 num=3; // 帮派成员总数量
+}
+
+//帮派申请信息
+message GuildApplyMsg {
+	int64 playerId=1; // 玩家ID
+	string name=2; // 玩家名字
+	int32 level=3; // 等级
+	int64 fightVal=4; //战斗力
+	int32 playerHeroId=6; // 玩家武将id
+	int32 heroQuality = 7; //主角武将品质
+}
+
+//获取帮派申请列表
+message C_GET_GUILD_APPLY_LIST {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派申请列表
+message S_GET_GUILD_APPLY_LIST {
+	int64 guildId=1; // 帮派ID
+	repeated GuildApplyMsg pageList=2; //帮派申请信息
+	int32 num=3; // 帮派申请总数量
+}
+
+//获取帮派基本信息
+message C_GET_GUILD_BASE_INFO{
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派基本信息
+message S_GET_GUILD_BASE_INFO{
+	GuildMsg guildInfo=1; //帮派信息
+	GuildMemberMsg myInfo=2; //我的帮派信息
+}
+
+//获取个人帮派申请列表
+message C_GET_MY_GUILD_APPLY{
+}
+
+//获取个人帮派申请列表
+message S_GET_MY_GUILD_APPLY{
+	repeated MyGuildApplyMsg myGuildApplyMsg =1; // 帮派申请信息
+}
+
+
+//帮派申请信息
+message MyGuildApplyMsg {
+	int64 guildId=1; // 帮派ID
+	string name=2; // 帮派名字
+}
+
+//创建帮派
+message C_CREATE_GUILD {
+	string name=1; // 帮派名字
+    int32 type = 2; //等级类型,1一级，2二级
+	string dec=3; // 帮派宣言
+}
+
+//创建帮派
+message S_CREATE_GUILD {
+	GuildMsg guild=1; // 帮派信息
+	GuildMemberMsg myInfo=2; //我的帮派信息
+    int32 type = 3; //等级类型,1一级，2二级
+    repeated ItemMsg reward = 4; // 奖励信息
+}
+
+//申请加入帮派
+message C_APPLY_JOIN_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 cancel=2; // 是否取消申请，1是，0否
+}
+
+//申请加入帮派
+message S_APPLY_JOIN_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 cancel=2; // 是否取消申请，1是，0否
+}
+
+//退出帮派
+message C_EXIT_GUILD {
+	int64 guildId=1; // 帮派ID
+}
+
+//退出帮派
+message S_EXIT_GUILD {
+	int64 guildId=1; // 帮派ID
+}
+
+
+//踢出帮派
+message C_DROP_OUT_GUILD {
+	int64 guildId=1; // 帮派ID
+	int64 beDropPlayerId=2; // 被踢玩家ID
+}
+
+//踢出帮派
+message S_DROP_OUT_GUILD {
+	int64 guildId=1; // 帮派ID
+	int64 beDropPlayerId=2; // 被踢玩家ID
+}
+
+//升级帮派
+message C_LEVEL_UP_GUILD {
+	int64 guildId=1; // 帮派ID
+}
+
+//升级帮派
+message S_LEVEL_UP_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 level=2; // 帮派等级
+	int64 fundVal=4; // 帮派资金
+}
+
+//修改帮派公告
+message C_EDIT_GUILD_DESC {
+	int64 guildId=1; // 帮派ID
+	string desc=2; // 帮派宣言
+}
+
+//修改帮派公告
+message S_EDIT_GUILD_DESC {
+	int64 guildId=1; // 帮派ID
+	string desc=2; // 帮派宣言
+}
+
+// 捐献
+message C_DONATE_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 donateId=2; //捐献id
+}
+
+// 捐献
+message S_DONATE_GUILD {
+	int64 guildId=1; // 帮派ID
+	int64 found=2; // 帮派总资金
+	int32 panTao=3; //帮派蟠桃值
+	int64 myFound=4; // 我的总贡献值
+	int64 dayDonate=5; // 我的当天献值
+	int32 donateId=6; //捐献id
+	ItemListMsg reward = 7; // 奖励信息
+}
+
+//领取捐献宝箱奖励
+message C_GET_BOX_REWARD {
+	int64 guildId=1; // 帮派ID
+	int32 boxId=2; // 宝箱id
+}
+
+//领取捐献宝箱奖励
+message S_GET_BOX_REWARD {
+	int64 guildId=1; // 帮派ID
+	int32 boxId=2; // 宝箱id
+	repeated ItemMsg reward = 4; // 奖励信息
+}
+
+
+//设置加入帮派战力值
+message C_SET_AUTOJOIN_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 autoIn=2; // 是否勾选自动加入，1是，0否
+	int64 fightVal=3; // 加入公会需要战力值
+}
+
+//设置加入帮派战力值
+message S_SET_AUTOJOIN_GUILD {
+	int64 guildId=1; // 帮派ID
+	int32 autoIn=2; // 是否勾选自动加入，1是，0否
+	int64 fightVal=3; // 加入公会需要战力值
+}
+
+//任命成员职位
+message C_APPOINT_GUILD_MEMBER {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; //目标成员id
+	int32 grade=3; // 职位标识，0成员，1会长，2副会长，3精英
+}
+
+//任命成员职位
+message S_APPOINT_GUILD_MEMBER {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; //目标成员id
+	int32 grade=3; // 职位标识，0成员，1会长，2副会长，3精英
+}
+
+//继承会长职位
+message C_INHERIT_CHAIR {
+	int64 guildId=1; // 帮派ID
+}
+
+//继承会长职位
+message S_INHERIT_CHAIR {
+	int64 guildId=1; // 帮派ID
+}
+
+//审批玩家入会
+message C_APPROVE_GUILD_MEMBER {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; //目标玩家id
+	int32 agree=3; // 是否同意,0否，1是
+}
+
+//审批玩家入会
+message S_APPROVE_GUILD_MEMBER {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; //目标玩家id
+	int32 agree=3; // 是否同意,0否，1是
+}
+
+//帮派技能信息
+message GuildSkillMsg {
+	int32 skillId=1; // 技能ID
+	int32 level=2; // 玩家等级
+}
+
+//获取帮派技能列表
+message C_GET_GUILD_SKILL_LIST {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派技能列表
+message S_GET_GUILD_SKILL_LIST {
+	int64 guildId=1; // 帮派ID
+	repeated int32 skillList = 2;	// 个人帮派技能信息
+//	repeated GuildSkillMsg pageList=2; //帮派技能信息
+}
+
+//帮派技能升级
+message C_GUILD_SKILL_LEVELUP {
+	int64 guildId=1; // 帮派ID
+	int32 skillId=2; //技能id
+}
+
+//帮派技能升级
+message S_GUILD_SKILL_LEVELUP {
+	int64 guildId=1; // 帮派ID
+	int32 skillId=2; //技能id
+	repeated int32 skillList = 3;	// 个人帮派技能信息
+//	repeated GuildSkillMsg pageList=4; //帮派技能信息
+}
+
+
+//转让会长职位
+message C_GUILD_TRANSFER_CHAIR {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; // 转让目标玩家ID
+}
+
+//转让会长职位
+message S_GUILD_TRANSFER_CHAIR {
+	int64 guildId=1; // 帮派ID
+	int64 targetId=2; // 转让目标玩家ID
+}
+
+//修改帮派名字
+message C_EDIT_GUILD_NAME {
+    int64 guildId=1; // 帮派ID
+    string name=2; // 帮派名字
+}
+
+//修改帮派名字
+message S_EDIT_GUILD_NAME {
+    int64 guildId=1; // 帮派ID
+    string name=2; // 帮派名字
+}
+
+//获取帮派记录信息
+message C_GET_GUILD_LOG {
+    int64 guildId=1; // 帮派ID
+}
+
+//获取帮派记录信息
+message S_GET_GUILD_LOG {
+    int64 guildId=1; // 帮派ID
+
+	repeated GuildLogMsg logList=3; //帮派记录信息
+}
+
+//帮派记录信息
+message GuildLogMsg {
+	int64 playerId=1; // 玩家id
+	string name=2; // 玩家名字
+	int64 targetId=3; // 目标玩家id
+	string targetName=4; // 目标玩家名字
+	int32 type=5; //记录类型，1进入帮派，2退出帮派. 3.成为帮主,4成为副帮主,5捐献,6弹劾成为帮主,7喂养BOSS
+	int64 logTime=6; // 目标玩家id
+	string info = 7; // 记录信息
+}
+
+//获取帮派悬赏排行
+message GuildTaskRankMsg {
+	int64 playerId=1; // 玩家ID
+	string name=2; // 玩家名字
+	int32 playerHeroId=3; // 玩家名字
+    int32 level=4; // 玩家等级
+	int64 taskDonate=5; // 帮派任务贡献
+	int32 rank=6; // 排名
+	int64 fightVal=7; // 战斗力
+	int32 heroQuality = 8; //主角武将品质
+}
+
+//获取帮派悬赏排名
+message C_GET_GUILD_TASK_RANK {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派悬赏排名
+message S_GET_GUILD_TASK_RANK {
+	int64 guildId=1; // 帮派ID
+	repeated GuildTaskRankMsg guildTaskRankMsg=3; //通关总排行
+}
+
+
+//招人
+message C_GUILD_RECRUIT {
+	int64 guildId=1; // 帮派ID
+}
+
+//招人
+message S_GUILD_RECRUIT {
+	int64 guildId=1; // 帮派ID
+	int64 cdTime=2; // 再发冷却时间
+}
+
+//帮派同步信息通知
+message SYNC_GUILD_NOTICE {
+	int64 guildId=1; 	// 帮派ID
+	int32 type=2; 		// 类型,1有人申请帮派,2帮派升级，3喂养Boss,4帮派喂养BOSS被击杀
+	string value=3; 	// 参数
+}
+
+

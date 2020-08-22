@@ -1,0 +1,122 @@
+syntax="proto3";
+package com.message;
+
+//拉取好友信息
+message C_GET_FRIEND_INFO{
+	int32 type = 1;//  0好友申请（非好友） 1黑名单 ,2好友
+}
+message S_GET_FRIEND_INFO{
+	int32 type = 2;//类型
+	repeated FRIEND_INFO friendInfo = 1;
+	string allRewardIds = 3; // 已经领取的玩家id集合，格式：id1,id2,id3,...
+	string canRewardIds = 4; // 可以领取的玩家id集合，格式：id1,id2,id3,...
+	string sendIds = 5; // 已经赠送的玩家id集合，格式：id1,id2,id3,...
+}
+message FRIEND_INFO{//好友信息
+	int64 playerId = 1;
+	int32 type = 2;//好友类型 0好友申请（非好友）1黑名单,2好友,
+	int32 subType = 3;//好友子类型 暂无作用
+	string nickName = 4;//玩家名称
+	int32 level = 5;//玩家等级
+	int64 fight = 6;//战力
+	int32 vipLevel = 7;//vip等级
+	bool isOnline = 8;//是否在线
+	int32 heroId = 9;//
+	int64 guild = 10;	//帮派id
+	string guildName = 11;//帮派名称
+	int32 heroQuality = 12; //主角武将品质
+	int64 offlineTime = 13;	// 玩家离线的时间戳
+	int32 useTitle = 14; //当前使用的称号id
+	int32 useHeadFrame = 15; //当前使用的头像框id
+
+}
+//好友操作
+message C_OPTION_FRIEND{
+	int64 playerId = 1;//玩家id
+	int32 optionType = 2;//操作类型 0拉黑，1加好友，2删除好友,3取消拉黑，4同意好友申请 5拒绝好友申请
+}
+message S_OPTION_FRIEND{
+	int64 playerId =1;
+	int32 optionType = 2;
+}
+//好友申请
+message S_FRIEND_APPLY{
+	int64 playerId = 1;//申请玩家id
+	string nickName = 3;//玩家名称
+	int32 level = 4;//玩家等级
+	int64 fight = 5;//战力
+	int32 heroQuality = 6; //主角武将品质
+}
+//同意好友申请 给双方都会发送一次
+message S_FRIEND_AGREE_APPLY{
+	FRIEND_INFO friendInfo = 1;//好友信息
+}
+
+//获取一键推荐好友操作
+message C_GET_FRIEND_RECOM{
+}
+
+message S_GET_FRIEND_RECOM{
+	repeated FRIEND_INFO otherInfo = 1;
+}
+
+//刷新一键推荐好友
+message C_GET_FRIEND_REFRESH{
+}
+
+message S_GET_FRIEND_REFRESH{
+	repeated FRIEND_INFO otherInfo = 1;
+}
+
+//一键邀请所有推荐的玩家为好友的操作
+message C_ONE_FRIEND_APPLYS{
+}
+
+message S_ONE_FRIEND_APPLYS{
+	repeated FRIEND_INFO otherInfo = 1; // 新的推荐数据
+}
+
+//赠送好友友情点的操作
+message C_FRIEND_SEND{
+	int64 sendId = 1;	// 要赠送的好友的id
+}
+
+message S_FRIEND_SEND{
+	string allsendIds = 1; // 已经赠送的玩家id集合，格式：id1,id2,id3,...
+}
+
+//一键赠送好友友情点的操作
+message C_ONE_FRIEND_SEND{
+}
+
+message S_ONE_FRIEND_SEND{
+	string allsendIds = 1; // 已经赠送的玩家id集合，格式：id1,id2,id3,...
+}
+
+//领取好友赠送的友情点
+message C_FRIEND_REWARD{
+	int64 rewardFriendId = 1;	// 要领取的好友的id
+}
+
+message S_FRIEND_REWARD{
+	string allRewardIds = 1; // 已经领取的玩家id集合，格式：id1,id2,id3,...
+	string canRewardIds = 2; // 可以领取的玩家id集合，格式：id1,id2,id3,...
+}
+
+//一键领取好友赠送的友情点
+message C_ONE_FRIEND_REWARD{
+}
+
+message S_ONE_FRIEND_REWARD{
+	string allRewardIds = 1; // 已经领取的玩家id集合，格式：id1,id2,id3,...
+	string canRewardIds = 2; // 可以领取的玩家id集合，格式：id1,id2,id3,...
+}
+
+//一键操作好友申请的操作
+message C_ONE_OPTION_FRIEND{
+	int32 optionType = 1;//操作类型 0拉黑，1加好友，2删除好友,3取消拉黑，4同意好友申请 5拒绝好友申请
+}
+message S_ONE_OPTION_FRIEND{
+	repeated FRIEND_INFO friendInfo = 1; // 剩余的申请数据
+	int32 type = 2;//类型
+}

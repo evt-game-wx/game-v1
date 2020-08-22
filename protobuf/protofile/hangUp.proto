@@ -1,0 +1,58 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+// 获取挂机副本战报
+message C_GET_HANGUP_WAR_REPORT {
+}
+
+// 获取挂机副本战报
+message S_GET_HANGUP_WAR_REPORT {
+	int32 instanceId = 1; // 副本ID
+	BattlePlayerMsg myFighter = 2;      // 我方战斗数据
+    repeated HangUpRoundMsg hangUpMsg= 3; //挂机战报数组
+}
+
+// 挂机战报数组
+message HangUpRoundMsg {
+    BattlePlayerMsg enemyFighter = 1; // 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg=2; //战报数据
+}
+
+//挂机击败波次数量同步
+message C_SYNC_DEFEAT_NUM{
+}
+
+//挂机击败波次数量同步
+message S_SYNC_DEFEAT_NUM{
+    int32 num = 1; //已经击败波次数量
+    int64 exp = 3;  //经验
+    int64 money = 4; //金币
+    ItemListMsg itemList = 5;
+	int64 time = 6;  //上次同步到本次同步相差毫秒数
+}
+
+//勾选离线挑战
+message C_OFF_LINE_CHALLENGE{
+	int32 state = 1; //1勾选离线挑战,0取消勾选
+}
+
+//勾选离线挑战
+message S_OFF_LINE_CHALLENGE{
+    int32 state = 1; //1勾选离线挑战,0取消勾选
+}
+
+//获取挂机副本排行信息
+message C_GET_HANGUP_RANK_INFO {
+}
+message S_GET_HANGUP_RANK_INFO {
+	repeated HANGUP_RANK_INFO rankInfos = 1;
+}
+message HANGUP_RANK_INFO{
+	int64 playerId = 1;//玩家id
+	string nickName = 2;//玩家名称
+	int32 instanceId = 3;//副本id
+	int64 fight = 4;//战力
+	int32 rank = 5;//排名
+}

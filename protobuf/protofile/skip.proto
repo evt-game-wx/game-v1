@@ -1,0 +1,11 @@
+syntax="proto3";
+package com.message;
+
+//客户端请求跳过战斗的操作
+message C_SKIP_BATTLE{
+}
+
+// 服务器响应跳过战斗的操作
+message S_SKIP_BATTLE{
+	int32 leaveCount 	= 1;	//剩余跳过的次数,如果不限制的话传来-1
+}

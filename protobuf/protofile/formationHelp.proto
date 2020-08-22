@@ -1,0 +1,52 @@
+syntax="proto3";
+package com.message;
+
+// 获取助阵武将相关的数据
+message C_GET_FORMATION_HELP_INFO {
+
+}
+
+// 服务器返还客户端数据
+message S_GET_FORMATION_HELP_INFO {
+	repeated FORMATION_HELP_INFO helpList = 1; 	// 阵形信息列表
+}
+
+// 助阵武将上阵操作
+message C_FORMATION_HELP_HERO_ON {
+	int32 heroId = 1;	// 英雄id
+	int32 indexId = 2;	// 上阵的槽位id，对应1-6
+	int32 posId = 3; 	// 要去的助阵槽位id，对应1,2,3个位置
+}
+
+// 服务器返还客户端数据
+message S_FORMATION_HELP_HERO_ON {
+	int32 heroId = 1;	// 英雄id
+	int32 indexId = 2;	// 上阵的槽位id，对应1-6
+	int32 posId = 3; 	// 要去的助阵槽位id，对应1,2,3个位置
+	int32 success = 4;	// 0为失败  1为成功
+}
+
+// 助阵武将的属性提升升级操作
+message C_FORMATION_HELP_LEVEL {
+	int32 indexId = 1;	// 上阵的槽位id，对应1-6
+	int32 posId = 2; 	// 要升级的槽位
+    int32 level = 3; 	// 升级前的等级
+}
+
+// 服务器返还客户端数据
+message S_FORMATION_HELP_LEVEL {
+	int32 indexId = 1;	// 上阵的槽位id，对应1-6
+	int32 posId = 2; 	// 要升级的槽位
+    int32 level = 3; 	// 升级后的等级
+    FORMATION_HELP_INFO helpInfo = 4; // 槽位相关的数据
+}
+
+message FORMATION_HELP_INFO{
+	int32 index = 1;		// 槽位
+	int32 heroId = 2;		// 助阵位置1的武将id
+	int32 heroId2 = 3;		// 助阵位置2的武将id
+	int32 heroId3 = 4;		// 助阵位置3的武将id
+	int32 level = 5;		// 助阵位置1当前的等级
+	int32 level2 = 6;		// 助阵位置1当前的等级
+	int32 level3 = 7;		// 助阵位置1当前的等级
+}

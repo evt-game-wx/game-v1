@@ -1,0 +1,92 @@
+syntax="proto3";
+package com.message;
+
+//获取boss列表信息
+message C_GET_OUT_BOSS_INFO {
+}
+
+//获取boss列表信息
+message S_GET_OUT_BOSS_INFO {
+    repeated OutBossMsg bossMsg = 2;      //boss信息
+    PlayerOutBossMsg playerBossMsg = 3;      //玩家boss信息
+	int32 buyTimes = 1;//boss挑战令vip已经购买了的次数
+}
+
+//玩家boss信息
+message PlayerOutBossMsg{
+    int64 playerId = 1; // 玩家id
+	int32 playCount = 2; // 可挑战次数
+    int64 addCountTime = 3;	//到期增加次数时间
+    repeated int32 instanceId = 4; //已勾选自动挑战副本id
+	int32 challengeBossAll = 5; //挑战总开关 1勾自动挑战,0未勾选
+    int32 inspireLevel = 6; //当前鼓舞等级
+}
+
+//boss信息
+message OutBossMsg{
+	int32 instanceId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    int64 runTime = 4; // 逃跑时间
+	int64 nextStartTime = 5; // 逃跑时间
+	int32 notice = 6; //1勾选刷新提醒,0取消勾选
+    AscriptionMsg ascriptionMsgMg = 7; //归属玩家信息
+
+}
+
+//归属信息
+message AscriptionMsg{
+    int64 playerId = 1; // 玩家id
+    string playerName = 2; // 玩家昵称
+}
+
+
+//勾选刷新提醒
+message C_OUT_BOSS_NOTICE{
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选离线挑战
+message S_OUT_BOSS_NOTICE{
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选自动挑战
+message C_OUT_BOSS_CHALLENGE{
+	int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战
+message S_OUT_BOSS_CHALLENGE{
+    int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message C_OUT_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message S_OUT_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//野外boss鼓舞
+message C_OUT_BOSS_INSPIRE{
+}
+//野外boss鼓舞
+message S_OUT_BOSS_INSPIRE{
+    int32 inspireLevel = 1; //当前鼓舞等级
+}
+
+//野外boss挑战令购买
+message C_OUT_BOSS_BUY{
+	int32 shopId = 1;//商品id
+}
+message S_OUT_BOSS_BUY{
+	int32 buyTimes = 2;//已经购买了的次数
+}

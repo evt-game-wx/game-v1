@@ -1,0 +1,59 @@
+{
+	"groups": [
+		{
+			"keys": "description_json",
+			"name": "config"
+		},
+		{
+			"keys": "xuanzhongxiaoguo_png,goumaigezibg_png,jiahao_png",
+			"name": "bag"
+		},
+		{
+			"keys": "common_json",
+			"name": "common"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "res/common/button/anniud_dis2.png",
+			"type": "image",
+			"name": "anniud_dis2_png"
+		},
+		{
+			"url": "res/common/button/anniuds.png",
+			"type": "image",
+			"name": "anniuds_png"
+		},
+		{
+			"url": "res/common/button/anniuds_down.png",
+			"type": "image",
+			"name": "anniuds_down_png"
+		},
+		{
+			"url": "res/bag/xuanzhongxiaoguo.png",
+			"type": "image",
+			"name": "xuanzhongxiaoguo_png"
+		},
+		{
+			"url": "res/bag/goumaigezibg.png",
+			"type": "image",
+			"name": "goumaigezibg_png"
+		},
+		{
+			"url": "res/bag/jiahao.png",
+			"type": "image",
+			"name": "jiahao_png"
+		},
+		{
+			"url": "sheet/common.json",
+			"type": "sheet",
+			"name": "common_json",
+			"subkeys": "anniud_dis2,anniuds,anniuds_down,common_biaotitou,common_dadishang,common_dadixia,common_dikuang,common_dikuang2,common_dikuang3,common_fanhui,common_guanbi,common_title_bg,duobianxing1,duobianxing2,shuaixuanbg,xuanzhong,yeqian1,yeqian2,zhuangshi"
+		}
+	]
+}

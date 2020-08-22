@@ -1,0 +1,51 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取全民狂嗨活动的信息
+message C_GET_ALL_HIGH_INFO {
+}
+
+// 返回客户端全民狂嗨活动的信息
+message S_GET_ALL_HIGH_INFO {
+	int32 highCount = 1;						// 当前嗨点的数量
+	string hadItemIds = 2;						// 当前已经获得过的奖励的配置表id，例如：1,5,6,3,9
+	string hadTaskIds = 3;						// 当前已经获得过的奖励的任务id，例如：1,5,6,3,9
+	repeated ALL_HIGH_TASK_INFO taskData = 4;	// 任务数据
+}
+
+// 全民狂嗨活动领取任务奖励操作
+message C_ALL_HIGH_TASK_REWARD {
+	int32 taskId = 1;		// 准备领取的任务奖励的id
+}
+
+// 返回客户端全民狂嗨任务奖励数据
+message S_ALL_HIGH_TASK_REWARD{
+	int32 taskId = 1;				// 领取的任务奖励的id
+	int32 highCount = 2;			// 当前嗨点的数量
+	string hadTaskIds = 3;			// 当前已经获得过的奖励的任务id，例如：1,5,6,3,9
+}
+
+// 角色领取全民狂嗨的嗨点奖励操作
+message C_ALL_HIGH_REWARD {
+	int32 rewardIndex = 1;		// 准备领取的嗨点奖励的配置表id
+}
+
+// 返回客户端领取全民狂嗨的嗨点奖励数据
+message S_ALL_HIGH_REWARD{
+	int32 highCount = 1;			// 当前嗨点的数量
+	ItemListMsg itemList = 2;		// 本次获得的奖励物品
+	int32 rewardIndex = 3;			// 当前领取的嗨点奖励的配置表id
+	string hadItemIds = 4;			// 当前已经获得过的奖励的配置表id，例如：1,5,6,3,9
+}
+
+// 推送客户端全民狂嗨活动的任务数据
+message S_PUSH_ALL_HIGH_TASK{
+	ALL_HIGH_TASK_INFO taskData = 1;	// 任务的状态数据
+}
+
+// 全民狂嗨的任务信息
+message ALL_HIGH_TASK_INFO {
+	int32 id = 1;		//任务id
+	int32 value = 2;	//进度值
+}

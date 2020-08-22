@@ -1,0 +1,87 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获取阎王殿信息
+message C_GET_HELL_INFO {
+}
+
+//获取阎王殿信息
+message S_GET_HELL_INFO {
+	string hellBreaks = 1;//要记录的值
+    repeated HellRankMsg hellRankMsg = 2;      //排行信息
+    HellMsg hellMsg = 3;                        //阎王殿信息
+}
+
+//阎王殿信息
+message HellMsg{
+    int64 playerId = 1; // 玩家id
+    int32 passHellInsId = 2; // 已通关阎王殿副本id
+	int32 dailyReward = 3; // 今日奖励是否已经领取,1是，0否
+
+    int32 lotteryId = 5; //当前轮盘编号
+    int32 lotteryCount = 6; //可抽奖次数
+    repeated int32 rewardList  = 7; //已领取奖励id,1-8
+}
+
+//排行信息
+message HellRankMsg{
+    int32 rank = 1; // 排名
+    int64 playerId = 2; // 玩家id
+    string playerName = 3; // 玩家昵称
+    int32 passHellInsId = 4; // 已通关阎王殿副本id
+
+}
+
+//领取每日奖励
+message C_GET_HELL_DAILY_REWARD{
+}
+
+//领取每日奖励
+message S_GET_HELL_DAILY_REWARD{
+    int32 dailyReward = 1; // 今日奖励是否已经领取,1是，0否
+	repeated ItemMsg reward = 2; // 奖励信息
+}
+
+//轮盘抽奖
+message C_HELL_LOTTERY{
+}
+
+//轮盘抽奖
+message S_HELL_LOTTERY{
+    int32 lotteryId = 1; //当前轮盘编号
+    int32 lotteryCount = 2; //可抽奖次数
+    int32 rewardIndex  = 3; //抽中奖励index,1-8
+}
+
+
+//符文升级
+message C_HELL_ANNE_LEVEL_UP{
+	int64 goodsId = 1; //符文对应的goodsId
+}
+
+//符文升级
+message S_HELL_ANNE_LEVEL_UP{
+    int64 goodsId = 1; //符文对应的goodsId
+	int32 anneId = 2; //符文对应的itemId，即符文id
+    int32 anneLevel = 3; //符文等级
+}
+
+
+//符文分解
+message C_HELL_ANNE_DECOMPOSE{
+	repeated int64 goodsId = 1; //符文对应的goodsId
+}
+
+//符文分解
+message S_HELL_ANNE_DECOMPOSE{
+    repeated ItemMsg reward = 2; // 分解获得奖励信息
+}
+
+//记录符文分解的勾选
+message C_HELL_REMEMBER{
+	string hellBreaks = 1;//要记录的值
+}
+message S_HELL_REMEMBER{
+	string hellBreaks = 1;//要记录的值
+}

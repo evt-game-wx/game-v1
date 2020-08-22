@@ -1,0 +1,30 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//检查cdkey
+message C_CHECK_CDK_INFO {
+    string cdKeyCode  		=   1;      //CDK值
+}
+
+//检查cdkey
+message S_CHECK_CDK_INFO {
+    int32 result           	=   1; 		//0-成功,-101 - 激活码不存在-102 - 激活码已过期-103 - 激活码已使用-104 - 已领取过该类型激活码 -105 - 激活码被其他玩家使用中
+    string msg   			=   3;      //返回值信息
+    int32 rewardId   		=   4;      //CDKey对应的奖励ID(用于前端显示, 后端发奖励)
+}
+
+
+//获得cdkey奖励
+message C_GET_CDK_REWARD {
+    string cdKeyCode  		=   1;      //CDK值
+}
+
+//获得cdkey奖励
+message S_GET_CDK_REWARD {
+    int32 result           	=   1; 		//0-成功,-101 - 激活码不存在-102 - 激活码已过期-103 - 激活码已使用-104 - 已领取过该类型激活码 -105 - 激活码被其他玩家使用中
+    string msg   			=   3;      //返回值信息
+    int32 rewardId   		=   4;      //CDKey对应的奖励ID(用于前端显示, 后端发奖励)
+    ItemListMsg itemList    = 5;//奖励
+}
+

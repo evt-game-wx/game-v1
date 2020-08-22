@@ -1,0 +1,92 @@
+syntax="proto3";
+package com.message;
+
+//获取boss列表信息
+message C_GET_BOSS_INFO {
+}
+
+//获取boss列表信息
+message S_GET_BOSS_INFO {
+    repeated WorldBossMsg bossMsg = 2;      //boss信息
+    PlayerBossMsg playerBossMsg = 3;      //玩家boss信息
+	int32 buyTimes = 1;//boss挑战令vip已经购买了的次数
+}
+
+//玩家boss信息
+message PlayerBossMsg{
+    int64 playerId = 1; // 玩家id
+	int32 playCount = 2; // 可挑战次数
+    int64 addCountTime = 3;	//到期增加次数时间
+    repeated int32 instanceId = 4; //已勾选自动挑战副本id
+	int32 challengeBossAll = 5; //挑战总开关 1勾自动挑战,0未勾选
+}
+
+//boss信息
+message WorldBossMsg{
+	int32 bossId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    int64 runTime = 4; // 逃跑时间
+	int64 nextStartTime = 5; // 逃跑时间
+	int32 notice = 6; //1勾选刷新提醒,0取消勾选
+    repeated DamageRankMsg damageRankMg = 7; //伤害排行
+
+}
+
+//伤害排行信息
+message DamageRankMsg{
+    int32 rank = 1; // 排名
+    int64 playerId = 2; // 玩家id
+    string playerName = 3; // 玩家昵称
+    int64 damage = 4; // 累计伤害值
+}
+
+
+//勾选刷新提醒
+message C_WORLD_BOSS_NOTICE{
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选离线挑战
+message S_WORLD_BOSS_NOTICE{
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选自动挑战
+message C_WORLD_BOSS_CHALLENGE{
+	int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战
+message S_WORLD_BOSS_CHALLENGE{
+    int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message C_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message S_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+
+//Boos刷新推送
+message S_SYNC_WORLD_BOSS_REFRESH{
+    int32 type = 1; 		//BOSS类型  副本表副本类型
+	int32 instanceId = 2; // bossID/副本id
+}
+
+//世界boss挑战令vip购买
+message C_WORLD_BOSS_BUY{
+	int32 shopId = 1;//商品id
+}
+message S_WORLD_BOSS_BUY{
+	int32 buyTimes = 2;//已经购买了的次数
+}

@@ -1,0 +1,41 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取天宫寻宝活动的信息
+message C_GET_OP_XUN_BAO_INFO {
+}
+
+// 返回客户端天宫寻宝活动的信息
+message S_GET_OP_XUN_BAO_INFO {
+	int32 curIndex = 1;				// 当前是第几轮的奖励展示
+	int32 freeTimes = 2; 			// 当前拥有的免费次数
+	int32 moveIndex = 3;			// 当前走到第几个位置了
+}
+
+// 角色进行砸金蛋的操作
+message C_OP_XUN_BAO {
+	int32 opType = 1;		// 选择骰子的次数，例如：1,10
+}
+
+// 返回客户端砸金蛋后的数据
+message S_OP_XUN_BAO{
+	int32 curIndex = 1;					// 当前是第几轮的奖励展示
+	int32 freeTimes = 2; 				// 当前拥有的免费次数
+	int32 moveIndex = 3;				// 当前走到第几个位置了
+	int32 afterIndex = 4;				// 投掷完骰子后处于第几轮
+	repeated TOU_ZI_DATA datas = 5;		// 本轮骰子的结果数据
+}
+
+// 本轮骰子点数前进的数据和奖励
+message TOU_ZI_DATA {
+	int32 touZiPoint = 1;				// 本次骰子的点数
+	int32 curTimes = 2;					// 当前是第几次投掷骰子，1-10
+	repeated POINT_DATA pointData = 3;	// 本次骰子的奖励数据
+}
+
+message POINT_DATA {
+	int32 curIndex = 1;				// 当前是第几轮
+	int32 gridIndex = 2;			// 当前第几个位置
+	ItemListMsg itemList = 3;		// 当前位置获得的奖励物品
+}

@@ -1,0 +1,12 @@
+syntax="proto3";
+package com.message;
+
+//debug 命令
+message C_DEBUG_COMMON {
+    string debugString = 1;//参数
+}
+
+//debug 返回
+message S_DEBUG_COMMON { 
+    string debugString = 1;//参数
+}

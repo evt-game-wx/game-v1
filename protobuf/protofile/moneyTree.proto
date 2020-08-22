@@ -1,0 +1,53 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//客户端请求摇钱树信息
+message C_GET_MONEY_TREE_INFO{
+}
+
+// 服务器响应摇钱树信息
+message S_GET_MONEY_TREE_INFO{
+	int32 costDiamond 			= 1;	// 本次消耗的元宝数量
+	int64 baseGold				= 2;	// 本次获得的银两数目的基数
+	int32 goldRate				= 3;	// 本次可以获得的银两的倍数
+	int32 hadTimes				= 4;	// 今日已经摇钱的次数
+	int32 maxTimes				= 5;	// 今日最大的摇钱次数
+	int32 extTimes				= 6;	// 再摇几次可以获得额外奖励
+	string extRewardIds			= 7;	// 额外奖励可以领取的配置id字符串，格式：id1,id2,id3
+	int32 addRate				= 8;	// 加成的比率
+	int32 extIndex				= 9;	// 额外奖励展示的配置id
+}
+
+//客户端请求摇钱树摇一摇
+message C_MONEY_TREE_REWARD{
+	int32 costDiamond 			= 1;	// 本次消耗的元宝数量
+	int64 baseGold				= 2;	// 本次获得的银两数目的基数
+	int32 goldRate				= 3;	// 本次获得银两的倍数
+}
+
+// 服务器响应摇钱树摇一摇
+message S_MONEY_TREE_REWARD{
+	int64 rewardGold			= 1;	// 本次摇钱获得的银两数目
+	int32 costDiamond 			= 2;	// 下一次消耗的元宝数量
+	int64 baseGold				= 3;	// 下一次获得的银两数目的基数
+	int64 goldRate				= 4;	// 下一次可以获得的银两的倍数
+	int32 hadTimes				= 5;	// 今日已经摇钱的次数
+	int32 maxTimes				= 6;	// 今日最大的摇钱次数
+	int32 extTimes				= 7;	// 再摇几次可以获得额外奖励
+	string extRewardIds			= 8;	// 额外奖励可以领取的配置id字符串，格式：id1,id2,id3
+	int32 addRate				= 9;	// 加成的比率
+	int32 extIndex				= 10;	// 额外奖励展示的配置id
+}
+
+//客户端请求摇钱树额外奖励
+message C_MONEY_TREE_EXTEND_REWARD{
+}
+
+// 服务器响应摇钱树信息
+message S_MONEY_TREE_EXTEND_REWARD{
+	int32 extTimes 				= 1;	// 再摇几次可以获得额外奖励
+	ItemListMsg itemList 		= 2;	// 额外奖励获得的奖励
+	string extRewardIds			= 3;	// 额外奖励可以领取的配置id字符串，格式：id1,id2,id3
+	int32 extIndex				= 4;	// 额外奖励展示的配置id
+}

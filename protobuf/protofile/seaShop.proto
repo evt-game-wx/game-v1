@@ -1,0 +1,50 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取海底龙宫商店活动的信息
+message C_GET_SEA_SHOP_INFO {
+}
+
+// 返回客户端海底龙宫商店活动的信息
+message S_GET_SEA_SHOP_INFO {
+	int32 freeCount = 1;	// 当前拥有的免费刷新的次数
+	int32 leaveTime = 2;	// 免费刷新的剩余倒计时，单位秒
+	string shopDatas = 3;	// 当前商店的商品数据，格式：id1,id2,id3...
+	string hadDatas = 4;	// 当前商店已经购买的商品的id，格式：id1,id2,id3...
+}
+
+// 海底龙宫商店活动购买商品的操作
+message C_SEA_SHOP_BUY {
+	int32 shopId = 1;		// 购买的商店的唯一id
+	int32 buyNum = 2;		// 购买的商品数量
+}
+
+// 返回客户端海底龙宫商店任务奖励数据
+message S_SEA_SHOP_BUY{
+	int32 shopId = 1;			// 购买的商店的唯一id
+	ItemListMsg itemList = 2;	// 本次购买获得的物品
+	string hadDatas = 3;		// 当前商店已经购买的商品的id，格式：id1,id2,id3...
+}
+
+// 角色海底龙宫商店刷新商品的操作
+message C_SEA_SHOP_REFRESH {
+	int32 refreshType = 1;		// 刷新的类型，1是免费刷新，2是道具刷新
+}
+
+// 返回客户端海底龙宫商店刷新商品后的数据
+message S_SEA_SHOP_REFRESH{
+	int32 freeCount = 1;		// 当前拥有的免费刷新的次数
+	int32 leaveTime = 2;		// 免费刷新的剩余倒计时，单位秒
+	string shopDatas = 3;		// 当前商店的商品数据，格式：id1,id2,id3...
+}
+
+// 海底龙宫商店全部购买的操作
+message C_SEA_SHOP_BUY_ALL{
+}
+
+// 海底龙宫商店的任务信息
+message S_SEA_SHOP_BUY_ALL {
+	ItemListMsg itemList = 1;	// 本次购买获得的物品
+	string hadDatas = 3;		// 当前商店已经购买的商品的id，格式：id1,id2,id3...
+}

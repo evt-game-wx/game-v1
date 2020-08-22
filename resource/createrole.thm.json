@@ -1,0 +1,10 @@
+{
+	"skins": {},
+	"autoGenerateExmlsList": false,
+	"exmls": [
+		"resource/createRole_skins/CreateRoleButtonYellowSkin.exml",
+		"resource/createRole_skins/CreateRoleTextInputSkin.exml",
+		"resource/createRole_skins/CreateRoleSkin.exml"
+	],
+	"path": "resource/createrole.thm.json"
+}

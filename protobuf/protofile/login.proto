@@ -1,0 +1,65 @@
+syntax="proto3";
+package com.message;
+
+// 登录
+message C_USER_LOGIN {
+	string username=1; // 账号
+	string gameSite=2; // 区服
+	string sparam = 3;			//后端透传参数
+}
+
+// 登录返回
+message S_USER_LOGIN {
+	int64 playerId=1; // 玩家编号
+}
+
+// 注册
+message C_LOGIN_REGISTER {
+	string username=1; // 账号
+	string gameSite=2; // 区服
+	string nickname=3; // 玩家昵称
+	int32 heroId=4;  //所选角色
+	string sparam = 5;			//后端透传参数
+}
+
+//登出
+message C_USER_LOGOUT {
+	int64 playerId=1; // 玩家编号
+}
+//登出返回，踢人下线
+message S_USER_LOGOUT {
+	int64 playerId=1; // 玩家编号
+	bool beKickOut=2; //true是被踢出去的，false是自己主动退出的
+}
+
+// 被封禁提示
+message S_USER_LOGIN_BAN {
+
+}
+
+//同步时间
+message C_SYNC_TIME {
+}
+message S_SYNC_TIME {
+	int64 time=1; //ms
+}
+
+// 客户端核查随机名字是否可以使用
+message C_GET_NICKNAME_INFO {
+	string nickName = 1;	// 核查的随机昵称
+}
+
+message S_GET_NICKNAME_INFO {
+	string nickName = 1;	// 核查的随机昵称
+	bool canUse = 2;		// 是否可用，true可用false不可用
+}
+
+// 客户端通知sdk上报数据操作
+message C_SEND_SDK_DATA {
+	string reportStr = 1;	// 要上报的字符串数据
+	string reportUrl = 2;	// 要上报的url参数
+}
+
+message S_SEND_SDK_DATA {
+	bool canUse = 1;		// 上报结果，true成功false失败
+}

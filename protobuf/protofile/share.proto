@@ -1,0 +1,30 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取分享数据的信息
+message C_GET_SHARE_REWARD_INFO {
+
+}
+
+// 返回客户端分享数据的信息
+message S_GET_SHARE_REWARD_INFO {
+	int32 hadCount = 1;						// 今日已经分享的次数
+	int64 leaveTime = 2;					// 分享的CD剩余时间，单位秒
+	int32 myRewardCount = 3;				// 今日领取添加到我的小程序的次数
+	int32 enterCount = 4;					// 今日领取公众号进入的次数
+}
+
+// 分享活动领取奖励操作
+message C_GET_SHARE_REWARD {
+	int32 rewardType = 1;		// 领取奖励的类型，1是分享2是添加我的小程序3是公众号进入
+}
+
+// 返回客户端领取分享奖励数据
+message S_GET_SHARE_REWARD{
+	int32 hadCount = 1;						// 今日已经分享的次数
+	int64 leaveTime = 2;					// 分享的CD剩余时间，单位秒
+	int32 myRewardCount = 3;				// 今日领取添加到我的小程序的次数
+	ItemListMsg itemList = 4;				// 本次获得的奖励物品
+	int32 enterCount = 5;					// 今日领取公众号进入的次数
+}

@@ -1,0 +1,39 @@
+syntax="proto3";
+package com.message;
+
+//获得技能列表信息
+message C_GET_SKILL_INFO {
+	int32 type	=	1; 		//技能子类型，角色技能100，武将技能200,1坐骑。。。
+}
+
+//获得技能列表信息
+message S_GET_SKILL_INFO {
+    repeated SkillMsg skillInfo = 1; //技能信息
+}
+
+//技能信息
+message SkillMsg {
+    int32 type		=	1; 		//技能类型，1主动技能，2被动技能
+    int32 skillId	=	2; 		//技能ID
+    int32 heroId = 3; 			//武将id
+	int32 subType	=	4; 		//技能类型，角色技能100，武将技能200,1坐骑。。。
+}
+
+//学习技能
+message C_LEARN_SKILL {
+    int32 type		=	1; 		//技能类型，1主动技能，2被动技能
+    int32 skillId	=	2; 		//技能ID
+	int32 heroId = 3; 			//武将id
+}
+
+//学习技能
+message S_LEARN_SKILL {
+	SkillMsg skillInfo = 1; //技能信息
+}
+
+//一键学习技能
+message C_LEARN_SKILL_ONEKEY{
+}
+message S_LEARN_SKILL_ONEKEY{
+	repeated SkillMsg skillInfo = 1; //技能信息
+}

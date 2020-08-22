@@ -1,0 +1,75 @@
+syntax="proto3";
+package com.message;
+
+
+//获取开服排行信息
+message C_OPNE_SERVER_RANK_INFO {
+}
+
+//获取开服排行信息
+message S_OPNE_SERVER_RANK_INFO {
+	repeated ServerRankInfo serverRankInfo = 1;		//排行榜信息,一天可能多个
+}
+
+//排行榜信息
+message ServerRankInfo{
+	int32 rankId           	=   1; 		//排行榜id
+	repeated RankInfo rankInfo = 2;		//排行榜信息
+	RankInfo selfRankInfo = 3;//自己的排行榜信息
+}
+
+//排行榜信息
+message RankInfo{
+	int32 rank           	=   1; 		//排名
+	int64 score  			=   2; 		//排行参数
+    RankRoleInfo roleRankInfo       =   3;      //排行榜的角色信息
+}
+
+//角色信息
+message RankRoleInfo {
+    int64  roleId           =   1;        //角色ID
+    string roleName         =   2;        //角色名
+	int32 vipLevel			=	3;		  //角色的VIP等级
+	int32 heroId 			= 	4;		  //武将id
+	int32 level				=	5;        //角色等级
+	int32 wingId 			= 	6;		  //翅膀星级
+	int32 wingImageId 		=   7;		  //翅膀幻化id
+	int32 mountId 			= 	8;		  //坐骑星级
+	int32 mountImageId 		=   9;		  //坐骑幻化id
+	int32 holoId 			= 	10;		  //光环星级
+	int32 holoImageId 		=   11;		  //光环幻化id
+	int32 shouhuId 			= 	12;		  //守护星级
+	int32 shouhuImageId 	=   13;		  //守护幻化id
+	int64 fight 			=   14;		  //战力
+	int32 heroQuality		=	15;		  //角色武将品质
+	int32 useTitle			=	16;		  //当前使用的称号id
+	int32 useHeadFrame		=	17;		  //当前使用的头像框id
+	int32 roleHeroId		=	18;		  // 主角的武将id
+}
+
+
+//获取排行信息
+message C_SERVER_RANK_INFO {
+	int32 rankId           	=   1; 		//排行榜id， 排行榜类型_RankType
+}
+
+//获取排行信息
+message S_SERVER_RANK_INFO {
+	int32 rankId           	=   1; 		//排行榜id
+	repeated RankInfo rankInfo = 2;		//排行榜信息
+	int32 myRank           	=   3; 		//我的排名
+	int64 currScore 		=   4;		//我的当前分数
+}
+
+//获取开服排行历史信息
+message C_OPNE_SERVER_HISTORY_RANK_INFO {
+	int32 rankId           	=   1; 		//排行榜id， 排行榜类型_RankType
+}
+
+//获取开服排行历史信息
+message S_OPNE_SERVER_HISTORY_RANK_INFO {
+	int32 rankId           	=   1; 		//排行榜id
+	repeated RankInfo rankInfo = 2;		//排行榜信息
+	int32 myRank           	=   3; 		//我的排名
+	int64 currScore 		=   4;		//我的当前分数
+}

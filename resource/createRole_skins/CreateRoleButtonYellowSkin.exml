@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<e:Skin class="CreateRoleButtonYellowSkin" states="up,down,disabled" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Image width="100%" height="100%" source.up="createrole_anniud_png" source.disabled="createrole_anniud_dis_png" source="createrole_anniud_png" source.down="createrole_anniud_down_png" scale9Grid="64,23,39,10"/>
+    <e:Label id="labelDisplay" top="6" bottom="10" left="8" right="8"
+             size="30"
+             verticalAlign="middle" textAlign="center" fontFamily="specialGameFont" bold="false" textColor="0x5a2e2b" strokeColor="0x000000" textColor.up="0xffffff" textColor.down="0xffffff" strokeColor.disabled="0x686868" textColor.disabled="0xd1d1d1" strokeColor.up="0x5a2e2b" stroke.up="2" strokeColor.down="0x000000" stroke.down="1"/>
+      <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" source="" source.up="" source.disabled=""/>
+    <w:Config id="15dc0771e81" ></w:Config>
+</e:Skin>

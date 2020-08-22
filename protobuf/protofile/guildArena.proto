@@ -1,0 +1,418 @@
+syntax="proto3";
+package com.message;
+import "battleMsg.proto";
+import "playerMsg.proto";
+
+// 帮主申请帮派报名的操作
+message C_GUILD_ARENA_APPLY {
+	int64 guildId = 1;		// 帮派的id
+}
+
+// 服务器返回客户端 -> 帮主申请报名的结果
+message S_GUILD_ARENA_APPLY {
+	int64 guildId = 1;		// 帮派的id
+	int64 applyTime = 2;	// 报名的时间
+	int64 battleTime = 3;	// 可以对战的时间
+}
+
+// 玩家获取帮派三界争霸的数据
+message C_GET_GUILD_ARENA_INFO {
+	int64 guildId = 1;		// 帮派的id
+}
+
+// 服务器返回客户端 -> 获取帮派三界争霸的数据
+message S_GET_GUILD_ARENA_INFO {
+	int64 guildId = 1;				// 帮派的id
+	int64 applyTime = 2;			// 自己帮派报名的时间
+	int64 battleTime = 3;			// 自己帮派可以对战的时间
+	ChairPlayerMsg playerMsg = 4;	// 上届冠军的帮派帮主数据
+	int64 startTime = 5;			// 本赛季对战开始的时间
+}
+
+// 帮主相关的数据展示
+message ChairPlayerMsg{
+	int64 playerId = 1; 						// 玩家编号
+	string playerName = 2;						// 玩家昵称
+	int32 serverId=3;   						// 服务器编号
+	int64 heroId=4;								// 主角武将的id
+    int32 heroQuality = 5;						// 主角武将的品质
+    repeated ImageDressMsg imageDressMsg = 6;	// 幻化形象信息
+    int32 useTile = 7;							// 当前使用的称号
+    string champtionName = 8;					// 帮派昵称
+    int32 seasonId = 9;							// 赛季的id
+}
+
+// 获取三界争霸的荣誉殿堂数据
+message C_GUILD_ARENA_HISTORY {
+}
+
+// 服务器返回客户端 -> 获取三界争霸的荣誉殿堂数据
+message S_GUILD_ARENA_HISTORY {
+	int32 currId = 1;						// 本届的赛季id
+	repeated ChairPlayerMsg playerMsg = 2;	// 历届冠军的帮派帮主数据
+}
+
+// 获取三界争霸的排行榜数据
+message C_GUILD_ARENA_RANK {
+	int32 rankType = 1;		// 排行榜的类型，1是天组，2是地组，3是人组
+	int64 guildId = 2;		// 帮派的id
+}
+
+// 服务器返回客户端 -> 获取三界争霸的排行榜数据
+message S_GUILD_ARENA_RANK {
+	int32 rankType = 1;						// 排行榜的类型，1是天组，2是地组，3是人组
+	repeated GuildRankMsg rankMsg = 2;		// 排行榜的数据
+	int32 selfRank = 3;						// 玩家所在的帮派当前的排名
+}
+
+// 帮派排名数据
+message GuildRankMsg {
+	int32 rankId = 1;			// 排名id
+	int64 guildId = 2;			// 帮派的id
+	string guildName = 3;		// 帮派的昵称
+	int32 battlePlayers = 4;	// 出站的总人数
+	int32 winTimes = 5;			// 胜利次数
+	int32 loseTimes = 6;		// 失败的次数
+	int32 score = 7;			// 净胜点数量
+}
+
+// 获取三界争霸的对阵数据
+message C_GUILD_ARENA_PEAK {
+	int64 guildId = 1;			// 帮派的id
+}
+
+// 服务器返回客户端 -> 获取三界争霸的对阵数据
+message S_GUILD_ARENA_PEAK {
+	int32 rankType = 1;					// 对阵小组的类型，1是天组，2是地组，3是人组
+	GuildBattleMsg myData = 2;			// 我的帮派的数据
+	GuildBattleMsg targetData = 3;		// 对手帮派的数据
+	int64 battleTime = 4;				// 开始时间
+	repeated GuildLogDataMsg logDatas = 5;	// 对战记录数据
+}
+
+// 帮派对阵数据
+message GuildBattleMsg {
+	int32 rankId = 1;			// 排名id
+	int64 guildId = 2;			// 帮派的id
+	string guildName = 3;		// 帮派的昵称
+	int32 battlePlayers = 4;	// 出站的总人数
+	int32 initBlood = 5;		// 初始血量值
+	int32 blood = 6;			// 当前血量值
+	ChairPlayerMsg playerMsg = 7;	// 帮派帮主数据
+	int32 score = 8;			// 是否打完，0表示未打完，1失败，2成功
+}
+
+// 帮派成员对阵记录数据
+message GuildLogDataMsg {
+	int64 createTime = 1;		// 记录产生的时间
+	string guildName = 2;		// 挑战者的帮派昵称
+	string playerName = 3;		// 挑战者的昵称
+	string guildTargetName = 4;	// 被挑战者的帮派昵称
+	string playerTargetName = 5;// 被挑战者的昵称
+	int32 battleResult = 6;		// 挑战的结果,0失败，1胜利
+	string recordId = 7;		// 帮主对决的战报id
+	int32 battleType = 8;		// 对战的类型，1是发起挑战，2是被挑战
+}
+
+// 获取三界争霸的对手数据
+message C_GUILD_ARENA_TARGETS {
+	int64 guildId = 1;			// 帮派的id
+	int64 targetGuildId = 2;	// 对手帮派的id
+}
+
+// 服务器返回客户端 -> 获取三界争霸的对手数据
+message S_GUILD_ARENA_TARGETS {
+	int32 myBlood = 1;					// 当前拥有的帮派血量值
+	int32 playTimes = 2;				// 今日已经挑战的次数
+	int32 maxTimes = 3;					// 今日可以挑战的上限
+	int32 buyTimes = 5;					// 今日已经购买的挑战次数
+	repeated GuildPlayerMsg targetDatas = 4;	// 对手的数据
+}
+
+// 帮派成员的数据展示
+message GuildPlayerMsg{
+	int64 playerId = 1; 						// 玩家编号
+	string playerName = 2;						// 玩家昵称
+	int32 serverId=3;   						// 服务器编号
+	int64 heroId=4;								// 主角武将的id
+    int32 heroQuality = 5;						// 主角武将的品质
+    repeated ImageDressMsg imageDressMsg = 6;	// 幻化形象信息
+    int32 useTile = 7;							// 当前使用的称号
+    int32 guildGrade = 8;						// 当前职位
+    int32 blood = 9;							// 当前还有的帮派血量值
+    int64 power = 10;							// 玩家当前的战力值
+}
+
+// 获取三界争霸的对战和战绩记录
+message C_GUILD_ARENA_RECORD {
+	int64 guildId = 1;			// 帮派的id
+	int32 rankType = 2;			// 对阵小组的类型，1是天组，2是地组，3是人组
+}
+
+// 服务器返回客户端 -> 获取三界争霸的对战和战绩记录
+message S_GUILD_ARENA_RECORD {
+	int32 rankType = 1;							// 对阵小组的类型，1是天组，2是地组，3是人组
+	repeated GuildRecordMsg recordDatas = 2;	// 对战记录数据
+}
+
+// 对阵记录数据
+message GuildRecordMsg {
+	int64 guildId = 1;				// 帮派的id
+	string guildName = 2;			// 帮派的昵称
+	int32 blood = 3;				// 帮派当前的血量值
+	int64 targetGuildId = 4;		// 对手帮派的id
+	string targetGuildName = 5;		// 对手帮派的昵称
+	int32 targetBlood = 6;			// 对手帮派的血量值
+	int64 winGuildId = 7;			// 获胜的帮派id，0表示未出结果
+}
+
+// 获取三界争霸的帮主对决的战报记录
+message C_GUILD_ARENA_REPORT {
+	int64 guildId = 1;			// 帮派的id
+	string recordId = 2;		// 战报记录的唯一id
+}
+
+// 服务器返回客户端 -> 获取三界争霸的帮主对决的战报
+message S_GUILD_ARENA_REPORT {
+	GuildBattleReportMsg reportData = 1;      // 本场战斗的战报数据
+}
+
+// 一场战斗的战报数据
+message GuildBattleReportMsg {
+	BattlePlayerMsg myFighter = 1;      			// 我方战斗数据
+    BattlePlayerMsg enemyFighter = 2; 				// 敌方战斗数据
+    repeated FighterRoundMsg fighterRoundMsg = 3;	//战报数据
+	int32 roundNum = 4;  							//总回合数
+	int64 winPlayerId = 5;  						//获得胜利的玩家id
+}
+
+// 三界争霸购买行动力的操作
+message C_GUILD_ARENA_BUY_TIMES {
+	int64 guildId = 1;			// 帮派的id
+	int32 buyTimes = 2;			// 今日已经购买的挑战次数
+}
+
+// 服务器返回客户端 -> 三界争霸购买行动力的操作
+message S_GUILD_ARENA_BUY_TIMES {
+	int32 buyTimes = 1;		// 今日已经购买的挑战次数
+	int32 playTimes = 2;	// 今日已经挑战的次数
+	int32 maxTimes = 3;		// 今日可以挑战的上限
+}
+
+// 三界争霸选择对手进行挑战操作
+message C_GUILD_ARENA_ATTACK {
+	int64 guildId = 1;			// 帮派的id
+	int64 targetGuildId = 2;	// 对手玩家的帮派id
+	int64 targetPlayerId = 3;	// 对手玩家的id
+}
+
+// 服务器返回客户端 -> 三界争霸选择对手进行挑战操作
+message S_GUILD_ARENA_ATTACK {
+	int32 playTimes = 1;	// 今日已经挑战的次数
+}
+//==============================================  跨服协议  =============================================================
+// 获取三界争霸的本帮派数据
+message CROSS_C_GET_GUILD_ARENA_INFO {
+	int64 guildId = 1;			// 帮派的id
+	int64 playerId = 2;			// 玩家的id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的本帮派数据
+message CROSS_S_GET_GUILD_ARENA_INFO {
+	int64 guildId = 1;				// 帮派的id
+	int64 playerId = 2;				// 玩家的id
+	int64 startTime = 3;			// 本赛季开启的时间
+	int64 battleTime = 4;			// 可以对战的时间
+	ChairPlayerMsg playerMsg = 5;	// 上届冠军的帮派帮主数据
+}
+
+// 三界争霸的报名操作
+message CROSS_C_GUILD_ARENA_APPLY {
+	int64 guildId = 1;			// 帮派的id
+	int64 playerId = 2;			// 帮主玩家的id
+	GuildArenaMemberMsg memberMsg = 3;	// 帮主的数据
+	string guildName = 4;		// 报名时候帮派的昵称
+}
+
+// 跨服返回游戏服 -> 三界争霸的报名操作
+message CROSS_S_GUILD_ARENA_APPLY {
+	int64 playerId = 1;			// 帮派的id
+	int64 startTime = 2;		// 本赛季开启的时间
+	int64 battleTime = 3;		// 可以对战的时间
+	int32 seasonId = 4;			// 赛季id
+	int32 result = 5;			// 报名的结果，1是赛季未开始，2是已经报名了
+	int64 guildId = 6;			// 帮派的id
+}
+
+// 获取三界争霸的历届冠军数据
+message CROSS_C_GUILD_ARENA_HISTORY {
+	int64 playerId = 1;			// 玩家的id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的历届冠军数据
+message CROSS_S_GUILD_ARENA_HISTORY {
+	int64 playerId = 1;						// 玩家的id
+	int32 currId = 2;						// 本届的赛季id
+	repeated ChairPlayerMsg playerMsg = 3;	// 历届冠军的帮派帮主数据
+}
+
+// 获取三界争霸的排行榜数据
+message CROSS_C_GUILD_ARENA_RANK {
+	int64 playerId = 1;			// 玩家的id
+	int32 rankType = 2;			// 排行榜的类型，1是天组，2是地组，3是人组
+	int64 guildId = 3;			// 玩家所在的帮派id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的排行榜数据
+message CROSS_S_GUILD_ARENA_RANK {
+	int64 playerId = 1;			// 玩家的id
+	int32 rankType = 2;			// 排行榜的类型，1是天组，2是地组，3是人组
+	repeated GuildRankMsg rankDatas = 3; // 排行榜的数据
+	int32 selfRank = 4;			// 玩家所在帮派的排名
+}
+
+// 获取三界争霸本帮派的对阵数据
+message CROSS_C_GUILD_ARENA_PEAK {
+	int64 guildId = 1;			// 帮派的id
+	int64 playerId = 2;			// 玩家的id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸本帮派的对阵数据
+message CROSS_S_GUILD_ARENA_PEAK {
+	int64 playerId = 1;					// 玩家的id
+	int32 rankType = 2;					// 对阵小组的类型，1是天组，2是地组，3是人组
+	GuildBattleMsg myData = 3;			// 我的帮派的数据
+	GuildBattleMsg targetData = 4;		// 对手帮派的数据
+}
+
+// 获取三界争霸的挑战对手数据
+message CROSS_C_GUILD_ARENA_TARGETS {
+	int64 guildId = 1;			// 帮派的id
+	int64 playerId = 2;			// 玩家的id
+	int64 targetGuildId = 3;	// 对手帮派的id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的对手数据
+message CROSS_S_GUILD_ARENA_TARGETS {
+	int64 playerId = 1;							// 玩家的id
+	repeated GuildPlayerMsg targetDatas = 2;	// 对手的数据
+	int32 blood = 3;							// 玩家当前的血量值
+}
+
+// 获取三界争霸的对阵和战绩数据
+message CROSS_C_GUILD_ARENA_RECORD {
+	int64 playerId = 1;		// 玩家的id
+	int32 rankType = 2;		// 对阵小组的类型，1是天组，2是地组，3是人组
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的对阵和战绩数据
+message CROSS_S_GUILD_ARENA_RECORD {
+	int64 playerId = 1;							// 玩家的id
+	int32 rankType = 2;							// 对阵小组的类型，1是天组，2是地组，3是人组
+	repeated GuildRecordMsg recordDatas = 3;	// 对战记录数据
+}
+
+// 获取三界争霸的帮主对决的战报数据
+message CROSS_C_GUILD_ARENA_REPORT {
+	int64 playerId = 1;			// 玩家的id
+	string recordId = 2;		// 战报的唯一id
+}
+
+// 跨服返回游戏服 -> 获取三界争霸的帮主对决的战报数据
+message CROSS_S_GUILD_ARENA_REPORT {
+	int64 playerId = 1;						// 玩家的id
+	GuildBattleReportMsg reportData = 2;    // 本场战斗的战报数据
+}
+
+// 三界争霸的自动报名操作（帮主id变化后修改操作）
+message CROSS_C_GUILD_ARENA_AUTO_APPLY {
+	int64 playerId = 1;			// 帮派的帮主id
+	int64 guildId = 2;			// 帮派的id
+	int64 startTime = 3;		// 本赛季开启的时间
+	int64 battleTime = 4;		// 可以对战的时间
+	GuildArenaMemberMsg memberMsg = 5;	// 帮主的数据
+	string guildName = 6;		// 报名时候帮派的昵称
+}
+
+// 跨服推送游戏服 -> 三界争霸的自动报名操作
+message CROSS_S_GUILD_ARENA_AUTO_APPLY {
+	int64 playerId = 1;			// 帮派的帮主id
+	int64 startTime = 2;		// 本赛季开启的时间
+	int64 battleTime = 3;		// 可以对战的时间
+	int64 guildId = 4;			// 帮派的id
+}
+
+// 三界争霸的帮派成员相关的数据
+message CROSS_C_GUILD_ARENA_MEMBER {
+	int64 guildId = 1;								// 帮派的id
+    int32 playerNums = 2;							// 帮派出战的成员数量
+    repeated GuildArenaMemberMsg memberMsg = 3;		// 帮派成员的数据
+    string guildName = 4;							// 帮派的昵称
+}
+
+// 帮派成员的数据操作
+message GuildArenaMemberMsg {
+	int64 playerId = 1;							// 成员的id
+	string nickName = 2;						// 成员的昵称
+	int32 grade = 3;							// 成员的职位
+	int64 heroId = 4;							// 主角武将的id
+    int32 heroQuality = 5;						// 主角武将的品质
+    string imageDress = 6;						// 幻化形象信息
+    int32 useTile = 7;							// 当前使用的称号
+    int32 blood = 8;							// 初始血量值
+    int64 power = 9;							// 成员当前的战力
+}
+
+// 跨服请求游戏服 -> 三界争霸的帮派成员相关的数据
+message CROSS_S_GUILD_ARENA_MEMBER {
+	int64 guildId = 1;			// 帮派的id
+}
+
+// 三界争霸进行挑战的操作
+message CROSS_C_GUILD_ARENA_ATTACK {
+    int64 playerId = 1;			// 发起挑战的玩家id
+	int64 guildId = 2;			// 帮派的id
+	int64 targetGuildId = 3;	// 目标帮派的id
+	int64 targetPlayerId = 4;	// 目标玩家的id
+}
+
+// 三界争霸进行挑战的操作
+message CROSS_S_GUILD_ARENA_ATTACK {
+	int64 playerId = 1;			// 发起挑战的玩家id
+	int64 guildId = 2;			// 帮派的id
+	int64 targetGuildId = 3;	// 目标帮派的id
+	int64 targetPlayerId = 4;	// 目标玩家的id
+    int32 result = 5;			// 可以挑战的结果，0是可以挑战
+}
+
+// 三界争霸进行挑战异常解除对手的状态操作
+message CROSS_C_GUILD_ARENA_UNLOCK {
+	int64 targetPlayerId = 1;	// 目标玩家的id
+}
+
+// 三界争霸战斗结束后的战斗log
+message CROSS_S_GUILD_ARENA_BATTLE_LOG {
+	int64 playerId = 1;			// 发起挑战的玩家id
+	int64 guildId = 2;			// 帮派的id
+	int64 targetGuildId = 3;	// 目标帮派的id
+	int64 targetPlayerId = 4;	// 目标玩家的id
+    int64 winId = 5;			// 对战胜利的玩家id
+    string nickName = 6;		// 发起挑战的玩家昵称
+    string guildName = 7;		// 帮派的昵称
+    string targetNickName = 8;	// 目标玩家的昵称
+    string targetName = 9;		// 目标帮派的昵称
+    int32 type = 10;			// 挑战的类型，1是发起挑战，2是被挑战
+    string recordId = 11;		// 有战报的id
+}
+
+// 三界争霸中帮派解散操作
+message CROSS_C_GUILD_ARENA_NO_EXISTS {
+	int64 guildId = 1;	// 解散的帮派id
+}
+
+// 三界争霸中帮派解散操作
+message CROSS_S_GUILD_ARENA_RANK_REWARD {
+	int64 guildId = 1;	// 帮派id
+	int32 rank = 2;		// 排名
+	int32 teamType = 3;	// 队伍id，1天组2地组3人组
+}

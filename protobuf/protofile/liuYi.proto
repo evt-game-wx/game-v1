@@ -1,0 +1,70 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获取六一寻宝活动的信息
+message C_GET_LIUYI_LUCKY_INFO{
+}
+
+// 服务器返还给客户端六一寻宝活动的信息
+message S_GET_LIUYI_LUCKY_INFO{
+	int32 freeTimes = 1;		// 当前玩家拥有的免费次数
+	int32 score = 2;			// 玩家今日的积分总数
+	string hadRewards = 3;		// 玩家今日已经领取的积分奖励
+	int32 days = 4;				// 当前活动第几天
+}
+
+// 玩家寻宝抽奖操作
+message C_LIUYI_LUCKY_XUNBAO {
+	int32 xunBaoTimes = 1;		// 当前选择的寻宝次数
+}
+
+message S_LIUYI_LUCKY_XUNBAO {
+	int32 freeTimes = 1;			// 当前玩家拥有的免费次数
+	int32 score = 2;				// 玩家今日的积分总数
+	ItemListMsg rewardList = 3;		// 本次寻宝获取的奖励
+	int32 days = 4;					// 当前活动第几天
+}
+
+//获取六一寻宝活动的记录查询
+message C_GET_LIUYI_LOG_INFO{
+	int32 type = 1;		//查询的记录类型，0是自己1是全服
+}
+
+// 服务器返还给客户端六一寻宝活动的记录查询
+message S_GET_LIUYI_LOG_INFO{
+	repeated LIUYI_LOG records = 1;	// 记录数据
+}
+
+message LIUYI_LOG {
+	string nickName = 1;		// 抽奖的玩家昵称，自己记录为null
+	string rewardInfos = 2;		// 抽奖获得的奖励数据
+	int64 createTime = 3;		// 记录产生的时间戳
+}
+
+//获取六一寻宝活动的积分奖励领取操作
+message C_LIUYI_LUCKY_SCORE_REWARD{
+	int32 rewardId = 1;		// 领取奖励的配置id
+}
+
+// 服务器返还给客户端六一寻宝活动的积分奖励领取操作
+message S_LIUYI_LUCKY_SCORE_REWARD{
+	string hadRewards = 1;			// 玩家今日已经领取的积分奖励
+	ItemListMsg rewardList = 2;		// 本次获取的奖励
+}
+
+//六一寻宝活动的排行榜数据
+message C_LIUYI_LUCKY_RANK_DATA{
+}
+
+// 服务器返还给客户端六一寻宝活动的排行榜数据
+message S_LIUYI_LUCKY_RANK_DATA{
+	repeated LIUYI_RANK ranks = 1;	// 排名数据
+}
+
+message LIUYI_RANK {
+	int64 playerId = 1;		// 玩家的id
+	string nickName = 2;	// 玩家的昵称
+	int32 rank = 3;			// 玩家的排名
+	int32 score = 4;		// 玩家的积分
+}

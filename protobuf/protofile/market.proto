@@ -1,0 +1,31 @@
+syntax="proto3";
+package com.message;
+
+//商城购买物品信息
+message BUY_GOODS_INFO {
+	int32 marketId 						= 1;	//物品ID			
+	int32 count 						= 2;	//物品数量
+}
+
+
+//C->S 请求: 商城购买
+message C_MARKET_BUY {
+	BUY_GOODS_INFO buyInfo				=	1;	//购买信息
+}
+
+//S->C 响应: 商城购买
+message S_MARKET_BUY {
+	BUY_GOODS_INFO buyInfo				=	1;	//购买信息
+}
+
+
+//C->S 请求: 商城限购列表
+message C_LIST_MARKET_LIMIT_INFO {
+	int32 shopType 						= 1;		//商城类型 
+}
+
+//S->C 响应: 商城限购列表
+message S_LIST_MARKET_LIMIT_INFO {
+	int32 shopType 						= 1;		//商城类型
+	repeated BUY_GOODS_INFO limitInfo	=	2;		//物品限购信息 
+}

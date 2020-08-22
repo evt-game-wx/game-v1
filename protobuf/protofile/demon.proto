@@ -1,0 +1,86 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+//拉取信息
+message C_GET_DEMON_INFO{
+}
+message S_GET_DEMON_INFO{
+	int32 id = 1;//当前应挑战的关卡id
+	int32 maxId = 2;//已经通关过的最大id
+	int32 reset = 3;//重置次数
+	repeated DEMON_SPECIAL_INFO specialInfo = 4;//特殊的信息
+	int32 score = 5;//挑战积分(星星的数量)
+	DEMON_FORMATION_INFO formationInfo = 6;//阵位信息
+	DEMON_PROP_INFO propInfo = 7;//已购买的属性id信息
+	repeated int32 monsterHps = 8;//怪物血量数组
+	int64 fight = 9;//当前关卡的总战力
+	int32 boxId = 10; // 当前的宝箱的配置表唯一id
+	int32 boxDouble = 11; // 宝箱是否有双倍，0否1是
+	string starDatas = 12; // 本轮的星级数据，格式：id,star;id,star...
+	int32 fuBenIndex = 13; // 今日副本的怪物取数据的下标从0开始
+}
+
+message DEMON_SPECIAL_INFO{
+	int32 id = 1;//未领取或未购买的关卡id
+	repeated int32 vals = 2;//如果是商店则是可买的商城道具id ，如果是效果 则是效果id
+	repeated int32 status = 3;//状态：如果是商店则是已购买的次数，如果是效果，则是是否已购买
+}
+message DEMON_FORMATION_INFO{
+	repeated int32 posHero = 1;//阵位上的英雄id 没有则为0 长度一定为6
+	repeated int32 indexHero = 2;//槽位数组，顺序会打乱 如524613 长度一定为6 参考竞技场阵型
+//	repeated int32 alternate = 3;//替补阵位英雄 可以上几个替补 长度就为几
+	repeated int32 hps = 4;//剩余血量万分比 血量为0表示死了，长度为阵位上的长度加上替补数量，顺序一致 先阵位 后替补
+}
+message DEMON_PROP_INFO{
+	repeated int32 propIds = 1;//已经买了属性id
+}
+
+//设置阵位替补信息
+message C_SET_DEMON_FORMATION_INFO{
+	int32 type = 1;//为0 未挑战前摆放阵位替补信息  为1 挑战后挑战阵位替补信息
+	repeated int32 posHero = 2;//阵位上的英雄id 没有则为0 长度一定为6
+	repeated int32 indexHero = 3;//槽位数组，顺序会打乱 如524613 长度一定为6 参考竞技场阵型
+//	repeated int32 alternate = 4;//替补阵位英雄 可以上几个替补 长度就为几
+}
+message S_SET_DEMON_FORMATION_INFO{
+	int32 type = 1;
+	DEMON_FORMATION_INFO demoinfo = 2;
+}
+
+//购买增益效果
+message C_DEMON_BUY_BUFF{
+	int32 nodeId = 1;//关卡id
+	int32 id = 2;//表中buffid
+	int32 heroId = 3;//如果是有选定的那这个就是选定英雄的id 比如复活
+}
+message S_DEMON_BUY_BUFF{
+	int32 nodeId = 1;//关卡id
+	int32 id = 2;//表中buffid
+	DEMON_FORMATION_INFO formationInfo = 3;//如果是复活 或者是恢复生命 这种会改变阵型上的一些改变 就会有值
+	DEMON_PROP_INFO proInfo = 4;//如果是增加属性的  就会有值
+	int32 score = 5;//挑战积分(星星的数量)
+}
+//购买战斗中的神秘商店物品
+message C_DEMON_BUY_ITEM{
+	int32 id = 1;// 关卡id（宝箱配置表的唯一id）
+//	int32 itemId = 2;//要购买的商品id
+}
+message S_DEMON_BUY_ITEM{
+	//DEMON_SPECIAL_INFO specialInfo = 1;//对应关卡的特殊的信息
+	int32 boxId = 1; // 当前的宝箱的配置表id
+	int32 boxDouble = 2; // 宝箱是否有双倍，0否1是
+	ItemListMsg reward = 3; // 奖励信息
+}
+
+//重置进度 如果能重置成功 直接返回S_GET_DEMON_INFO
+message C_DEMON_RESET{
+}
+message S_DEMON_RESET{
+}
+//扫荡
+message C_DEMON_SWEEP{
+}
+message S_DEMON_SWEEP{
+	int32 id = 1;//扫荡后的关卡id
+	ItemListMsg reward = 3; // 奖励信息
+}

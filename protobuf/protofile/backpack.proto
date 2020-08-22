@@ -1,0 +1,112 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+message EquipMsg {
+	int32 strongExp=1; //强化经验
+	int32 strongLevel=2;//强化等级
+}
+
+message AnneMsg {
+	int32 anneLevel = 1; //符文等级
+}
+
+message BackpackGoodsMsg {
+	int64 playerId=1; // 玩家编号
+    int64 goodsId=2; // 物品ID
+
+	int32 itemId=3; //物品编号
+	int32 num=4; //数量
+
+    int32 gridIndex=5; //格子 ID
+
+	int32 location = 6;//背包类型
+
+	EquipMsg equipInfo=7;//装备信息
+	
+	AnneMsg anneMsg = 8; //符文信息
+}
+
+//同步背包变化
+message S_SYNC_PLAYER_BACKPACK {
+    PlayerBackpackMsg backpack = 1; //玩家背包
+}
+
+//使用物品
+message C_USE_BACKPACK_ITEM {
+    int64 goodsId=1; //玩家背包编号
+    int32 num=2; //数量
+    int32 params = 3; // 附加参数，可选宝箱的选择的宝箱的id
+}
+
+//使用物品
+message S_USE_BACKPACK_ITEM {
+    int64 goodsId=1; //玩家背包编号
+    int32 itemId=2; //道具id
+    int32 num=3; //数量
+    int32 gridIndex=4; //格子 ID
+    ItemListMsg itemList = 5;   //道具奖励
+}
+
+//整理背包
+message C_TIDY_BACKPACK {
+}
+
+//整理背包
+message S_TIDY_BACKPACK {
+    PlayerBackpackMsg backpack=1; //玩家背包
+}
+
+//开启背包格子
+message C_OPEN_BACKPACK_GRID {
+    int32 openNum=1; // 开启数量
+    int32 freeNum=2; // 免费开启数量
+}
+//开启背包格子
+message S_OPEN_BACKPACK_GRID {
+    int32 backpackSize=1; //背包大小
+}
+
+//背包信息
+message PlayerBackpackMsg {
+    repeated BackpackGoodsMsg goodsList=1; //玩家背包物品列表
+    int32 size = 2;//背包大小
+}
+
+//分解
+message C_GOODS_BREAK{
+    repeated int64 goodsIds = 1;//物品id组
+}
+
+//分解
+message S_GOODS_BREAK{
+    repeated  ItemGroup itemGroup = 1;//分解道具
+}
+
+//合成. 固定合成(道具ID数组只有1个ID则可以合成多个, 如果道具ID数组有多个则只能合成1个)
+message C_GOODS_MERGE {
+    int32 id 			= 	1;		//合成类型
+	repeated int32 itemId		=	2;		//材料道具ID(单一合成时则数组长度为1, 随机合成则数组长度为3)
+}
+
+//合成
+message S_GOODS_MERGE {
+    ItemGroup itemGroup = 1;		//合成的道具
+}
+
+
+message ItemGroup {
+    int32 itemId = 1; //道具id
+    int32 itemNum = 2; //道具数量
+}
+
+//合成. 道具碎片合成指定物品
+message C_GOODS_SPLIT_MERGE {
+    int32 id = 1;		//合成类型
+    int32 numbers = 2;	// 合成的数量
+}
+
+// 合成结果
+message S_GOODS_SPLIT_MERGE {
+    ItemGroup itemGroup = 1;	// 合成的道具
+}

@@ -1,0 +1,66 @@
+syntax="proto3";
+package com.message;
+
+//获得幻化系统信息
+message C_GET_IMAGE_INFO {
+    int32 type = 1; 		//幻化系统类型
+}
+
+//获得幻化系统信息
+message S_GET_IMAGE_INFO {
+    int32 type = 1; 		//幻化系统类型
+    repeated ImageMsg imageInfo = 2; //幻化系统信息
+	int64 fightVal=3; 	//战力值
+}
+
+//幻化系统激活
+message C_ACTIVE_IMAGE {
+    int32 type = 1; 		//幻化系统类型
+    int32 imageId = 2; 		//幻化Id
+}
+
+//幻化系统激活
+message S_ACTIVE_IMAGE {
+    int32 type = 1; 		//幻化系统类型
+    ImageMsg imageInfo = 2; //幻化系统信息
+    int64 fightVal=3; 	//战力值
+}
+
+
+//幻化系统信息
+message ImageMsg {
+	int32 type = 1; 		//祝福系统类型
+    int32 imageId = 2; 		//幻化Id
+	int64 expireTime = 3;	//到期时间
+	int32 state = 4;	//状态，1永久，0有有效期
+	int32 star = 5;		//星级
+}
+
+//幻化/佩戴
+message C_IMAGE_DRESS_ON{
+	int32 type = 1; 	//祝福系统类型
+	int32 imageId = 2; 		//幻化Id
+}
+
+//幻化/佩戴
+message S_IMAGE_DRESS_ON{
+	int32 type = 1; 		//祝福系统类型
+	int32 imageId = 2; 		//幻化Id
+}
+
+
+//幻化系统激活升级
+message C_IMAGE_START_UP{
+	int32 type = 1; 	//祝福系统类型
+	int32 imageId = 2; 		//幻化Id
+}
+
+//幻化系统激活升级
+message S_IMAGE_START_UP{
+	int32 type = 1; 		//祝福系统类型
+	int32 imageId = 2; 		//幻化Id
+	int32 star = 3;		//星级
+	int64 fightVal=4; 	//战力值
+}
+
+

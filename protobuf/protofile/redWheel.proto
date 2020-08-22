@@ -1,0 +1,148 @@
+syntax="proto3";
+package com.message;
+
+// 获取当前返现轮盘和返现大礼的数据
+message C_GET_RED_WHEEL_INFO {
+}
+
+// 返回客户端返现轮盘和返现大礼的数据
+message S_GET_RED_WHEEL_INFO {
+	int32 playTimes = 1;		// 当前拥有的转盘抽奖次数
+	int32 hadMoney = 2;			// 当前可以提现的钱数，单位分
+	int32 overTime = 3;			// 活动结束的天数
+	int32 bigTime = 4;			// 返现大礼结束的天数
+	int32 bigLevel = 5;			// 返现大礼结束时候的等级
+	string levelData = 6;		// 返现轮盘获得次数的等级集合，level1,level2,level3...
+}
+
+// 返现轮盘抽奖的操作
+message C_GET_RED_WHEEL_PLAY {
+	int32 playTimes = 1;		// 抽奖时候剩余的次数
+}
+
+// 返回客户端返现轮盘抽奖的操作
+message S_GET_RED_WHEEL_PLAY{
+	int32 playTimes = 1;		// 当前拥有的转盘抽奖次数
+	int32 hadMoney = 2;			// 当前可以提现的钱数，单位分
+	int32 rewardId = 3;			// 当前转盘奖励的配置唯一id，注意不是位置id
+}
+
+// 获取全服玩家的中奖纪录数据
+message C_GET_RED_WHEEL_RECORD {
+}
+
+// 返回客户端返全服玩家的中奖纪录数据
+message S_GET_RED_WHEEL_RECORD{
+	repeated WHEEL_RECORD records = 1;	// 全服玩家中奖记录数据
+}
+
+// 中奖记录数据
+message WHEEL_RECORD {
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string nickName = 3;	// 玩家的昵称
+	int32 money = 4;		// 玩家本次获得的钱数，单位分
+	int64 times = 5;		// 记录的时间戳
+}
+
+// 提现的操作
+message C_GET_RED_WHEEL_MONEY {
+	int32 money = 1;			// 准备提现的现金数量，单位分
+	string clientInfo = 2;		// 客户端扩展参数，从SDK中获取
+}
+
+// 返回客户端提现的操作
+message S_GET_RED_WHEEL_MONEY{
+	int32 money = 1;			// 本次提现的金额，单位分
+	int32 hadMoney = 2;			// 剩余可以提现的钱数，单位分
+}
+
+// 获取玩家自己的提现纪录数据
+message C_GET_RED_WHEEL_MONEY_RECORD {
+}
+
+// 返回客户端玩家自己的提现纪录数据
+message S_GET_RED_WHEEL_MONEY_RECORD{
+	repeated MONEY_RECORD records = 1;	// 提现记录数据
+}
+
+// 提现记录数据
+message MONEY_RECORD {
+	int32 money = 1;		// 玩家本次提现的钱数，单位分
+	int64 times = 2;		// 记录的时间戳
+	int32 result = 3;		// 提现的状态，0提现中，1成功，2审核失败
+}
+
+// 登录推送客户端是否显示活动icon
+message S_GET_RED_MONEY_PUSH {
+	int32 isShow = 1;		// 登录时候推送是否展示活动icon，0否1是
+}
+
+// 提现结果推送客户端操作
+message S_RED_MONEY_PUSH_REWARD {
+	int32 money = 1;			// 提现的钱数
+	int32 redResult = 2;		// 提现结果，1是成功，2是失败
+}
+
+// 查询玩家是否可以展示活动
+message CROSS_C_RED_WHEEL_GET_INFO{
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string userName = 3;	// 用户的唯一id
+}
+
+// 跨服返回玩家是否可以展示活动
+message CROSS_S_RED_WHEEL_GET_INFO{
+	int64 playerId = 1;		// 玩家的唯一id
+	int32 joinServerId = 2; // 参与活动的服id
+}
+
+// 提现操作
+message CROSS_C_RED_WHEEL_MONEY {
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string userName = 3;	// 用户的唯一id
+	int32 money = 4;		// 提现的金额数量，单位分
+	string clientInfo = 5;	// 客户端扩展参数，从SDK中获取
+	int64 recordId = 6;		// 提现记录的唯一id
+}
+
+//跨服领取红包奖励操作
+message CROSS_S_RED_WHEEL_MONEY {
+	int64 playerId = 1;		// 玩家的唯一id
+	int32 money = 2;		// 提现的金额数量
+	int64 recordId = 3;		// 提现记录的唯一id
+	int32 resultState = 4;	// 领取的结果，1是成功，0失败
+}
+
+// 获取全服中奖记录操作
+message CROSS_C_RED_WHEEL_RECORD {
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+}
+
+//跨服返回全服中奖记录操作
+message CROSS_S_RED_WHEEL_RECORD {
+	int64 playerId = 1;					// 玩家的唯一id
+	repeated WHEEL_RECORD records = 2;	// 全服玩家中奖记录数据
+}
+
+// 中奖记录添加操作
+message CROSS_C_RED_WHEEL_ADD_RECORD {
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string nickName = 3;	// 玩家的昵称
+	int32 money = 4;		// 获得的现金数量，单位分
+}
+
+//中奖记录添加结果操作
+message CROSS_S_RED_WHEEL_ADD_RECORD {
+	int64 playerId = 1;		// 玩家的唯一id
+}
+
+// 提现结果推送
+message CROSS_S_RED_MONEY_PUSH_REWARD {
+	int64 playerId = 1;		// 玩家的唯一id
+	int64 recordId = 2;		// 提现记录的唯一id
+	int32 resultState = 3;	// 领取的结果，1是成功，2失败
+}

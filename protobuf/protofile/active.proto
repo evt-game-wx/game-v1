@@ -1,0 +1,88 @@
+syntax="proto3";
+package com.message;
+
+//拉取运营活动（时间）信息
+//当活动时间结束时 自己再拉取一次这条信息  前端自己做定时器
+message C_GET_OPACTIVE_INFO{
+	int32 type = 1;//运营活动的类型
+}
+message S_GET_OPACTIVE_INFO{
+	int32 type = 1;//运营活动类型
+	int64 startTime = 2;//开始时间戳
+	int64 endTime = 3;//结束时间戳
+}
+//当运营拉起活动时间~  服务器主动推送
+message S_SEND_OPACTIVE_CHANGE{
+	int32 type = 1;//运营活动类型
+	int64 startTime = 2;//开始时间戳
+	int64 endTime = 3;//结束时间戳
+}
+//前端拉取运营活动的表 每次登陆时首先拉取 运营活动信息  如果在活动时间内， 则再拉取这个运营活动的表
+//运营拉起活动时间~这时运营必定先热更过表， 当收到S_SEND_OPACTIVE_CHANGE信息时 前端再次拉取一下这个运营活动的表
+message C_GET_OPACTIVE_TABLE{
+	int32 type = 1; //运营活动类型
+}
+
+message S_GET_OPACTIVE_TABLE{
+	int32 type = 1; //运营活动类型
+	int64 refreshTime = 2;//前端再次拉取一下这个运营活动的表的时间 如果为0说明这个数据无用
+	repeated OPACTIVE_TABLE_VO tableVos = 3;//表格数据
+}
+
+message OPACTIVE_TABLE_VO{
+	int32 id = 1; // 唯一id
+	int64 target1 = 2;//目标值1
+	int32 target2 = 3;//目标值2
+	string reward = 4;//奖励（道具id，数量;道具id,数量）
+}
+
+//运营活动统一类型拉取 运营信息
+message C_GET_OPACTIVE_TYPE_INFO{
+	int32 type = 1; //运营活动类型
+}
+message S_GET_OPACTIVE_TYPE_INFO{
+	int32 type = 1;//运营活动类型
+	repeated OPACTIVE_INFO_VO infos = 2;//运营活动信息
+}
+message OPACTIVE_INFO_VO{
+	int32 id = 1;//唯一id
+	int32 target1 = 2;//完成的目标值1
+	int32 target2 = 3;//完成的目标值2
+	bool hasGet = 4;//是否已经领取该奖励
+}
+
+//运营活动 统一的领奖协议
+message C_GET_OPACTIVE_REWARD{
+	int32 type = 1;//运营活动类型
+	int32 id = 2;//唯一id
+}
+
+message S_GET_OPACTIVE_REWARD{
+	int32 type = 1;//运营活动类型
+	int32 id = 2;//唯一id
+	string reward = 3;//奖励（道具id，数量;道具id,数量）
+}
+//拉取运营活动日志
+message C_OPACTIVE_LOG{
+	int32 type = 1;//运营活动类型
+}
+message S_OPACTIVE_LOG{
+	int32 type = 1;//运营活动类型
+	repeated OPACTIVE_LOG_INFO logInfo = 2;//日志信息
+}
+message OPACTIVE_LOG_INFO{
+	int64 playerId = 1;
+	string nickName = 2;//玩家名称
+	string rewardIds = 3;//奖励
+}
+//===============================幸运探宝=======================================
+//点击寻宝
+message C_OP_LUCKY_HUNT{
+	int32 times = 1;//抽奖次数
+}
+message S_OP_LUCKY_HUNT{
+	int32 id = 1;//中奖id
+	string rewardIds = 2;//奖励
+	int32 freeTimes = 3;//免费次数
+}
+

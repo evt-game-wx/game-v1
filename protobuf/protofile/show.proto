@@ -1,0 +1,43 @@
+syntax="proto3";
+package com.message;
+
+// 获取角色的称号、头像框和聊天气泡数据
+message C_GET_SHOW_INFO {
+}
+
+// 返回客户端获取角色的称号、头像框和聊天气泡数据
+message S_GET_SHOW_INFO {
+	int32 useTitle = 1;				// 当前正在使用的称号id
+	string hadTitles = 2;			// 当前已经激活的称号的配置表id，例如：1,5,6,3,9
+	int32 useHeadFrame = 3;			// 当前正在使用的头像框
+	string hadHeadFrames = 4;		// 当前已经激活的头像框的配置表id，例如：1,5,6,3,9
+	int32 useChat = 5;				// 当前正在使用的聊天气泡框
+	string hadChats = 6;			// 当前已经激活的聊天气泡框的配置表id，例如：1,5,6,3,9
+	string canTitles = 7;			// 当前可以激活的称号配置表id，例如：1,5,6,3,9
+	string canHeadFrames = 8;		// 当前可以激活的头像框的配置表id，例如：1,5,6,3,9
+	string canChats = 9;			// 当前可以激活的聊天气泡框的配置表id，例如：1,5,6,3,9
+}
+
+// 更新角色当前使用的称号、头像框和聊天气泡
+message C_UPDATE_USE_SHOW {
+	int32 type = 1;		// 准备更新的类型，1是称号、2是头像框、3是聊天气泡
+	int32 showId = 2;	// 要更换的配置唯一的id
+}
+
+// 返回客户端更新角色当前使用的称号、头像框和聊天气泡
+message S_UPDATE_USE_SHOW {
+	int32 type = 1;			// 准备更新的类型，1是称号、2是头像框、3是聊天气泡
+	int32 useShowId = 2;	// 更换后使用的配置唯一的id
+}
+
+// 更新角色当前使用的称号、头像框和聊天气泡
+message C_ACTIVE_SHOW_INFO {
+	int32 type = 1;		// 准备激活的类型，1是称号、2是头像框、3是聊天气泡
+	int32 showId = 2;	// 要激活的配置唯一的id
+}
+
+// 返回客户端激活的称号、头像框和聊天气泡变化
+message S_ACTIVE_SHOW_INFO{
+	int32 type = 1;			// 激活的类型，1是称号、2是头像框、3是聊天气泡
+	string hadShows = 2;	// 当前已经激活的配置表id，例如：1,5,6,3,9
+}

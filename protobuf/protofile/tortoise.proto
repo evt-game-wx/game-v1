@@ -1,0 +1,75 @@
+syntax="proto3";
+package com.message;
+
+//拉取乌龟赛跑信息  乌龟id从0开始，方便对应数组下标 （0 1 2）
+message C_TORTOISE_GET_INFO{
+}
+message S_TORTOISE_GET_INFO{
+	int64 time = 1;//活动开启时间  0代表今天的活动时间已结束 否则就是今天的活动开启时间戳（秒）
+	int32 state = 2;//活动状态 0未开启 1押注 2比赛中
+	int32 reward = 3;//奖池数量
+	TORTOISE_RESULT_INFO lastWin = 4;//上一次乌龟信息
+	repeated TORTOISE_STAKE_INFO stakeInfo = 5;//押注信息
+	int32 freeTimes= 6;//免费次数
+}
+message TORTOISE_RESULT_INFO{
+	repeated int32 tortoiseId = 1;//赢的乌龟id数组
+	repeated TORTOISE_STAKE_INFO myTortoiseInfo = 2;//你押注的乌龟信息
+	repeated int32 rewardNum = 3;//各乌龟你赢的元宝数量 下标按顺序对应乌龟
+}
+message TORTOISE_STAKE_INFO{//押注信息
+	int32 id = 1;//乌龟id
+	int32 num = 2;//票数
+	int32 odds = 3;//单注获胜奖励元宝数量
+	int32 totalNum = 4;//所有玩家的总票数
+}
+//同步押注
+message S_STAKE_SYN{
+	TORTOISE_STAKE_INFO stakeInfo = 1;//押注信息
+	int32 reward = 2;//奖池数量
+}
+//押注
+message C_TORTOISE_STAKE{
+	int32 id = 1;//押注的乌龟id
+}
+message S_TORTOISE_STAKE{
+	TORTOISE_STAKE_INFO stakeInfo = 1;//押注信息
+}
+//使用道具
+message C_TORTOISE_USE_ITEM{
+	int32 itemId = 1;//道具id
+	int32 tortoiseId = 2;//乌龟id
+}
+message S_TORTOISE_USE_ITEM{
+	int32 itemId = 1;//道具id
+	int32 tortoiseId = 2;//乌龟id
+}
+//发送弹幕
+message C_TORTOISE_SPEAK{
+	string speak = 1;//消息
+}
+message S_TORTOISE_SPEAK{
+	string speak = 1;//消息
+}
+//比赛开始 收到该条消息将不能再押注 会在3秒后开始正式收到乌龟的同步信息
+message S_TORTOISE_START{
+}
+//乌龟同步信息 每次行为或者是距离发生变化时 会推送
+message S_TORTOISE_SYNC_INFO{
+	int32 tortoiseId = 1;//乌龟id
+	int32 actionId = 2;//自身行为id
+	int32 itemActionId = 3;//道具产生的行为id
+	int32 distance = 4;//已经爬的距离
+}
+//结算
+message S_TORTOISE_RESULT{
+	TORTOISE_RESULT_INFO resultInfo = 1;//结算信息
+}
+//拉取乌龟赛跑的押注信息  乌龟id从0开始，方便对应数组下标 （0 1 2）
+message C_TORTOISE_GET_STAKE_INFO{
+}
+
+message S_TORTOISE_GET_STAKE_INFO{
+	int32 reward = 1;//奖池数量
+	repeated TORTOISE_STAKE_INFO stakeInfo = 2;//押注信息
+}

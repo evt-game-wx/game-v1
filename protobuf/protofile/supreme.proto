@@ -1,0 +1,153 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+//拉取至尊塔信息
+message C_GET_SUPREME_INFO{
+	
+}
+message S_GET_SUPREME_INFO{
+	int32 curLayer = 1;//当前层数
+	int32 score = 2;//当前积分
+	int32 curKill = 3;//当前杀戮值
+	int32 curRank = 4;//当前排名
+	int32 rewardId = 5;//已经领取到的id 领奖按顺序来
+	int32 leaveTime = 6;//剩余的倒计时，单位秒
+}
+message S_SYN_LAYER_NUM{
+	int32 nums = 7;//当前层的人数
+}
+//拉取排行榜信息
+message C_GET_SUPREME_RANK{
+}
+message S_GET_SUPREME_RANK{
+	repeated RANK_INFO rank = 1;//排行榜
+}	
+message RANK_INFO{
+	int32 rank = 1;//排名
+	int64 playerId = 2;//玩家id
+	int32 score = 3;//玩家积分
+	string name = 4;//玩家名称
+	int32 layer =5;//层数
+}
+
+//退出活动  你拉取一次至尊塔信息 就等于进入活动
+message C_SUPREME_EXIT{
+}
+message S_SUPREME_EXIT{
+}
+//自动挑战 收到消息直接走通用挑战
+message C_SUPREME_AUTO_CHALLENGE{
+}
+message S_SUPREME_AUTO_CHALLENGE{
+	int64 id = 1;//玩家id 或者副本id
+	int32 type = 2;//0玩家，1副本  进入副本otherparam带过来
+}
+//领取目标积分奖励
+message C_GET_SUPREME_REWARD{
+	int32 id = 1;//领取的目标任务id
+}
+message S_GET_SUPREME_REWARD{
+	int32 id = 1;
+}
+//死亡复活时间戳
+message S_SUPREME_SEND_REVICE_TIME{
+	int64 riviveTime = 1;//死亡复活时间戳（毫秒）
+}
+//买活
+message C_SUPREME_BUY_REVIVE{
+}
+message S_SUPREME_BUY_REVIVE{
+}
+//推送杀戮值
+message S_SUPREME_SEND_KILL{
+	int32 curKill = 1;//当前杀戮值
+}
+//升降层
+message S_SUPREME_UP_DOWN_LAYER{
+	int32 curLayer = 1;//升降后的层数
+}
+//服务端主动推送积分
+message S_SUPREME_SEND_SCORE{
+	int32 score = 1;//玩家积分
+	int32 rank = 2;//排名
+}
+//活动结束
+message S_SUPREME_OVER{
+	int64 playerId = 1;//排名第一的玩家id
+	string name = 2;//排名第1的玩家名称
+	int64 heroId = 3;//玩家的heroid
+	int32 rank = 4;//你的最后排名
+	int32 score = 5;//你的最后积分
+	ItemListMsg itemList = 6;//你获得的奖励
+	int32 level = 7;//排名第一的等级
+	int32 heroQuality = 8;	//玩家主角武将的品质
+}
+
+//=======================================跨服================================================
+//进入活动
+message CROSS_C_SUPREME_ENTER{
+	int64 playerId = 1;//玩家id
+	int32 curLayer = 2;//当前层数
+	int32 score = 3;//当前积分
+	int32 curKill = 4;//当前杀戮值
+	BattlePlayerMsg playerMsg = 5;//战斗信息
+}
+//退出活动
+message CROSS_C_SUPREME_EXIT{
+	int64 playerId = 1;//玩家id
+}	
+//同步当前层数
+message CROSS_S_SYN_LAYER_NUM{
+	int64 playerId = 1;//玩家id
+	int32 layerNum = 2;//玩家当前层人数
+}
+//同步战斗后信息
+message CROSS_S_SYN_BATTLE_INFO{
+	int64 playerId = 1;//玩家id
+	int32 curLayer = 2;//当前层数
+	int32 score = 3;//当前积分
+	int32 curKill = 4;//当前杀戮值
+	int32 rank = 5;//当前排名
+}
+//拉取排行榜信息
+message CROSS_C_GET_SUPREME_RANK{
+	int64 playerId = 1;//玩家id
+}
+message CROSS_S_GET_SUPREME_RANK{
+	int64 playerId = 1;
+	repeated RANK_INFO rank = 2;//排行榜
+}
+
+//升降层
+message CROSS_S_SUPREME_UP_DOWN_LAYER{
+	int64 playerId = 1;
+	int32 curLayer = 2;//升降后的层数
+}
+//服务端主动推送积分
+message CROSS_S_SUPREME_SEND_SCORE{
+	int64 playerId = 1;
+	int32 score = 2;//玩家积分
+	int32 rank = 3;//排名
+}
+//活动结束
+message CROSS_S_SUPREME_OVER{
+	int64 playerId = 1;//排名第一的玩家id
+	string name = 2;//排名第1的玩家名称
+	int32 heroId = 3;//玩家的heroid
+	int32 rank = 4;//你的最后排名
+	int32 score = 5;//你的最后积分
+	int32 level = 6;//等级
+	int64 youId = 7;//推给的玩家id
+	int32 heroQuality = 8;//玩家的主角武将品质
+}
+
+//自动挑战 收到消息直接走通用挑战
+message CROSS_C_SUPREME_AUTO_CHALLENGE{
+	int64 playerId = 1;//玩家id
+}
+message CROSS_S_SUPREME_AUTO_CHALLENGE{
+	int64 playerId = 1;//玩家id
+	int64 id = 2;//玩家id 或者副本id
+	int32 type = 3;//0玩家，1副本  进入副本otherparam带过来
+}

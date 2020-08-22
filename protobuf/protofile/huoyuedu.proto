@@ -1,0 +1,58 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取活跃度信息
+message C_GET_HUOYUEDU_INFO {
+}
+
+// 获取活跃度信息
+message S_GET_HUOYUEDU_INFO {
+    int32 totalValue = 1; 					//总活跃度
+    repeated HuoYueDuMsg huoYueDuMsg=2; 	// 活跃度信息
+    repeated int32 rewardId=3; 				// 已领取活跃度奖励id
+    string hadTypes = 4;					// 已经领取的活跃度的类型，type1,type2,type3...
+    int32 weekValue = 5;					// 周活跃当前的进度值
+    repeated int32 weekRewardId = 6;		// 已经领取的周活跃度奖励id
+}
+
+//活跃度信息
+message HuoYueDuMsg{
+	int32 type = 1; 	// 活跃度type
+	int32 count = 2; 	// 已结完成次数
+}
+
+//领取活跃度奖励
+message C_GET_HUOYUEDU_REWARD {
+    int32 id = 1; 		// 活跃度奖励id
+    int32 type = 2;		// 奖励类型，1是日活跃，2是周活跃
+}
+
+//领取活跃度奖励
+message S_GET_HUOYUEDU_REWARD {
+	int32 type = 1;						// 奖励类型，1是日活跃，2是周活跃
+	repeated int32 weekRewardId = 2;	// 已经领取的周活跃度奖励id
+    repeated int32 rewardId=3; 			// 已领取活跃度奖励id
+    repeated ItemMsg reward = 4; 		// 奖励信息
+}
+
+//活跃度更新
+message S_SYNC_HUOYUEDU_UPDATE {
+    int32 totalValue = 1; 			//总活跃度
+    HuoYueDuMsg huoYueDuMsg = 2;	// 活跃度信息
+    int32 weekValue = 3;			// 周活跃当前的进度值
+}
+
+//领取指定类型的活跃度奖励
+message C_GET_HUOYUEDU_TYPE {
+    int32 typeId = 1; 	// 活跃度类型配置的唯一id
+}
+
+//领取指定类型的活跃度奖励
+message S_GET_HUOYUEDU_TYPE {
+	int32 totalValue = 1; 					// 总活跃度
+    repeated HuoYueDuMsg huoYueDuMsg = 2;	// 活跃度信息
+    repeated ItemMsg reward = 3; 			// 奖励信息
+    string hadTypes = 4;					// 已经领取的活跃度的类型，type1,type2,type3...
+    int32 weekValue = 5;					// 周活跃当前的进度值
+}

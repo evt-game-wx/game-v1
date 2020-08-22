@@ -1,0 +1,32 @@
+syntax="proto3";
+package com.message;
+
+message IntIntMapMsg{
+	int32 key=1;
+	int32 value=2;
+}
+
+message StringIntMapMsg{
+	string key=1;
+	int32 value=2;
+}
+
+message IntLongMapMsg{
+	int32 key=1;
+	int64 value=2;
+}
+
+message IntFloatMapMsg{
+	int32 key=1;
+	float value=2;
+}
+
+
+message ItemMsg {
+	int32 itemId=1; //物品编号
+	int32 num=2; //数量
+}
+
+message ItemListMsg {
+	repeated ItemMsg list = 1; 
+}

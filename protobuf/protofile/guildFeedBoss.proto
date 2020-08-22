@@ -1,0 +1,78 @@
+syntax="proto3";
+package com.message;
+
+//派喂养boss信息
+message GuildFeedBossMsg {
+	int32 level = 2;  // 喂养boss等级
+	int64 exp = 3;  // 喂养boss经验值
+	int32 state = 4;  // 喂养boss状态,0喂养中，1可击杀，2已击杀，3已逃走
+}
+
+//boss信息
+message FeedBossMsg{
+	int32 bossId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    repeated FeedBossDamageRankMsg damageRankMg = 7; //伤害排行
+
+}
+
+//伤害排行信息
+message FeedBossDamageRankMsg{
+    int32 rank = 1; // 排名
+    int64 playerId = 2; // 玩家id
+    string playerName = 3; // 玩家昵称
+    int64 damage = 4; // 累计伤害值
+}
+
+//获取帮派喂养boss信息
+message C_GUILD_FEED_BOSS_INFO {
+	int64 guildId=1; // 帮派ID
+}
+
+//获取帮派喂养boss信息
+message S_GUILD_FEED_BOSS_INFO {
+	int64 guildId=1; // 帮派ID
+    GuildFeedBossMsg feedBossBaseMsg=3; //喂养boss等级信息
+	FeedBossMsg	feedBossMsg = 4;	//喂养boss战斗信息
+}
+
+//喂养boss
+message C_GUILD_FEED_BOSS {
+	int64 guildId=1; // 帮派ID
+}
+
+//喂养boss
+message S_GUILD_FEED_BOSS {
+	int64 guildId=1; // 帮派ID
+    GuildFeedBossMsg feedBossBaseMsg=3; //喂养boss等级信息
+}
+
+
+//喂养boss发送弹幕聊天
+message C_GUILD_FEED_BOSS_CHAT {
+	int32 bossId = 1; 			// boss的唯一id
+	int64 guildId=2; // 帮派ID
+	string chatContent = 3;		// 弹幕聊天的内容
+}
+
+//服务器返还和推送前端 喂养boss的弹幕聊天
+message S_GUILD_FEED_BOSS_CHAT {
+    int32 bossId = 1; 			// boss的唯一id
+	int64 guildId=2; // 帮派ID
+	string chatContent = 3;		// 弹幕聊天的内容
+}
+
+
+//一键喂养boss
+message C_ONE_KEY_FEED_BOSS {
+	int64 guildId=1; // 帮派ID
+}
+
+//一键喂养boss
+message S_ONE_KEY_FEED_BOSS {
+	int64 guildId=1; // 帮派ID
+    GuildFeedBossMsg feedBossBaseMsg=3; //喂养boss等级信息
+}
+
+

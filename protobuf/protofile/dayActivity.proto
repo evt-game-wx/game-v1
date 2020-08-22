@@ -1,0 +1,142 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取每日活动的天天返利活动的信息
+message C_GET_EVERYDAY_RTN_INFO {
+}
+
+// 返回每日活动的天天返利的信息
+message S_GET_EVERYDAY_RTN_INFO {
+	int32 days = 1;						// 累计充值的天数
+	string hadChargeIds = 2;			// 当前可以领取的奖励的配置表id，例如：1,5,6,3,9
+	string hadRewardIds = 3;			// 当前已经获得过的奖励的id，例如：1,5,6,3,9
+	int32 leaveDays = 4;				// 活动结束的剩余天数
+	int32 currIndex = 5;				// 当前处于第几轮活动中，从0开始
+}
+
+// 每日活动的天天返利领取奖励操作
+message C_EVERYDAY_RTN_REWARD {
+	int32 rewardId = 1;		// 准备领取的奖励的id
+}
+
+// 返回客户端每日活动的天天返利领取奖励
+message S_EVERYDAY_RTN_REWARD{
+	int32 rewardId = 1;				// 领取的奖励的id
+	string hadRewardIds = 2;		// 当前已经获得过的奖励的id，例如：1,5,6,3,9
+	ItemListMsg rewardList = 3;		// 获得的奖励
+	string hadChargeIds = 4;		// 当前可以领取的奖励的配置表id，例如：1,5,6,3,9
+}
+
+// 推送给前端天天返利的数据变化
+message S_EVERYDAY_RTN_PUSH{
+	int32 totalDays = 1;				// 推送当前累计充值的天数
+	string hadChargeIds = 2;			// 当前可以领取的奖励的配置表id，例如：1,5,6,3,9
+	string hadRewardIds = 3;			// 当前已经获得过的奖励的id，例如：1,5,6,3,9
+}
+
+//======================================== 充值轮盘  ==============================================
+// 获取每日活动的充值轮盘活动的信息
+message C_GET_CHARGE_PAN_INFO {
+}
+
+// 返回每日活动的充值轮盘的信息
+message S_GET_CHARGE_PAN_INFO {
+	int32 leavePlay = 1;				// 角色剩余的抽奖次数
+	int32 chargeValye = 2;				// 当前拥有的财富值
+	string hadRewardIds = 3;			// 当前财富值已经获得过的奖励的id，例如：1,5,6,3,9
+}
+
+// 每日活动的充值轮盘抽奖操作
+message C_CHARGE_PAN_REWARD {
+	int32 type = 1;		// 抽奖的类型，1是单次，10是十次
+}
+
+// 返回客户端每日活动的充值轮盘抽奖的奖励
+message S_CHARGE_PAN_REWARD{
+	int32 type = 1;					// 抽奖的类型，1是单次，10是十次
+	int32 leavePlay = 2;			// 当前剩余的抽奖次数
+	ItemListMsg rewardList = 3;		// 获得的奖励
+	int32 panIndex = 4;				// 当前的奖励配置唯一id
+}
+
+// 领取充值轮盘的财富值奖励
+message C_CHARGE_PAN_LUCK_REWARD{
+	int32 rewardId = 1;				// 奖励的唯一id
+}
+
+// 返回客户端每日活动的充值轮盘的财富值奖励
+message S_CHARGE_PAN_LUCK_REWARD{
+	int32 rewardId = 1;					// 奖励的唯一id
+	string hadRewardIds = 2;			// 当前已经获得过的奖励的id，例如：1,5,6,3,9
+	ItemListMsg rewardList = 3;			// 获得的奖励
+}
+
+// 每日活动的充值轮盘记录数据
+message C_CHARGE_PAN_LOGS {
+	bool isSelf = 1;		// 是否查询和自己相关的，true是false否
+}
+
+// 返回客户端每日活动的充值轮盘记录数据
+message S_CHARGE_PAN_LOGS{
+	repeated CHARGE_PAN_LOG logs = 1;		// 记录数据
+	bool isSelf = 2;						// 是否查询和自己相关的，true是false否
+}
+
+// 充值轮盘的记录
+message CHARGE_PAN_LOG {
+	int32 vipLevel = 1;			// 获奖时候玩家的vip等级
+	string rewardDatas = 2;		// 获奖的道具数据，格式：item1,num;item2,num;...
+	int64 createTime = 3;		// 记录的产生时间戳
+	string nickName = 4;		// 获奖的玩家昵称
+}
+
+//===================================== 每日特惠  ==============================================
+// 每日活动中每日特惠的商品查询
+message C_GET_TODAY_DISCOUNT_INFO{
+}
+
+// 返还客户端每日活动中每日特惠的商品查询
+message S_GET_TODAY_DISCOUNT_INFO{
+	repeated TODAY_DISCOUNT_INFO marketInfos = 1;	//限时折扣商品信息
+	int32 day = 2;									//商店的天数
+}
+
+// 商品的数据
+message TODAY_DISCOUNT_INFO{
+	int32 marketId = 1;	//商品id
+	int32 limitNum = 3;	//限购数量
+}
+
+// 每日活动中每日特惠的商品购买
+message C_BUY_TODAY_DISCOUNT{
+	int32 marketId = 1;		//要购买的商品id
+}
+
+// 返还客户端每日活动中每日特惠的商品购买结果
+message S_BUY_TODAY_DISCOUNT{
+	TODAY_DISCOUNT_INFO marketInfo = 1;		//商品信息
+}
+
+//==================================  每日登录  ====================================================
+message C_GET_EVERY_LOGIN_INFO{
+}
+
+// 返还客户端每日活动中每日登录信息
+message S_GET_EVERY_LOGIN_INFO{
+	int32 day = 1;				// 当前登录的天数
+	string activeIds = 2;		// 今日可以领取的奖励配置id集合，格式：id1,id2,id3,...
+	string rewardIds = 3;		// 今日已经领取的奖励配置id集合，格式：id1,id2,id3,...
+}
+
+// 领取奖励的操作
+message C_GET_EVERY_LOGIN_REWARD{
+	int32 rewardId = 1;	// 领取奖励配置的唯一id
+}
+
+// 每日活动中每日登录的奖励领取操作
+message S_GET_EVERY_LOGIN_REWARD{
+	int32 day = 1;				// 当前登录的天数
+	string rewardIds = 2;		// 今日已经领取的奖励配置id集合，格式：id1,id2,id3,...
+	ItemListMsg rewardList = 3;	// 获得的奖励
+}

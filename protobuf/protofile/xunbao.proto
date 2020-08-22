@@ -1,0 +1,142 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+//寻宝日志
+message XUNBAO_LOG {
+	int64 playerId						=	1;	//	角色ID
+	string playerName					=	2;	//	角色名
+	int32 itemId						=	3;	//  获得的道具ID
+	int32 itemNum						=	4;	//  获得的道具数量
+}
+
+//C->S 请求: 获取寻宝记录
+message C_XUNBAO_GET_RECORD {
+
+}
+
+//S->C 响应: 获取寻宝记录
+message S_XUNBAO_GET_RECORD {
+	int32 xunbao_1_free  				= 	1;	//免费1寻宝. 0-无, 1-有
+	int32 xunbao_lucky_val 				= 	2;	//寻宝幸运值
+	int64 xunbao_free_recoverTime       =   3;	//免费次数回复时间
+}			
+
+//C->S. 请求: 开始寻宝
+message C_XUNBAO_START {			
+	int32 xunbao_type					= 	1;	//寻宝的类型. 1/10/50
+}			
+
+
+//C->S. 响应: 开始寻宝
+message S_XUNBAO_START { 			
+	int32 xunbao_lucky_val 				= 	1;	//寻宝幸运值
+	repeated ItemMsg reward = 2; // 奖励信息
+	repeated int32 rewardIdList = 3; // 奖励id列表信息
+	int64 recoverTime = 4;//	免费次数回复时间
+}
+
+//C->S. 请求: 获得寻宝日志
+message C_XUNBAO_GETLOG { 
+}
+
+//S->C. 响应: 获得寻宝日志
+message S_XUNBAO_GETLOG { 
+	repeated XUNBAO_LOG xunbaoLog		=	1;	//寻宝日志
+}
+
+
+
+//神将台
+message C_XUNBAO_NEW_GET_INFO{
+	int32 type = 1;//类型
+}
+message S_XUNBAO_NEW_GET_INFO{
+	int32 type = 1;//类型
+	int32 freeTimes = 2;//免费次数
+	int64 recoverTime = 3;//免费次数回复时间 （秒）
+	int32 totalTimes = 4;//已经抽了多少次
+	bool hasTen = 5;//是否进行过10连抽得操作
+}
+
+
+message C_XUNBAO_NEW_START{
+	int32 type = 1;//类型
+	int32 nums = 2;//抽奖次数  前端自己传 1 或10  支持 传其他值
+}
+message S_XUNBAO_NEW_START{
+	int32 type = 1;//类型
+	ItemListMsg itemList = 2;//奖励
+}
+
+//C->S. 请求: 获得寻宝日志
+message C_XUNBAO_NEW_GETLOG { 
+	int32 type = 1;
+}
+//S->C. 响应: 获得寻宝日志
+message S_XUNBAO_NEW_GETLOG { 
+	int32 type = 1;
+	repeated XUNBAO_LOG xunbaoLog		=	2;	//寻宝日志
+}
+//拉取神将台神将兑换信息
+message C_GET_XUNBAO_NEW_SCORE{
+}
+message S_GET_XUNBAO_NEW_SCORE{
+	int32 score = 1;//积分
+	repeated int32 ids = 2;//已经兑换过的表id
+}
+//请求兑换神将
+message C_XUNBAO_NEW_CHANGE_HERO{
+	int32 id = 1;//神将积分兑换表的 id
+	int32 heroId = 2;//要兑换的神将id
+}
+message S_XUNBAO_NEW_CHANGE_HERO{
+	int32 id = 1;//神将积分兑换表的 id
+	int32 heroId = 2;//要兑换的神将id
+}
+
+
+// 客户端请求寻宝轮盘的数据
+message C_XUNBAO_WHEEL_INFO{
+	int32 wheelType = 1;	// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+}
+
+// 服务器返还客户端 -> 寻宝轮盘的数据
+message S_XUNBAO_WHEEL_INFO{
+	int32 wheelType = 1;				// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+	int32 luckValue = 2;				// 当前拥有的幸运值或是积分
+	int32 playTimes = 3;				// 当前轮盘今日已经寻宝的次数
+	string hadRewards = 4;				// 当前已经领取的积分宝箱的奖励，id1,id2,id3...
+	repeated XUNBAO_LOG xunbaoLog =	5;	// 寻宝轮盘的日志
+}
+
+// 客户端请求寻宝轮盘的开始寻宝操作
+message C_XUNBAO_WHEEL_START{
+	int32 wheelType = 1;	// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+	int32 playTimes = 2;	// 选择的寻宝次数
+}
+
+// 服务器返还客户端 -> 寻宝轮盘的寻宝结果
+message S_XUNBAO_WHEEL_START{
+	int32 wheelType = 1;				// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+	int32 playTimes = 2;				// 选择的寻宝次数
+	int32 rewardId = 3;					// 本次寻宝的配置的唯一id
+	ItemListMsg itemList = 4;			// 本次寻宝获得的奖励
+	int32 luckValue = 5;				// 当前拥有的幸运值或是积分
+	int32 playTotalTimes = 6;			// 当前轮盘今日已经寻宝的次数
+	repeated XUNBAO_LOG xunbaoLog =	7;	// 寻宝轮盘的日志
+}
+
+// 客户端请求领取寻宝轮盘的积分奖励
+message C_XUNBAO_WHEEL_REWARD{
+	int32 wheelType = 1;	// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+	int32 rewardId = 2;		// 要领取的积分奖励的id
+}
+
+// 服务器返还客户端 -> 领取寻宝轮盘的积分奖励
+message S_XUNBAO_WHEEL_REWARD{
+	int32 wheelType = 1;				// 查询的轮盘类型，1珍宝殿（法宝）2藏经阁（秘籍）3炼丹炉（命魄）4神兵库（装备）5御兽监（进阶）
+	int32 rewardId = 2;					// 领取的积分奖励的id
+	string hadRewards = 3;				// 当前已经领取的积分宝箱的奖励，id1,id2,id3...
+	ItemListMsg itemList = 4;			// 本次寻宝获得的奖励
+	int32 luckValue = 5;				// 当前拥有的幸运值或是积分
+}

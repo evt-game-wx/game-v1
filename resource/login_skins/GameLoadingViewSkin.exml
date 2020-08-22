@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="GameLoadingViewSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:qmr="qmr.*" xmlns:w="http://ns.egret.com/wing" states="loginPrevLoad,loginSuccessLoad" >
+
+
+	<e:Image id="imgBg" height="1624" top="0" left="0" right="0"/>
+	<qmr:GameLoadingProgressBar id="progressBar1" skinName="GameLoadingProgressBarSkin" horizontalCenter="0" bottom="333" visible.loginPrevLoad="false" visible="true"/>
+	<qmr:GameLoadingProgressBar id="progressBar2" skinName="GameLoadingProgressBarSkin" horizontalCenter="0" bottom="199" visible.loginPrevLoad="false" visible="true"/>
+	<e:Label id="labRefresh" text="若长时间加载不成功，请点击刷新界面" fontFamily="specialGameFont" size="22" stroke="1" strokeColor="0xc89f64" textColor="0xffffff" bottom="158" horizontalCenter="0" size.loginSuccessLoad="24"/>
+	<e:Label text="抵制不良游戏，拒绝盗版游戏。 注意自我保护，谨防受骗上当。 适度游戏益脑，沉迷游戏伤身。 合理安排时间，享受健康生活" fontFamily="specialGameFont" size="18" strokeColor="0x842813" anchorOffsetY="0" height="45" anchorOffsetX="0" width="510" stroke="1" wordWrap="true" textAlign="left" lineSpacing="10" bottom="35" horizontalCenter="12" visible="true"/>
+</e:Skin>

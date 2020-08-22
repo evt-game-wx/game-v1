@@ -1,0 +1,55 @@
+syntax="proto3";
+package com.message;
+
+//拉取天梯系统信息
+message C_GET_LADDER_INFO{
+}
+message S_GET_LADDER_INFO{
+	int32 id = 1; //段位id
+	int32 rank = 2;//排名
+	int32 win = 3;//净胜场数
+	int32 times = 4;//挑战次数
+	int64 time = 5; //挑战次数回复时间
+	int32 buyTimes = 6;//购买次数
+	int32 lastId = 7;//上周段位id
+	int32 lastRank = 8;//上周排名
+	int32 lastWin = 9;//上周净胜场次
+}
+
+
+//购买挑战次数
+message C_BUY_LADDER_TIMES{
+}
+
+message S_BUY_LADDER_TIMES{
+	int32 times = 1;//挑战次数
+	int32 buyTimes = 2;//购买次数
+	
+}
+
+//匹配
+message C_MATCH_LADDER{
+}
+message S_MATCH_LADDER{
+	string playerName = 1;//玩家名称
+	int64 playerId = 2;//玩家id
+	int32 id = 3;//段位id
+	int32 heroId = 4;//头像id
+	int32 robot = 5;//0玩家1机器人 进副本的时候带过去otherParam
+}
+
+//排行榜拉取
+message C_GET_LADDER_RANK{
+	int32 type = 1;//排行榜类型  0本周 1上周
+}
+message S_GET_LADDER_RANK{
+	repeated LADDER_RANK_INFO rankList = 1;//排行榜数据
+}
+message LADDER_RANK_INFO{
+	int32 rank = 1;//排名
+	int32 id = 2;//段位id
+	string name = 3;//名称
+	int32 win = 4;//净胜场
+	int64 playerId = 5;//角色id
+	int32 heroId = 6;//heroId
+}

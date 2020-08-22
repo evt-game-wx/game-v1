@@ -1,0 +1,180 @@
+syntax="proto3";
+package com.message;
+
+//经书信息
+message JingshuInfo {
+	int32 slotId			=	1;	//经书槽位
+	int32 jingshuId			=	2;	//经书ID
+	int32 slotState			=	3;	//经书槽位的状态，0是未开孔，1是开孔了，2是未加锁，3是加锁
+}
+
+//阵形信息
+message FormationMsg {
+	int32 index=1; //阵形标识
+	int32 heroId=2; // 英雄id
+	int32 pos=3; // 上阵英雄位置1-6
+	int32 strengthIndex=4;	//当前要强化的槽位
+	int32 fabaoId = 5;		//法宝ID
+	repeated JingshuInfo jingshuInfo = 6;	//经书信息
+	int64 fightValue = 10; //阵型（槽位）总战力
+}
+
+//获取阵形列表
+message C_FORMATION_LIST {
+}
+
+//获取阵形列表
+message S_FORMATION_LIST {
+	int64 playerId=1; //角色id
+	repeated FormationMsg formationList=3; // 阵形信息列表
+}
+
+//仅布阵
+message C_FORMATION_HERO_SWITCH {
+	int32 heroId=1; // 英雄id
+	int32 pos=2; // 要去的布阵位置1-6
+}
+
+//仅布阵
+message S_FORMATION_HERO_SWITCH {
+	int32 heroId=1; // 英雄id
+	int32 pos=2; // 要去的布阵位置1-6
+	int32 success=3; // 0为失败  1为成功
+}
+
+// 默认主阵容的武将站位
+message C_FORMATION_HERO_POS {
+	repeated int32 heroIds = 1; // 英雄id集合，对应位置1-6
+}
+
+//默认主阵容的武将站位
+message S_FORMATION_HERO_POS {
+	repeated int32 heroIds = 1; // 英雄id集合，对应位置1-6
+	int32 success = 2; // 0为失败  1为成功
+	repeated FormationMsg formationList=3; // 阵形信息列表
+}
+
+//默认主阵容里面的英雄替换槽位不换站位操作
+message C_FORMATION_HERO_SWITCH_INDEX {
+	int32 heroId=1; // 英雄id
+	int32 index=2; //目标槽位，要去的槽位
+}
+
+//默认主阵容里面的英雄替换槽位不换站位操作
+message S_FORMATION_HERO_SWITCH_INDEX {
+	repeated FormationMsg formationList = 1; // 阵形信息列表
+}
+
+//英雄上槽位
+message C_FORMATION_HERO_ON {
+	int32 heroId=1; // 英雄id
+	int32 index=2; //目标槽位，要去的槽位
+    int32 pos=3; // 要去的布阵位置1-6
+}
+
+//英雄上槽位
+message S_FORMATION_HERO_ON {
+	int32 heroId=1; // 英雄id
+	int32 index=2; //目标槽位，要去的槽位
+	int32 pos=3; // 要去的布阵位置1-6
+	int32 success=4; // 0为失败  1为成功
+}
+
+//槽位英雄下阵
+message C_FORMATION_HERO_OFF {
+	int32 heroId=1; // 英雄id
+}
+
+//槽位英雄下阵
+message S_FORMATION_HERO_OFF {
+	int32 heroId=1; // 英雄id
+	int32 success=2; // 0为失败  1为成功
+} 
+//一键上阵武将阵容
+message C_FORMATION_HEROS_ON{
+	repeated int32 heroIds = 1;//按123456阵型顺序排列上阵heroid，为空设置0
+	repeated int32 indexHeroId = 2; //默认123456槽位  可以打乱顺序
+}
+message S_FORMATION_HEROS_ON{
+	repeated int32 heroIds = 1;//按123456阵型顺序排列上阵heroid，为空设置0
+	repeated int32 indexHeroId = 2; //默认123456槽位  可以打乱顺序
+}
+//拉取本服战力排行榜前20名的阵容信息
+message C_GET_FIGHT_RANK_FORMATION_HERO_INFO{
+}
+message S_GET_FIGHT_RANK_FORMATION_HERO_INFO{
+	repeated RANK_FORMATION_HERO_INFO rankFormationList = 1;//阵型信息排行榜列表
+}
+message RANK_FORMATION_HERO_INFO{
+	int64 playerId = 1;
+	string nickName = 2;
+	int64 totalFight = 3;//总战力
+	repeated FORMATION_HERO_INFO formationList = 4;
+	int32 heroQuality = 5; // 主角武将的品质
+}
+message FORMATION_HERO_INFO{
+	int32 index = 1;//槽位
+	int32 pos  = 2;//阵位
+	int32 heroId = 3;//武将id
+}
+//C->S 请求: 经书学习
+message C_FORMATION_JINGSHU_LEARN {
+	int32 index							=	1;		//装备槽位(1-6)
+	int32 jingshuId						=	2;		//经书ID
+}
+
+//S->C 响应: 经书学习
+message S_FORMATION_JINGSHU_LEARN { 
+	int32 index							=	1;		//装备位
+	int32 dreeSlot						=	2;		//装备位的孔
+	int32 jingshuId						=	3;		//装备的经书ID
+}
+
+//C->S 请求: 经书槽位加解锁操作
+message C_FORMATION_JINGSHU_LOCK {
+	int32 index							=	1;		//装备槽位(1-6)
+	int32 dreeSlot						=	2;		//装备经书的槽位(1-6)
+	int32 jingshuId						=	3;		//经书ID
+	int32 type							=	4;		//操作类型，1加锁2解锁
+}
+
+//S->C 响应: 经书槽位加解锁操作
+message S_FORMATION_JINGSHU_LOCK {
+	int32 index							=	1;		//装备位
+	repeated JingshuInfo jingshuInfo 	=	2;		//经书信息
+}
+
+//C->S 请求: 经书开孔
+message C_FORMATION_JINGSHU_OPEN {
+	int32 index							=	1;		//装备槽位(1-6)
+	int32 dreeSlot						=	2;		//装备经书的槽位(1-6)
+}
+
+//S->C 响应: 经书开孔
+message S_FORMATION_JINGSHU_OPEN { 
+	int32 index							=	1;		//装备槽位(1-6)
+	int32 dreeSlot						=	2;		//装备经书的槽位(1-6)
+	int32 slotState						=	3;	//经书槽位的状态
+} 
+
+//获取其他阵型
+message C_GET_OTHER_FORMATION{
+	int32 type = 1; //设置的阵型类型 1竞技场防守阵型~
+}
+message S_GET_OTHER_FORMATION{
+	int32 type = 1; //设置的阵型类型 1竞技场防守阵型
+	repeated int32 indexHeroId = 2; //默认123456槽位  可以打乱顺序               6 3  2  4 5 1
+	repeated int32 posHeroId = 3; //按123456阵型顺序排列上阵heroid，为空设置0    0 0  201  0 0   102
+	int32 zhenfaType = 4; //使用的阵法类型
+}
+
+//设置其他阵型
+message C_SET_OTHER_FORMATION{
+	int32 type = 1; //设置的阵型类型 1竞技场防守阵型
+	repeated int32 indexHeroId = 2; //默认123456槽位  可以打乱顺序
+	repeated int32 posHeroId = 3; //按123456阵型顺序排列上阵heroid，为空设置0
+	int32 zhenfaType = 4; //使用的阵法类型
+}
+message S_SET_OTHER_FORMATION{
+	int32 type = 1;//设置的阵型类型 1竞技场防守阵型
+}

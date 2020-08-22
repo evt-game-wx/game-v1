@@ -1,0 +1,78 @@
+syntax="proto3";
+package com.message;
+
+//获取日常任务boss列表信息
+message C_GET_DAILY_TASK_BOSS_INFO {
+}
+
+//获取boss列表信息
+message S_GET_DAILY_TASK_BOSS_INFO {
+    repeated DailyBossMsg bossMsg = 2;      //boss信息
+    PlayerDailyBossMsg playerBossMsg = 3;      //玩家boss信息
+}
+
+//玩家boss信息
+message PlayerDailyBossMsg{
+    int64 playerId = 1; // 玩家id
+	int32 playCount = 2; // 可挑战次数
+    int64 addCountTime = 3;	//到期增加次数时间
+    repeated int32 qualityId = 4; //已勾选自动挑战副本品质id
+	int32 challengeBossAll = 5; //挑战总开关 1勾自动挑战,0未勾选
+    int64 nextBossRefreshTime = 6; // 下次boss整体刷新时间
+    int32 freeRefreshTime = 7; // 已使用免费巡山次数
+}
+
+//boss信息
+message DailyBossMsg{
+	int64 bossId = 1; // bossID/副本id/玩家id
+	int32 playerHeroId=2; //玩家武将id
+	string name=3; // 玩家名字
+	int32 level=4; // 玩家等级
+	int32 high = 5;         //是否高战玩家，1是，0否
+    int32 bossKill = 6; // boss是否已经击杀,1是，0否
+	int64 fight = 7;//玩家战力 boss没有
+	int32 heroQuality = 8;// 玩家主角武将品质
+}
+
+//勾选自动挑战
+message C_DAILY_TASK_BOSS_CHALLENGE{
+	int32 qualityId = 2; //副本品质id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战
+message S_DAILY_TASK_BOSS_CHALLENGE{
+    int32 qualityId = 2; //副本品质id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message C_DAILY_TASK_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message S_DAILY_TASK_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//巡山
+message C_DAILY_TASK_REFRESH{
+	int32 type = 3; //0使用默认次数,1使用元宝
+}
+
+//巡山
+message S_DAILY_TASK_REFRESH{
+    repeated DailyBossMsg bossMsg = 2;      //boss信息
+    PlayerDailyBossMsg playerBossMsg = 3;      //玩家boss信息
+}
+
+//购买次数
+message C_DAILY_TASK_BUY_TIME{
+	int32 num = 1; //购买次数
+}
+
+//购买次数
+message S_DAILY_TASK_BUY_TIME{
+    int32 playCount = 21; // 可挑战次数
+}

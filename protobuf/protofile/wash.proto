@@ -1,0 +1,123 @@
+syntax="proto3";
+package com.message;
+
+//获取洗练信息
+message C_SLOT_WASH_INFO {
+}
+
+//获取洗练信息
+message S_SLOT_WASH_INFO {
+	repeated AllSlotWashInfo allSlotWashInfo =1;//洗练属性信息
+}
+
+//获取洗练信息
+message AllSlotWashInfo {
+	int32 formationIndex= 1; //阵形标识
+	repeated WashInfo WashInfo = 2;//洗练属性
+	repeated TempWashInfo TempWashInfo = 3;//临时洗练属性
+	int32 washLevel =4;//洗练等级
+	int32 washTimes = 5;//洗练次数
+	int32 washLuckeyLevel = 6;//洗练幸运等级
+	int32 washLuckeyExp = 7;//洗练幸运经验
+}
+
+//解锁洗练槽位
+message C_SLOT_UNLOCK_INDEX{
+	int32 formationIndex= 1; //阵形标识
+	int32 lockIndex = 2;//洗练槽位
+}
+
+//解锁洗练槽位
+message S_SLOT_UNLOCK_INDEX{
+	int32 formationIndex = 1; //阵形标识
+	int32 lockIndex = 2;//洗练槽位
+	int32 success = 3; // 0为失败  1为成功
+}
+
+//洗练属性
+message WashInfo{
+	int32 unlockIndex= 1;//属性栏位
+	int32 propType=2;//洗练属性类型
+	int32 propNum =3;//洗练属性值
+	int32 isLock =4;//是否锁定
+	int32 quenching = 5;//淬炼加成属性
+	int32 tempQeuenching = 6;//淬炼加成属性
+}
+
+//洗练临时属性
+message TempWashInfo{
+	int32 unlockIndex= 1;//属性栏位
+	int32 propType=2;//洗练属性类型
+	int32 propNum =3;//洗练属性值
+}
+
+//洗练
+message C_SLOT_WASH{
+	int32 formationIndex= 1; //阵形标识
+	int32 castLevel =2;//消耗等级 0-低级材料 1-高级材料
+}
+
+//洗练
+message S_SLOT_WASH{
+	int32 formationIndex = 1; //阵形标识
+	repeated TempWashInfo tempWashInfo = 2;//洗练临时属性
+	int32 success = 3; // 0为失败  1为成功
+	int32 washLevel =4;//洗练等级
+	int32 washTimes = 5;//洗练次数
+	int32 washLuckeyLevel = 6;//洗练幸运等级
+	int32 washLuckeyExp = 7;//洗练幸运经验
+}
+
+//洗练替换
+message C_SLOT_WASH_REPLACE{
+	int32 formationIndex= 1; //阵形标识
+}
+
+//洗练替换
+message S_SLOT_WASH_REPLACE{
+	int32 formationIndex = 1; //阵形标识
+	repeated WashInfo WashInfo = 2;//洗练属性
+	int32 success = 3; // 0为失败  1为成功
+}
+
+//淬炼
+message C_QUENCHING_SLOT{
+	int32 formationIndex = 1; //阵形标识
+	int32 quenchingType = 2;//0 低级 1 高级
+}
+
+//淬炼
+message S_QUENCHING_SLOT{
+	int32 formationIndex = 1; //阵形标识
+	repeated TempWashInfo qeuenchingInfo = 2;//淬炼属性
+	repeated TempWashInfo tempQeuenchingInfo = 3;//临时淬炼属性
+	int32 success = 4; // 0为失败  1为成功
+}
+
+//锁定属性
+message C_LOCK_INDEX{
+	int32 formationIndex = 1; //阵形标识
+	int32 lockIndex = 2;//洗练槽位
+	int32 lockstate = 3; // 0解锁  1为锁定
+}
+
+message S_LOCK_INDEX{
+	int32 formationIndex = 1; //阵形标识
+	int32 lockIndex = 2;//洗练槽位
+	int32 success = 3; // 0为失败  1为成功
+	int32 lockstate = 4; // 0解锁  1为锁定
+}
+
+//保存淬炼属性
+message C_SAVE_QUENCHING_SLOT{
+	int32 formationIndex = 1; //阵形标识
+}
+
+//保存淬炼属性
+message S_SAVE_QUENCHING_SLOT{
+	int32 formationIndex = 1; //阵形标识
+	repeated TempWashInfo qeuenchingInfo = 2;//淬炼属性
+	int32 success = 3; // 0为失败  1为成功
+}
+
+

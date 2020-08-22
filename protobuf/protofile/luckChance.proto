@@ -1,0 +1,34 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+//客户端获得奇遇事件的信息
+message C_GET_LUCK_CHANCE_INFO {
+
+}
+
+//服务器响应客户端-->奇遇事件的信息
+message S_GET_LUCK_CHANCE_INFO {
+	int32 leaveTime			= 1;	// 奇遇剩余的时间，单位秒
+	int32 luckType			= 2;	// 当前奇遇的类型，1是boss，2是宝箱，3是折扣商人
+	BattlePlayerMsg player 	= 3;	// 挑战的boss信息
+	int32 shopId			= 4;	// 折扣商品的id
+	ItemListMsg itemList	= 5;	// 宝箱或是boss可以获得的奖励
+	int32 instanceId		= 6;	// boss副本的id
+}
+
+// 客户端奇遇事件的操作
+message C_LUCK_CHANCE_OPEN {
+	int32 luckType	= 1;	// 当前奇遇的类型，1是boss，2是宝箱，3是折扣商人
+}
+
+// 服务器响应客户端-->奇遇事件奖励
+message S_LUCK_CHANCE_OPEN {
+	ItemListMsg itemList	= 1;	// 获得的奖励
+}
+
+//服务器推送客户端有奇遇事件
+message S_LUCK_CHANCE_PUSH{
+	int32 leaveTime			= 1;	// 奇遇剩余的时间，单位秒
+}

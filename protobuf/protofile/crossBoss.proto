@@ -1,0 +1,183 @@
+syntax="proto3";
+package com.message;
+
+//获取跨服boss个人相关的信息
+message C_GET_CROSS_BOSS_NEW_INFO {
+}
+
+//服务器返还客户端获取跨服boss个人相关的信息
+message S_GET_CROSS_BOSS_NEW_INFO {
+	PlayerCrossBossMsg playerBossMsg = 1;		// 玩家跨服boss自己的信息
+}
+
+// 获取当前章节的boss击杀记录
+message C_GET_CROSS_BOSS_NEW_RECORD{
+	int32 chapterId = 1;			//跨服boss的章节id
+}
+
+// 服务器返还客户端当前章节的boss击杀记录
+message S_GET_CROSS_BOSS_NEW_RECORD{
+   	int32 chapterId = 1;					// 跨服boss的章节id
+	repeated CrossBossMsg bossMsg = 2;      //boss信息
+	repeated CrossBossKillMsg bossKillMsg = 3;      //boss被击杀记录信息,每章节5条
+	int32 myAscBossId = 5; // 我的归属bossID/副本id
+}
+
+//玩家跨服boss自己的信息
+message PlayerCrossBossMsg{
+	int32 acsCount = 1;				// 今日已获得归属的次数
+	int32 findTimes = 3;			// 当前可搜寻的次数
+	int64 addFindTime = 4;			// 增加一次搜寻次数的剩余时间，单位秒
+}
+//boss信息
+message CrossBossMsg{
+	int32 bossId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    int64 runTime = 4; // 逃跑时间
+	int64 nextStartTime = 5; // 逃跑时间
+    repeated CroosBossDamageRankMsg damageRankMg = 7; //伤害排行
+}
+
+//boss信息
+message CrossBossKillMsg{
+	int32 bossId = 1; // bossID/副本id
+	int64 playerId = 2; // 玩家id
+	string playerName = 3; // 玩家昵称
+	int64 killTime = 4; // 击杀时间
+}
+
+//小怪信息
+message CrossLittleMsg{
+	int32 instanceId = 1; // 小怪ID/副本id
+	int64 littleHp = 2; // 小怪当前血量
+	int64 littleMaxHp = 3; // 小怪最大血量
+}
+
+//伤害排行信息
+message CroosBossDamageRankMsg{
+    int32 rank = 1; // 排名
+    int64 playerId = 2; // 玩家id
+    string playerName = 3; // 玩家昵称
+    int64 damage = 4; // 累计伤害值
+	int32 serverId = 5; // 服务器id
+}
+
+
+// 跨服boss搜寻打副本怪物的操作
+message C_GET_CROSS_BOSS_NEW_FIND{
+    int32 chapterId = 1;	// 跨服boss的章节id
+}
+
+// 服务器返还客户端跨服boss搜寻打副本怪物的操作
+message S_GET_CROSS_BOSS_NEW_FIND{
+    int32 chapterId = 1;		// 跨服boss的章节id
+	CrossBossMsg bossMsg = 2;      //boss信息
+	int32 instanceId = 4;	// 副本id，小怪id
+	CrossLittleMsg littleMsg = 5; //小怪信息
+	PlayerCrossBossMsg playerBossMsg = 6;		// 玩家跨服boss自己的信息
+}
+
+// 跨服boss查询指定boss信息
+message C_GET_CROSS_BOSS_ONE_INFO{
+    int32 instanceId = 1;	// 副本id，小怪id
+}
+
+// 跨服boss查询指定boss信息
+message S_GET_CROSS_BOSS_ONE_INFO{
+	CrossBossMsg bossMsg = 2;      //boss信息
+	int32 instanceId = 4;	// 副本id，小怪id
+	CrossLittleMsg littleMsg = 5; //小怪信息
+	PlayerCrossBossMsg playerBossMsg = 6;		// 玩家跨服boss自己的信息
+}
+
+
+// 退出跨服boss挑战小怪
+message C_GET_CROSS_BOSS_NEW_EXIT{
+}
+
+//服务器返还客户端退出跨服boss挑战小怪
+message S_GET_CROSS_BOSS_NEW_EXIT{
+}
+
+//Boos被击杀推送
+message S_SYNC_CROSS_BOSS_KILL{
+    int32 chapterId = 1;	// 跨服boss的章节id
+	int32 instanceId = 2;	// bossID/副本id
+}
+
+
+//=======================跨服协议==============================
+
+// 去跨服查看当前副本章节的boss击杀数据
+message CROSS_C_CROSS_BOSS_NEW_RECORD{
+	int32 chapterId = 1;	// 当前跨服boss章节id
+	int64 playerId = 2;		// 查看的玩家id
+}
+
+//跨服服务器返还逻辑服boss击杀记录数据
+message CROSS_S_CROSS_BOSS_NEW_RECORD{
+  	int32 chapterId = 1;					// 当前跨服boss章节id
+	repeated CrossBossMsg bossMsg = 2;      //boss信息
+   	int64 playerId = 3;						// 查看的玩家id
+	repeated CrossBossKillMsg bossKillMsg = 4;      //boss被击杀记录信息,每章节5条
+	int32 myAscBossId = 5; // 我的归属bossID/副本id
+}
+
+// 去跨服查看当前副本的boss数据
+message CROSS_C_CROSS_BOSS_NEW_FIND{
+	int32 chapterId = 1;	// 当前跨服boss章节id
+	int64 playerId = 2;		// 查看的玩家id
+}
+
+//服务器返还客户端当前副本的boss数据
+message CROSS_S_CROSS_BOSS_NEW_FIND{
+  	int32 chapterId = 1;	// 当前跨服boss章节id
+   	int64 playerId = 2;			// 查看的玩家id
+   	CrossBossMsg bossMsg = 3;      //boss信息
+	int32 instanceId = 4;	// 副本id
+}
+
+// 去跨服查看当前副本指定的boss数据
+message CROSS_C_CROSS_BOSS_ONE_INFO{
+	int32 instanceId = 1;	// 当前跨服bossid
+	int64 playerId = 2;		// 查看的玩家id
+}
+
+//服务器返还客户端当前副本指定的boss数据
+message CROSS_S_CROSS_BOSS_ONE_INFO{
+  	int32 instanceId = 1;	// 当前跨服bossid
+   	int64 playerId = 2;			// 查看的玩家id
+   	CrossBossMsg bossMsg = 3;      //boss信息
+}
+
+
+//服务器返推送副本的boss数据变化操作
+message CROSS_S_CROSS_BOSS_NEW_REFRESH{
+  	int32 instanceId = 1;		// 当前跨服boss副本的id
+   	int64 playerId = 2;			// 查看的玩家id
+   	int64 belongPlayerId = 3;	// 归属玩家的id
+    string nickName = 4;		// 归属玩家的昵称
+    int32 leaveTime = 5;		// boss结算倒计时
+    int64 bossLeaveHp = 6;		// 剩余血量值
+    int64 bossMaxHp = 7;		// boss最大血量值
+}
+
+// 跨服boss死亡给玩家发奖励
+message CROSS_S_CROSS_BOSS_DEATH {
+    int64 playerId=1;            // 角色ID
+    int32 instanceId = 2; // bossID/副本id
+}
+
+// 跨服Boos刷新推送
+message CROSS_S_SYNC_CROSS_BOSS_REFRESH {
+    int32 type = 1;			//BOSS类型 副本表副本类型
+	int32 instanceId = 2;	// bossID/副本id
+}
+
+// 跨服Boos被击杀刷新推送
+message CROSS_S_SYNC_CROSS_BOSS_KILL {
+    int32 chapterId = 1;	// 跨服boss的章节id
+	int32 instanceId = 2;	// bossID/副本id
+}
+

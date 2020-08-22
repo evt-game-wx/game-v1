@@ -1,0 +1,89 @@
+syntax="proto3";
+package com.message;
+import "task.proto";
+import "common.proto";
+import "backpack.proto";
+import "playerMsg.proto";
+
+//客户端 登录注册完成请求 角色信息
+message C_USER_LOGIN_INIT_FINISH{
+
+}
+
+//登录注册完成请求 角色信息
+message S_USER_LOGIN_INIT_FINISH{
+    int64 playerId=1;               //玩家id
+    string nickname=2;              // 玩家昵称
+	int32 heroId=3;  //所选角色
+    PlayerPropertyMsg property=4;   //属性信息
+    PlayerExtMsg extMsg=5;          //扩展信息
+    OfflineHangupMsg offlineMsg=6;  //离线信息
+    PlayerTaskMsg playerTaskMsg=7;  //任务信息
+    int32 openServerDay =8;			//开服天数
+	int64 openServetTime = 9;		//开服时间戳（毫秒）
+	int32 mergeServerDay = 10;		//合服天数
+	int64 mergeSeverTime = 11;		//合服时间戳（毫秒）
+    PlayerBackpackMsg backpack=12; //背包信息
+
+    int64 guildId = 13;               //玩家帮派id，0表示没有
+	int64 time=14; //服务器时间ms
+	int64 createTime = 15; // 创建角色的时间
+
+	int32 useTitle = 16;			//当前使用的称号id
+	int32 useHeadFrame = 17;		//当前使用的头像框id
+	int32 gmFlag = 18;				//玩家是否是GM，0否1是
+}
+
+//离线挂机
+message OfflineHangupMsg{
+	int64 time = 1; // 累计时间
+	int64 exp = 2; // 获得EXP
+	int64 money = 3; // 获得MONEY
+	ItemListMsg itemList = 4; //道具信息
+	int64 heroExp = 5; // 上阵武将经验奖励
+	int32 state = 6; //1勾选离线挑战,0取消勾选
+}
+
+//任务信息
+message PlayerTaskMsg{
+	TaskMsg mainTask = 1; // 主线任务
+	repeated TaskMsg dailyTaskList = 2; // 日常任务列表
+}
+
+//拉取引导进度id
+message C_GET_GUIDE_ID{
+}
+message S_GET_GUIDE_ID{
+	int32 id = 1;//引导id
+}
+//存储引导进度
+message C_SAVE_GUIDE_ID{
+	int32 id = 1;
+}
+message C_GET_MODULE_REWARD_INFO{
+}
+message S_GET_MODULE_REWARD_INFO{
+	repeated int32 ids = 1;//已领取的功能id
+}
+message C_GET_MODULE_REWARD{
+	int32 id = 1;//要领取的功能id
+}
+message S_GET_MODULE_REWARD{
+	int32 id = 1;//
+	ItemListMsg itemList = 2; //奖励信息
+}
+
+// C-->S 客户端请求通知服务器加载资源完毕，服务器可以推送消息等给前端
+message C_SYNC_LOAD_FINISH {
+
+}
+
+// S-->C 登录成功后推送客户端玩家的离线奖励数据
+message S_LOGIN_OFFLINE_HANGUP_PUSH{
+	OfflineHangupMsg offlineMsg = 1;  //离线信息
+}
+
+// S-->C 登录成功后推送客户端玩家的背包数据
+message S_LOGIN_BACK_PACK_PUSH{
+	 PlayerBackpackMsg backpack	= 1; //背包信息
+}

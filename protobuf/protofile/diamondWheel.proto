@@ -1,0 +1,45 @@
+syntax="proto3";
+package com.message;
+
+//客户端请求元宝轮盘的操作
+message C_DIAMOND_WHEEL_INFO{
+}
+
+// 服务器响应元宝轮盘的操作
+message S_DIAMOND_WHEEL_INFO{
+	int32 cosumeDiamond						= 1;	//本次抽取消耗的元宝数量
+	int32 taskId 							= 2;	//任务的id
+	int32 processValue						= 3;	// 任务当前的进度值
+	repeated DIAMOND_WHEEL_RECORD records 	= 4;	//抽奖记录
+}
+
+//客户端请求元宝轮盘的操作
+message C_DIAMOND_WHEEL_REWARD{
+	int32 cosumeDiamond			= 1;	//本次抽取消耗的元宝数量
+}
+
+// 服务器响应元宝轮盘的操作
+message S_DIAMOND_WHEEL_REWARD{
+	int32 rewardDiamond 					= 1;	//当前获取的元宝数量
+	int32 rewardIndex 						= 2;	//当前转盘指针的下标是第几个
+	int32 cosumeDiamond						= 3;	//下一次抽取消耗的元宝数量
+	int32 taskId 							= 4;	//任务的id
+	int32 processValue						= 5;	// 任务当前的进度值
+	repeated DIAMOND_WHEEL_RECORD records 	= 6;	//抽奖记录
+}
+
+message DIAMOND_WHEEL_RECORD {
+	string nickName		= 1;	// 玩家的昵称
+	int32 rewardIndex	= 2;	// 玩家翻倍的倍率
+	int32 diamondCount	= 3;	// 玩家获得元宝数量
+}
+
+//客户端请求元宝轮盘的记录
+message C_DIAMOND_WHEEL_RECORD {
+
+}
+
+// 服务器响应元宝轮盘的记录
+message S_DIAMOND_WHEEL_RECORD{
+	repeated DIAMOND_WHEEL_RECORD records 	= 1;	//抽奖记录
+}

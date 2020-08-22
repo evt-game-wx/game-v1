@@ -1,0 +1,56 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得神将副本的
+message C_GET_HERO_INSTANCE_INFO {
+}
+message S_GET_HERO_INSTANCE_INFO{
+	int32 playTimes = 1;						// 今日可以挑战的次数
+	repeated HERO_CHAPTER_INFO infos = 2;		// 副本各个章节的信息
+	int32 buyTimes = 3;							// 今日已经购买的次数
+	int64 resetTime = 4;						//下次恢复时间
+}
+message HERO_CHAPTER_INFO{
+	int32 chapterId = 1;		// 章节的唯一id
+	string stars = 2;			// 章节中每个关卡的星级，格式：instanceId1,star;instanceId2,star;...
+	string simpleBoxs = 3;		// 简单模式中宝箱的奖励领取id，格式：id1,id2,id3...
+	string harsBoxs = 4;		// 困难模式中宝箱的奖励领取id，格式：id1,id2,id3...
+	string specialBoxs = 5;		// 梦魇模式中宝箱的奖励领取id，格式：id1,id2,id3...
+	string instanceTimes = 6;	// 章节副本每日挑战次数，格式：id1,num;id2,num;id3,num...
+}
+
+//领取宝箱奖励
+message C_GET_HERO_INSTANCE_REWARD{
+	int32 boxId = 1;	// 领奖的宝箱id
+}
+
+message S_GET_HERO_INSTANCE_REWARD{
+	int32 boxId = 1;			// 领奖的宝箱id
+	ItemListMsg reward = 2;		// 获得奖励
+}
+
+// 神将副本扫荡的操作
+message C_HERO_INSTANCE_SWEEP{
+	int32 instanceId = 1;		// 扫荡的副本id
+	int32 count = 2;			// 扫荡次数
+}
+
+message S_HERO_INSTANCE_SWEEP{
+	int32 instanceId = 1;		// 扫荡的副本id
+	ItemListMsg reward = 2;		// 获得奖励
+	int32 playTimes = 3;		// 今日可以挑战的次数
+	string instanceTimes = 4;	// 章节副本每日挑战次数，格式：id1,num;id2,num;id3,num...
+	int64 resetTime = 5;	//下次恢复时间
+}
+
+// 神将副本购买挑战次数
+message C_HERO_INSTANCE_BUY{
+	int32 buyTimes = 1;		// 当前购买的次数
+}
+
+message S_HERO_INSTANCE_BUY{
+	int32 playTimes = 1;	// 今日可以挑战的次数
+	int32 buyTimes = 2;		// 今日已经购买的次数
+	int64 resetTime = 4;	//下次恢复时间
+}

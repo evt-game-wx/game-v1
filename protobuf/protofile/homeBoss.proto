@@ -1,0 +1,72 @@
+syntax="proto3";
+package com.message;
+import "worldBoss.proto";
+
+//获取boss列表信息
+message C_GET_HOME_BOSS_INFO {
+    int32 vipLevelType = 1; // boss之家vip类型
+}
+
+//获取boss列表信息
+message S_GET_HOME_BOSS_INFO {
+    int32 vipLevelType = 1; // boss之家vip类型
+    repeated HomeBossMsg bossMsg = 2;      //boss信息
+    PlayerHomeBossMsg playerBossMsg = 3;      //玩家boss信息
+    int32 hadRewardNum = 4;	// 今日已经领取过奖励的次数
+}
+
+//玩家boss信息
+message PlayerHomeBossMsg{
+    int64 playerId = 1; // 玩家id
+    repeated int32 instanceId = 4; //已勾选自动挑战副本id
+	int32 challengeBossAll = 5; //挑战总开关 1勾自动挑战,0未勾选
+}
+
+//boss信息
+message HomeBossMsg{
+	int32 bossId = 1; // bossID/副本id
+	int64 bossHp = 2; // boss当前血量1
+	int64 bossMaxHp = 3; // boss最大血量
+    int64 runTime = 4; // 逃跑时间
+	int64 nextStartTime = 5; // 刷新时间
+	int32 notice = 6; //1勾选刷新提醒,0取消勾选
+    repeated DamageRankMsg damageRankMg = 7; //伤害排行
+
+}
+
+//勾选刷新提醒
+message C_HOME_BOSS_NOTICE{
+    int32 vipLevelType = 1; // boss之家vip类型
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选刷新提醒
+message S_HOME_BOSS_NOTICE{
+    int32 vipLevelType = 1; // boss之家vip类型
+	int32 bossId = 2; // bossID/副本id
+    int32 notice = 3; //1勾选刷新提醒,0取消勾选
+}
+
+//勾选自动挑战
+message C_HOME_BOSS_CHALLENGE{
+	int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战
+message S_HOME_BOSS_CHALLENGE{
+    int32 instanceId = 2; //副本id
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message C_HOME_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+
+//勾选自动挑战总控开关
+message S_HOME_BOSS_CHALLENGE_ALL{
+    int32 notice = 3; //1勾自动挑战,0取消勾选
+}
+

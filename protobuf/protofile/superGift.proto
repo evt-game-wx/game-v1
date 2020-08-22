@@ -1,0 +1,38 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取超值礼包活动的信息
+message C_GET_SUPER_GIFT_INFO {
+}
+
+// 返回客户端超值礼包活动的信息
+message S_GET_SUPER_GIFT_INFO {
+	repeated GIFT_BAG_IFNO giftData = 1;	// 任务数据
+}
+
+// 每个礼包的数据
+message GIFT_BAG_IFNO {
+	int32 typeId = 1;				// 超值礼包的配置唯一id
+	int32 hadTimes = 2;				// 自己已经购买的次数
+	int32 buyTimes = 3;				// 全服已经购买的次数
+}
+
+// 超值礼包活动购买奖励操作
+message C_BUY_SUPER_GIFT {
+	int32 buyType = 1;		// 准备领取的任务奖励的id
+}
+
+// 返回客户端超值礼包奖励数据
+message S_BUY_SUPER_GIFT{
+	int32 buyType = 1;				// 购买的超值礼包的配置唯一id
+	ItemListMsg itemList = 2;		// 本次获得的奖励物品
+	int32 hadTimes = 3;				// 自己已经购买的次数
+	int32 buyTimes = 4;				// 全服已经购买的次数
+}
+
+// 推送客户端超值礼包活动的任务数据
+message S_PUSH_SUPER_GIFT{
+	int32 typeId = 1; 		// 超值礼包的类型，配置唯一id
+	int32 buyTimes = 2;		// 全服已经购买的次数
+}

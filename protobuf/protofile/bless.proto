@@ -1,0 +1,137 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得祝福系统信息
+message C_GET_BLESS_INFO {
+    int32 type = 1; 		//祝福系统类型
+}
+
+//获得祝福系统信息
+message S_GET_BLESS_INFO {
+    int32 type = 1; 		//祝福系统类型
+    BlessMsg blessInfo = 2; //祝福系统信息
+}
+//获得其他祝福类型系统的信息
+message S_GET_BLESS_OTHER_INFO{
+	int32 type = 1;			//祝福系统类型
+	int32 stage = 2;		//阶级
+	repeated BlessOtherOneMsg others = 3;//信息列表
+}
+//其他祝福类型系统的单个信息
+message BlessOtherOneMsg{
+	int32 part = 1;			//部位
+	int32 level = 2;		//等级
+	int32 bless = 3;		//祝福值进度
+}
+
+//祝福系统技能信息
+message BlessSkillMsg {
+    int32 type = 1; 		//技能类型，1主动技能，2被动技能
+	int32 skillId = 2; 		    //技能id
+}
+
+//祝福系统属性丹信息
+message BlessPillMsg {
+	int32 pillType = 1; 	//丹药类型
+	int32 value = 2; 		    //属性值
+}
+
+
+//英雄阵型组
+message EquipmentFormationInfo{
+	map<int32,EquipmentInfoForType> eSlotType = 1;//装备类型 key ->100 宠物槽位
+}
+
+//装备类型组
+message EquipmentInfoForType{
+	repeated BlessEquipMsg eSlotinfo = 1;//栏位基础信息
+}
+
+//祝福系统装备信息
+message BlessEquipMsg{
+	int64 equipId=1; // 装备id(物品id)
+	int32 equipmentSlotIndex=2; // 装备槽位下标
+	int32 itemId = 3;//装备道具id
+}
+
+
+//祝福系统信息
+message BlessMsg {
+	int32 star = 1; 		    //星级
+    int32 bless	= 2; 		    //祝福值进度
+    repeated BlessSkillMsg blessSkillMsg = 3;		//技能
+    repeated BlessPillMsg blessPillMsg = 4;		//属性丹
+    EquipmentFormationInfo blessEquipMsg = 5;		//装备信息
+    int32 imageId = 6;//幻化id
+    int64 fightValue = 7;//战力
+}
+
+//祝福系统升级
+message C_BLESS_STAR_UP{
+	int32 type = 1; 	//祝福系统类型
+	bool autoBuy = 2;//自动买道具
+}
+
+//祝福系统升级
+message S_BLESS_STAR_UP{
+	int32 type = 1; 		    //祝福系统类型
+	int32 star = 2; 		    //星级
+    int32 bless	= 3; 		    //祝福值进度
+	int64 fightValue = 7;//战力
+}
+
+//祝福系统吃丹
+message C_BLESS_EAT_PILL{
+	int32 type = 1; 	//祝福系统类型
+	int32 pillType = 2; 	//丹药类型
+}
+
+//祝福系统吃丹
+message S_BLESS_EAT_PILL{
+	int32 type = 1; 	//祝福系统类型
+    BlessPillMsg blessPillMsg = 2;		//属性丹
+	int64 fightValue = 7;//战力
+}
+
+//其他祝福系统类型升级
+message C_BLESS_OTHER_UP{  		
+	int32 type = 1;		//类型
+	int32 part = 2;		//部位
+}
+message S_BLESS_OTHER_UP{
+	int32 type = 1;		//类型
+	int32 part = 2;		//部位
+	int32 level = 3;	//等级
+	int32 stage = 4;	//阶级
+	int32 bless = 5;	//祝福值进度
+}
+
+//获得祝福系统活动信息
+message C_GET_BLESS_ACTIVITY_INFO {
+    int32 type = 1; 		//祝福活动系统类型
+}
+
+//获得祝福系统活动信息
+message S_GET_BLESS_ACTIVITY_INFO {
+    int32 type = 1; 		// 祝福系统类型
+    int32 overTime = 2;		// 活动结束剩余的时间，单位秒
+}
+
+//获得祝福系统活动信息
+message C_BLESS_ACTIVITY_BUY {
+    int32 type = 1; 		//祝福活动系统类型
+}
+
+//获得祝福系统活动信息
+message S_BLESS_ACTIVITY_BUY {
+    int32 type 				= 1; 	// 下一个活动祝福系统类型
+    int32 overTime 			= 2;	// 活动结束剩余的时间，单位秒
+    ItemListMsg itemList	= 3;	// 购买获得的奖励
+}
+
+// 登录推送角色的活动数据
+message S_BLESS_ACTIVITY_PUSH {
+    int32 type = 1; 		// 祝福系统类型
+    int32 overTime = 2;		// 活动结束剩余的时间，单位秒
+}

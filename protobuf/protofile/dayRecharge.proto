@@ -1,0 +1,26 @@
+syntax="proto3";
+package com.message;
+
+//C->S 请求: 每日首充信息
+message C_DAY_RECHARGE_INFO {
+
+}
+
+//S->C 响应: 每日首充信息
+message S_DAY_RECHARGE_INFO {
+	int32	rechargeVal			  			=	1;		//今日已充值值
+	repeated int32  alreadyRewardId			=	2;		//已领奖的id
+	int32 openDay 							=   3;		//活动的开放天数
+}
+
+//每日首充领奖
+message C_DAY_RECHARGE_GET_REWARD{
+	int32 rewardId = 1;		//领奖id
+}
+message S_DAY_RECHARGE_GET_REWARD{
+	int32 rewardId = 1;		//领奖id
+}
+
+
+
+

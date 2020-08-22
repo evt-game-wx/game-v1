@@ -1,0 +1,27 @@
+syntax="proto3";
+package com.message;
+
+//获得合服活动系统信息
+message C_GET_MERGE_ACTIVITY_INFO {
+	int32 type = 1;//拉取此类型的合服活动信息
+}
+
+//获得合服活动系统信息
+message S_GET_MERGE_ACTIVITY_INFO {
+   repeated int32 activeId = 1; // 当前进行的活动的id集合
+   int64 value = 2; //进度值
+   int32 type = 3; //类型
+   string hadRewards = 4; // 当前已经领取的活动的id集合，格式：id1,id2,id3,...
+   string paramStr = 5;	// 特殊进度值的操作，比如累天充值,day,money;day1,money;...
+}
+
+//领取合服活动目标奖励
+message C_GET_MERGE_ACTIVITY_REWARD{
+	int32 id = 1;//活动id
+	int32 type =2;//活动类型
+}
+//领取合服活动目标奖励
+message S_GET_MERGE_ACTIVITY_REWARD{
+	int32 id = 1;//活动id
+	int32 type = 2;//活动类型
+}

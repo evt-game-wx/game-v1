@@ -1,0 +1,55 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//客户端获得降魔录信息
+message C_XIANG_MO_LU_INFO {
+
+}
+
+//服务器响应客户端-->降魔录数据
+message S_XIANG_MO_LU_INFO {
+   repeated XIANG_MO_LU_DAY days = 1;	//进度值数组
+}
+
+// 降魔录天数信息
+message XIANG_MO_LU_DAY {
+	int32 days						= 1;	// 当前是第几天
+	repeated XIANG_MO_LU_TYPE types = 2;	// 今天的所有展示类型任务数据
+}
+
+// 降魔录类型信息
+message XIANG_MO_LU_TYPE {
+	int32	showType					= 1;	// 当前的展示类型
+	repeated int32 finishs				= 2;	// 完成未领取的id集合
+	repeated int32 rewards				= 3;	// 领取过奖励的id集合
+	repeated XIANG_MO_LU_TASK_INFO info = 4;	// 其他进行中的进度值
+}
+
+//降魔录任务信息
+message XIANG_MO_LU_TASK_INFO {
+	int32 id = 1;		//任务id
+	int32 value = 2;	//进度值
+}
+
+//客户端领取降魔录奖励
+message C_XIANG_MO_LU_REWARD{
+	int32 day 		= 1;	// 领取第几天
+	int32 showType	= 2;	// 领取的展示类型
+	int32 taskId	= 3;	// 领取的唯一id
+}
+
+//服务器响应客户端--> 领取降魔录奖励
+message S_XIANG_MO_LU_REWARD{
+	int32 day 				= 1;	// 领取第几天
+	int32 showType	 		= 2;	// 领取的展示类型
+	int32 taskId			= 3;	// 领取的唯一id
+	ItemListMsg itemList	= 4;	// 奖励获得的奖励
+}
+
+//服务器推送客户端，降魔录的任务进度
+message S_XIANG_MO_LU_TASK{
+	int32 day 					= 1;	// 领取第几天
+	int32 showType	 			= 2;	// 领取的展示类型
+	XIANG_MO_LU_TASK_INFO task	= 3;	// 当前任务的进度
+}

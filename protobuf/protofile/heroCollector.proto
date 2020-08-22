@@ -1,0 +1,24 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得神将集结系统信息
+message C_GET_HERO_COLLECTOR_INFO {
+}
+message S_GET_HERO_COLLECTOR_INFO{
+	repeated HERO_COLLECTOR_INFO infos = 1;//信息
+}
+message HERO_COLLECTOR_INFO{
+	int32 id = 1;//id
+	int64 endTime = 2;//收集结束时间
+	bool isCanGet = 3;//是否可以领取  
+	bool isAlreadyGet = 4;//是否已经领取
+}
+//领取神将集结奖励
+message C_GET_HERO_COLLECTOR_REWARD{
+	int32 id = 1;//领奖id
+}
+message S_GET_HERO_COLLECTOR_REWARD{
+	int32 id = 1;//领奖id
+	ItemListMsg reward = 2;//奖励
+}

@@ -1,0 +1,53 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+// 获取幸运转盘活动的信息
+message C_GET_LUCK_PAN_INFO {
+}
+
+// 返回客户端幸运转盘活动的信息
+message S_GET_LUCK_PAN_INFO {
+	int32 luckScore = 1;				// 当前幸运积分的数量
+	int32 opDays = 2;					// 当前活动进行的第几天
+	string hadItemIds = 3;				// 当前购买的商品次数数据，格式：id,num;id,num...
+	int32 freeTimes = 4;				// 当前拥有的免费次数
+	string redPointIds = 5;	 			// 勾选的红点提示的商品id，格式：id1,id2,id3
+}
+
+// 幸运转盘活动购买转盘操作
+message C_LUCK_PAN_BUY {
+	int32 buyType = 1;			// 准备购买的类型，1或是10
+}
+
+// 返回客户端幸运转盘活动转盘抽奖奖励数据
+message S_LUCK_PAN_BUY{
+	int32 luckScore = 1;				// 当前幸运积分的数量
+	int32 panIndex = 2;					// 最后一次转盘指针的位置，1-8
+	ItemListMsg itemList = 3;			// 本次获得的奖励物品
+	int32 freeTimes = 4;				// 当前拥有的免费次数
+	int32 buyType = 5;					// 本次购买转盘的类型
+}
+
+// 角色幸运转盘商店购买的操作
+message C_LUCK_PAN_SHOP {
+	int32 shopId = 1;		// 购买的商店配置表id
+	int32 buyNum = 2;		// 购买的数量
+}
+
+// 返回客户端购买幸运转盘商店物品数据
+message S_LUCK_PAN_SHOP{
+	int32 luckScore = 1;			// 当前幸运积分的数量
+	ItemListMsg itemList = 2;		// 本次获得的奖励物品
+	string hadItemIds = 3;			// 当前购买的商品次数数据，格式：id,num;id,num...
+}
+
+// 角色幸运转盘商店红点提示的操作
+message C_LUCK_PAN_TISHI {
+	string redPointIds = 1;	 // 今日勾选的红点提示的商品id，格式：id1,id2,id3
+}
+
+// 返回客户端幸运转盘商店红点提示
+message S_LUCK_PAN_TISHI{
+	string redPointIds = 1;	 // 勾选的红点提示的商品id，格式：id1,id2,id3
+}

@@ -1,0 +1,136 @@
+syntax="proto3";
+package com.message;
+import "battleMsg.proto";
+
+//拉取现有未满队伍的信息
+message C_GET_TEAM2_INFO{
+	int32 instanceId = 1;//副本id
+}
+message S_GET_TEAM2_INFO{
+	repeated MATCH_TEAM2_INFO team2s = 1;//队伍列表
+}
+message MATCH_TEAM2_INFO{//显示的匹配队伍信息
+	int32 team2Id = 1;//队伍id
+	int32 heroId = 2;//队长的头像id
+	string name = 3;//队长的名称
+	int32 num = 4;//队伍人数
+	int32 heroQuality = 5; //队长主角武将的品质
+}
+//拉取组队副本信息
+message C_GET_TEAM2_INSTANCE_INFO{
+}
+message S_GET_TEAM2_INSTANCE_INFO{
+	int32 times = 1;//剩余副本挑战次数
+	repeated int32 instanceId = 2;//已经获得过首次奖励的副本id
+	int32 pos1 = 3;//位置1上的英雄id
+	int32 pos2 = 4;//位置2上的英雄id
+}
+
+message TEAM2_INFO{//队伍信息
+	int32 team2Id = 1;//队伍id
+	int32 instanceId = 2;//副本id
+	TEAM2_MEMBER_INFO TEAM2Info1 = 3;//队长
+	TEAM2_MEMBER_INFO TEAM2Info2 = 4;//队员1
+	TEAM2_MEMBER_INFO TEAM2Info3 = 5;//队员2
+}
+message TEAM2_MEMBER_INFO{//队伍成员信息
+	string name = 1;//玩家名称
+	int64 plyaerId = 2;//玩家id
+	int32 pos1 = 3;//位置1上的heroid
+	int32 pos2 = 4;//位置2上的heroid
+	int32 serverId = 5;//服务器id
+	int32 level = 6;//玩家等级
+	int32 heroQuality = 7; //玩家主角武将的品质
+}
+//加入队伍
+message C_JOIN_TEAM2{
+	int32 instanceId = 1;//副本id
+	int32 team2Id = 2;//加入的队伍id
+}
+message S_JOIN_TEAM2{
+	TEAM2_INFO TEAM2info = 1;//队伍信息
+}
+//快速加入队伍 如果有队伍自动进队伍， 如果没有队伍就自动创建队伍 返回对应的协议， 该协议不反回
+message C_QUICK_JOIN_TEAM2{
+	int32 instanceId = 1;//副本id
+}
+//退出队伍
+message C_EXIT_TEAM2{
+}
+message S_EXIT_TEAM2{
+}
+//更新队伍信息 队伍信息变动会主动推
+message S_UPDATE_TEAM2{
+	TEAM2_INFO TEAM2info = 1;//队伍信息
+}
+//切换上阵角色
+message C_SET_TEAM2_HERO_POS{
+	int32 pos1 = 1;//位置1上的英雄id
+	int32 pos2 = 2;//位置2上的英雄id
+}
+message S_SET_TEAM2_HERO_POS{
+	int32 pos1 = 1;//位置1上的英雄id
+	int32 pos2 = 2;//位置2上的英雄id
+}
+//填充机器人 队伍满员 队长才可以用 没有返回 直接更新队伍信息
+message C_FULL_TEAM2{
+}
+
+
+
+//=======================跨服协议==============================
+//拉取现有未满队伍的信息
+message CROSS_C_GET_TEAM2_INFO{
+	int64 playerId = 1;//角色id
+	int32 instanceId = 2;//副本id
+}
+message CROSS_S_GET_TEAM2_INFO{
+	int64 playerId = 1;//角色id
+	repeated MATCH_TEAM2_INFO team2s = 2;//队伍列表
+	repeated int32 pos2 = 3;//位置2上的英雄id
+}
+//快速加入队伍
+message CROSS_C_QUICK_JOIN_TEAM2{
+	int64 playerId = 1;//角色id
+	int32 instanceId = 2;//副本id
+	string name = 3;//玩家名称
+	int32 pos1 = 4;//位置1上的heroid
+	int32 pos2 = 5;//位置2上的heroid
+	BattlePlayerMsg playerMsg = 7;//战斗信息
+}
+//更新队伍信息
+message CROSS_S_UPDATE_TEAM2{
+	int64 playerId = 1;//角色id
+	TEAM2_INFO TEAM2info = 2;//队伍信息
+}
+//加入队伍
+message CROSS_C_JOIN_TEAM2{
+	int64 playerId = 1;//角色id
+	int32 team2Id = 2;//加入的队伍id
+	int32 instanceId = 3;//副本id
+	string name = 4;//玩家名称
+	int32 pos1 = 5;//位置1上的heroid
+	int32 pos2 = 6;//位置2上的heroid
+	BattlePlayerMsg playerMsg = 7;//战斗信息
+	bool isRobot = 8;//是不是机器人
+}
+message CROSS_S_JOIN_TEAM2{
+	int64 playerId = 1;//角色id
+	TEAM2_INFO TEAM2info = 2;//队伍信息
+}
+//退出队伍
+message CROSS_C_EXIT_TEAM2{
+	int64 playerId = 1;
+}
+message CROSS_S_EXIT_TEAM2{
+	int64 playerId = 1;
+}
+//切换上阵角色
+message CROSS_C_SET_TEAM2_HERO_POS{
+	int32 pos1 = 1;//位置1上的英雄id
+	int32 pos2 = 2;//位置2上的英雄id
+	int64 playerId =3;//
+	BattlePlayerMsg playerMsg = 4;//战斗信息
+}
+
+

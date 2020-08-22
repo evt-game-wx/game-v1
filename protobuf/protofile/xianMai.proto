@@ -1,0 +1,307 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+import "battleMsg.proto";
+
+//获取九天仙脉的数据
+message C_GET_XIANMAI_INFO {
+
+}
+
+//服务器推送客户端九天仙脉的数据
+message S_GET_XIANMAI_INFO {
+	int32 xianMaiId = 1;				// 当前自己占领的仙脉配置唯一id，如果没有占领，是-1
+	int32 techLevel = 2;				// 当前科技的等级
+	int32 totalHour = 3;				// 占领矿脉的总时间，单位小时
+	int32 sneakTimes = 4;				// 今日已经偷取的次数
+	repeated XIAN_MAIN_INFO infos = 5;	// 所有仙脉的数据
+	int32 buyTimes = 6;					// 当前已经购买的次数
+	int32 playTimes = 7;				// 已经挑战的次数
+}
+
+// 仙脉的数据
+message XIAN_MAIN_INFO {
+	int32 xianMaiId = 1;		// 仙脉的配置表的唯一id
+	int64 playerId = 2;			// 仙脉占领的玩家的id
+	string playerName = 3;		// 仙脉占领玩家的昵称
+	int64 fightValue = 4;		// 仙脉占领玩家的战力
+	int64 guildId = 5;			// 仙脉占领玩家的帮派唯一id
+	string guildName = 6;		// 仙脉占领玩家的帮派昵称
+	int32 beSneakTimes = 7;		// 今日已经被偷取的次数
+	int64 playerHeroId = 8;		// 主角的武将id
+	int32 heroQuality = 9;		// 主角武将的品质
+}
+
+//查看指定位置的仙脉数据
+message C_GET_XIANMAI_PLAYER{
+	int32 xianMaiId = 1;		// 仙脉的配置表的唯一id
+}
+
+//服务器推送客户端查看指定九天仙脉的数据
+message S_GET_XIANMAI_PLAYER{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	bool isSelf = 2;				// 是否查看自身的仙脉数据，true是false否
+	int32 addTimes = 3;				// 本轮已经延长的次数，一轮最多2次延长
+	string rewardBoxs = 4;			// 当前已经领取的宝箱的id，格式：id1,id2,id3...
+	int64 leaveTime = 5;			// 仙脉占领结束的倒计时，单位秒
+	int32 maxSneak = 6;				// 本次最多偷取的收入
+	BattlePlayerMsg myFighter = 7;	// 仙脉占领者的战斗数据
+	int32 beSneakTimes = 8;			// 今日已经被偷取的次数
+}
+
+//玩家当前的仙脉延时的操作
+message C_GET_XIANMAI_ADDTIME{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+}
+
+//服务器推送客户端仙脉延时的操作
+message S_GET_XIANMAI_ADDTIEM{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	int32 addTimes = 2;				// 本轮已经延长的次数，一轮最多2次延长
+	int64 leaveTime = 3;			// 仙脉占领结束的倒计时，单位秒
+	string rewardBoxs = 4;			// 当前已经领取的宝箱的id，格式：id1,id2,id3...
+	int32 buyTimes = 5;				// 当前已经购买的次数
+	int32 playTimes = 6;			// 已经挑战的次数
+}
+
+//玩家放弃当前占领的仙脉的操作
+message C_GET_XIANMAI_GIVEUP{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+}
+
+//服务器推送客户端放弃仙脉的操作
+message S_GET_XIANMAI_GIVEUP{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	ItemListMsg itemList = 2;		// 本次放弃获得的奖励
+}
+
+//玩家领取仙脉宝箱的操作
+message C_GET_XIANMAI_BOXREWARD{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	int32 hours = 2;				// 当前要领取的宝箱是几小时的
+}
+
+//服务器推送客户端领取仙脉宝箱的操作
+message S_GET_XIANMAI_BOXREWARD{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	int32 hours = 2;				// 领取的宝箱是几小时的
+	int64 leaveTime = 3;			// 仙脉占领结束的倒计时，单位秒
+	string rewardBoxs = 4;			// 当前已经领取的宝箱的id，格式：id1,id2,id3...
+	ItemListMsg itemList = 5;		// 获得的奖励
+}
+
+//玩家攻占仙脉的操作
+message C_GET_XIANMAI_ATTACK{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	int64 beAttackId = 2;			// 被攻击者的玩家的id
+}
+
+//服务器推送客户端攻占仙脉的操作
+message S_GET_XIANMAI_ATTACK{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	bool isFinish = 2;				// 攻占的结果，true是占领了，false是失败
+	int32 buyTimes = 3;				// 当前已经购买的次数
+	int32 playTimes = 4;			// 已经挑战的次数
+}
+
+//玩家偷袭仙脉的操作
+message C_GET_XIANMAI_SNEAK{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	int64 beAttackId = 2;			// 被攻击者的玩家的id
+}
+
+//服务器推送客户端偷袭的操作
+message S_GET_XIANMAI_SNEAK{
+	int32 xianMaiId = 1;			// 仙脉的配置表的唯一id
+	ItemListMsg itemList = 2;		// 本次偷袭获得的奖励
+	int32 sneakTimes = 3;			// 今日已经偷取的次数
+}
+
+//玩家查询仙脉相关的记录
+message C_GET_XIANMAI_LOGS{
+	bool isSelf = 1;		// 获取日志类型，true自己相关，false全局
+}
+
+//服务器推送客户端仙脉的记录数据
+message S_GET_XIANMAI_LOGS{
+	bool isSelf = 1;					// 获取日志类型，true自己相关，false全局
+	repeated XIAN_MAI_LOG logs = 2;		// 日志的数据
+}
+
+// 仙脉战报相关的数据
+message XIAN_MAI_LOG {
+	int64 playerId = 1;			// 攻击者的玩家的id
+	string playerName = 2;		// 攻击者玩家的昵称
+	int64 bePlayerId = 3;		// 被攻击者的玩家的id
+	string bePlayerName = 4;	// 被攻击者玩家的昵称
+	int32 params = 5;			// 偷袭多少元宝，或是占领矿脉的id
+	int32 type = 6;				// 日志的类型 1抢夺2是攻占3是占领
+	int32 xianMaiId = 7;		// 仙脉的id，1抢夺（是自己的id）2是攻占（战领的id）
+}
+
+//玩家升级仙脉科技的操作
+message C_GET_XIANMAI_TEACH_UP{
+	int32 teachLevel = 1;		// 当前科技等级
+}
+
+//服务器返回客户端仙脉的科技升级
+message S_GET_XIANMAI_TEACH_UP{
+	int32 teachLevel = 1;		// 升级后当前科技等级
+	int32 totalTime = 2;		// 总的占矿时间
+}
+
+//玩家购买占矿次数的操作
+message C_GET_XIANMAI_BUY_TIMES{
+	int32 buyTimes = 1;		// 当前已经购买的次数
+}
+
+//服务器返回客户端购买占矿次数的操作
+message S_GET_XIANMAI_BUY_TIMES{
+	int32 buyTimes = 1;		// 当前已经购买的次数
+	int32 playTimes = 2;	// 已经挑战的次数
+}
+//=======================跨服协议==============================
+// 获取跨服的仙脉相关信息
+message CROSS_C_GET_XIANMAI_INFO {
+    int32 serverId=1;			// 服务器编号
+    int64 playerId=2;			// 角色ID
+}
+
+// 返还服务器获取跨服仙脉相关信息
+message CROSS_S_GET_XIANMAI_INFO {
+	repeated XIAN_MAIN_INFO infos = 1;	// 所有仙脉的数据
+	int64 playerId=2;					// 接受消息的角色ID
+}
+
+// 获取指定玩家的仙脉的数据
+message CROSS_C_GET_XIANMAI_PLAYER {
+	int32 serverId=1;			// 服务器编号
+    int64 playerId=2;			// 角色ID
+    int32 xianMaiId = 3;		// 仙脉配置表的唯一id
+    int64 bePlayerId = 4;		// 被查看玩家的id
+    int32 type = 5;				// 操作类型，1是查看，2是攻占，3是偷袭，4是获取
+}
+
+// 返还服务器获取指定玩家的仙脉的数据
+message CROSS_S_GET_XIANMAI_PLAYER {
+	int64 playerId=1;				// 接受消息的角色ID
+	int32 xianMaiId = 2;			// 仙脉的配置表的唯一id
+	int64 leaveTime = 3;			// 仙脉占领结束的倒计时，单位秒
+	BattlePlayerMsg myFighter = 4;	// 仙脉占领者的战斗数据
+	int64 guildId = 5;				// 仙脉占领玩家的帮派唯一id
+	string guildName = 6;			// 仙脉占领玩家的帮派昵称
+	int64 bePlayerId = 7;			// 被查看玩家的id
+	int32 type = 8;					// 操作类型，1是查看，2是攻占，3是偷袭，4是获取
+	int32 beSneakTimes = 9;			// 今日已经被偷取的次数
+	int64 sneakTime = 10;			// 今日已经被偷取的时间，单位毫秒
+	int32 addTimes = 11;			// 当前仙脉延长的时间
+}
+
+// 玩家的仙脉增加占领时间的操作
+message CROSS_C_XIANMAI_ADDTIME {
+	int32 serverId=1;			// 服务器编号
+    int64 playerId=2;			// 角色ID
+    int32 xianMaiId = 3;		// 仙脉配置表的唯一id
+    int32 type = 4;				// 操作类型，1是增加，2是失败减少
+}
+
+//  返还服务器玩家的仙脉增加占领时间的操作
+message CROSS_S_XIANMAI_ADDTIME {
+	int64 playerId=1;				// 接受消息的角色ID
+	int32 xianMaiId = 2;			// 仙脉的配置表的唯一id
+	int64 leaveTime = 3;			// 仙脉占领结束的倒计时，单位秒
+	int64 bePlayerId = 4;			// 仙脉占领者的角色ID
+	int32 type = 5;					// 操作类型，1是增加，2是失败减少
+}
+
+// 玩家的放弃仙脉的操作
+message CROSS_C_XIANMAI_GIVEUP {
+	int32 serverId=1;			// 服务器编号
+    int64 playerId=2;			// 角色ID
+    int32 xianMaiId = 3;		// 仙脉配置表的唯一id
+    bool isSend = 4;			// 是否发送消息，true是，false否
+}
+
+//  返还服务器玩家的放弃仙脉的操作
+message CROSS_S_XIANMAI_GIVEUP {
+	int64 playerId=1;			// 接受消息的角色ID
+	int32 xianMaiId = 2;		// 仙脉的配置表的唯一id
+	int64 hadTime = 3;			// 仙脉占领时间(加成比率)
+	bool isSend = 4;			// 是否发送消息，true是，false否
+	int64 sneakTime = 5;		// 仙脉已经被偷取的时间
+	int64 baseTime = 6;			// 仙脉占领时间（原始时间）
+}
+
+// 玩家查询的仙脉总记录的操作
+message CROSS_C_XIANMAI_LOGS {
+	int32 serverId=1;			// 服务器编号
+    int64 playerId=2;			// 角色ID
+}
+
+//  返还服务器仙脉的总记录数据
+message CROSS_S_XIANMAI_LOGS {
+	repeated XIAN_MAI_LOG logs = 1;		// 日志的数据
+	int64 playerId = 2;					// 接受消息的角色ID
+}
+
+//  推送给服务器玩家的仙脉奖励操作
+message CROSS_S_XIANMAI_REWARD {
+	int32 xianMaiId = 1;		// 仙脉的配置表的唯一id
+	int64 playerId = 2;			// 接受消息的角色ID
+	int64 hadTime = 3;			// 仙脉占领时间(加成比率)
+	bool isSend = 4;			// 是否发送消息，true是，false否
+	int64 baseTime = 5;			// 仙脉占领时间（原始时间）
+}
+
+// 推送给服务器玩家占领仙脉的操作
+message CROSS_S_XIANMAI_GET {
+	int32 xianMaiId = 1;		// 仙脉的配置表的唯一id
+	int64 playerId = 2;			// 接受消息的角色ID
+	int64 createTime = 3;		// 仙脉占领开始时间
+	bool isSend = 4;			// 是否发送消息，true是，false否
+	int32 type = 5;				// 操作类型，1是占领，2是被打下
+}
+
+// 推送给服务器玩家占领仙脉的操作
+message CROSS_S_XIANMAI_BATTLE_LOG {
+	int64 playerId = 1;			// 接受消息的角色ID
+	int64 aplayerId = 2;		// 接受消息的角色ID
+	string aplayerName = 3;		// 攻击者玩家的昵称
+	int64 bePlayerId = 4;		// 被攻击者的玩家的id
+	string bePlayerName = 5;	// 被攻击者玩家的昵称
+	int32 params = 6;			// 偷袭多少元宝，或是占领矿脉的id
+	int32 type = 7;				// 日志的类型 1偷取2是攻占3是占领4是被偷取
+	int32 xianMaiId = 8;		// 仙脉的id，1抢夺（是自己的id）2是攻占（战领的id）
+}
+
+// 跨服连接之后主动发送战斗玩家的数据到跨服操作
+message CROSS_C_XIANMAI_BATTLE_PLAYER {
+	int32 serverId=1;				// 服务器编号
+    int64 playerId=2;				// 角色ID
+    BattlePlayerMsg myFighter = 3;	// 仙脉占领者的战斗数据
+}
+
+// 仙脉的科技等级的操作
+message CROSS_C_GET_XIANMAI_TECH {
+	int32 serverId = 1;			// 服务器编号
+    int64 playerId = 2;			// 角色ID
+    int32 techLevel = 3;		// 当前仙脉的科技
+}
+
+//  返还服务器仙脉的科技数据
+message CROSS_S_GET_XIANMAI_TECH {
+	int64 playerId = 1;					// 接受消息的角色ID
+}
+
+// 更新占矿玩家的帮派数据
+message CROSS_C_GET_XIANMAI_GUILD {
+	int32 serverId=1;		// 服务器编号
+    int64 playerId=2;		// 角色ID
+    int64 guildId=3; 		// 帮派ID
+    string name=4;  		// 帮派名字
+}
+
+//  返还服务器仙脉的帮派更新数据结果
+message CROSS_S_GET_XIANMAI_GUILD {
+	int64 playerId = 1;					// 接受消息的角色ID
+}

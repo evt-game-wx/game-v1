@@ -1,0 +1,76 @@
+syntax="proto3";
+package com.message;
+import "common.proto";
+
+//获得羁绊信息
+message C_GET_FETTER_INFO {
+}
+
+//获得羁绊信息
+message S_GET_FETTER_INFO {
+	repeated FetterMsg fetterInfo = 1; //羁绊信息
+}
+
+//羁绊信息
+message FetterMsg {
+	int32 fetterId = 1; 		//羁绊id
+    int32 level	= 2; 		    //羁绊等级
+    int32 heroId = 3;			// 激活羁绊的英雄id
+    int64 fightValue = 7;		//战力
+}
+
+//羁绊激活推送信息
+message SYNC_FETTER_ACTIVE {
+	FetterMsg fetterInfo = 1; //羁绊信息
+}
+
+//获取羁绊召唤信息
+message C_GET_FETTER_CALL_INFO {
+}
+
+//获得羁绊召唤信息
+message S_GET_FETTER_CALL_INFO {
+	FetterCallMsg fetterCallInfo = 1; //羁绊召唤信息
+}
+
+//羁绊召唤信息
+message FetterCallMsg {
+	int32 lastHeroId = 1; 		//上次选择召唤的神将
+    int32 callCount	= 2; 		//已经召唤次数
+	int32 freeCount = 4;		//免費已召唤次数
+}
+
+//羁绊召唤
+message C_FETTER_CALL {
+	int32 heroId = 1; 		//召唤的神将
+	int32 count = 2; 		//召唤次数，默认1次
+}
+
+//羁绊召唤
+message S_FETTER_CALL {
+	FetterCallMsg fetterCallInfo = 1; //羁绊召唤信息
+	repeated ItemMsg reward = 2; // 奖励信息
+}
+
+//羁绊召唤之免费召唤
+message C_FREE_FETTER_CALL {
+	int32 heroId = 1; 		//召唤的神将
+	int32 count = 2; 		//召唤次数，默认1次
+}
+
+//羁绊召唤之免费召唤
+message S_FREE_FETTER_CALL {
+	FetterCallMsg fetterCallInfo = 1; //羁绊召唤信息
+	repeated ItemMsg reward = 2; // 奖励信息
+}
+
+//羁绊召唤选择武将id
+message C_FETTER_CALLS_SELECT_HERO {
+	int32 heroId = 1; 		//召唤的神将ID
+}
+
+//羁绊召唤选择武将id
+message S_FETTER_CALL_SELECT_HERO {
+	FetterCallMsg fetterCallInfo = 1; //羁绊召唤信息
+}
+

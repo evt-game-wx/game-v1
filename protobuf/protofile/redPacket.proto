@@ -1,0 +1,73 @@
+syntax="proto3";
+package com.message;
+
+// 获取当前红包的数据
+message C_GET_RED_PACKET_INFO {
+}
+
+// 返回客户端当前红包的数据
+message S_GET_RED_PACKET_INFO {
+	int32 openDays = 1;			// 当前开服的天数(红包配置的唯一id)
+	int32 leaveTimes = 2;		// 当前剩余可以开启红包的时间
+	string hadRedIds = 3;		// 已经领取过的红包id集合
+}
+
+// 领取当前红包的奖励
+message C_GET_RED_PACKET_REWARD {
+	int32 redPacketId = 1;		// 准备领取的红包配置唯一id（对应的开服天数）
+	string clientInfo = 2;		// 客户端扩展参数，从SDK中获取
+}
+
+// 返回客户端领取当前红包的奖励
+message S_GET_RED_PACKET_REWARD{
+	int32 openDays = 1;			// 当前开服的天数
+	int32 redPacketId = 2;		// 领取的红包配置唯一id
+	string hadRedIds = 3;		// 已经领取过的红包id集合
+}
+
+// 登录推送客户端是否显示红包icon
+message S_GET_RED_PACKET_PUSH {
+	int32 isShow = 1;		// 登录时候推送是否展示红包icon，0否1是
+}
+
+// 红包发放结果推送客户端操作
+message S_RED_PACKET_PUSH_REWARD {
+	int32 redPacketId = 1;		// 领取的红包配置唯一id（对应的开服天数）
+	int32 redResult = 2;		// 红包发放结果，1是成功，2是失败
+}
+
+// 查询玩家是否可以展示红包奖励
+message CROSS_C_RED_PACKET_GET_INFO{
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string userName = 3;	// 用户的唯一id
+}
+
+// 跨服返回玩家是否可以展示红包奖励
+message CROSS_S_RED_PACKET_GET_INFO{
+	int64 playerId = 1;		// 玩家的唯一id
+	int32 joinServerId = 2; // 参与活动的服id
+}
+
+// 领取红包奖励操作
+message CROSS_C_RED_PAKCET_REWARD {
+	int32 serverId = 1;		// 游戏服的id
+	int64 playerId = 2;		// 玩家的唯一id
+	string userName = 3;	// 用户的唯一id
+	int32 redPacketId = 4;	// 领取的红包id
+	string clientInfo = 5;	// 客户端扩展参数，从SDK中获取
+}
+
+//跨服领取红包奖励操作
+message CROSS_S_RED_PAKCET_REWARD {
+	int64 playerId = 1;		// 玩家的唯一id
+	int32 redPacketId = 2;	// 领取的红包id
+	int32 resultState = 3;	// 领取的结果，1是成功，0失败
+}
+
+// 红包发放结果推送
+message CROSS_S_RED_PACKET_PUSH_REWARD {
+	int64 playerId = 1;		// 玩家的唯一id
+	int32 redPacketId = 2;	// 领取的红包id
+	int32 resultState = 3;	// 领取的结果，1是成功，2失败
+}

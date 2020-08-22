@@ -1,0 +1,41 @@
+syntax="proto3";
+package com.message;
+
+// 跨服服务器注册
+message CROSS_C_SERVER_REGISTER {
+    int32 serverId = 1; 	// 服务器编号
+    string platName = 2;	// 平台的名称
+    string mergeServerIds = 3;	// 当前主服合服的服务器编号，格式:id1,id2,id3,...
+}
+
+// 跨服服务器注册
+message CROSS_S_SERVER_REGISTER {
+	int32 serverId=1; // 服务器编号
+}
+
+// 跨服服务器心跳
+message CROSS_C_HEART_BEAT {
+}
+
+// 跨服服务器心跳
+message CROSS_S_HEART_BEAT {
+}
+
+// 跨服服务器注册成功推送消息
+message CROSS_C_SERVER_PUSH {
+    int32 serverId = 1; 	// 服务器编号
+}
+
+// 跨服服务器注册成功消息
+message CROSS_S_SERVER_PUSH {
+	int32 serverId=1; // 服务器编号
+	int32 sendRankData = 2;	// 是否发送排行榜的玩家数据，1是0否
+}
+
+// 跨服发送http协议操作
+message CROSS_C_HTTP_DATA {
+    int32 serverId = 1; 	// 服务器编号
+    string platName = 2;	// 平台的名称
+    int32 httpType = 3;	// 发送的http的类型
+    string httpData = 4;	// 发送的http的数值
+}
