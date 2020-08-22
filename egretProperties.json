@@ -48,12 +48,8 @@
       "path": "protobuf-login/bundles"
     },
     {
-      "name": "WXCloudApi",
-      "path": "./libs/WXCloudApi"
-    },
-    {
-      "name": "egretmgobe",
-      "path": "./libs/egretmgobe"
+      "name": "login",
+      "path": "lib-login"
     }
   ],
   "targets": {
