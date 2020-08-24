@@ -3,6 +3,7 @@ module qmr {
 		
 		public static onEnterGame() {
 			console.log("======================开始进入游戏场景======================");
+			
 		}
 
 	}

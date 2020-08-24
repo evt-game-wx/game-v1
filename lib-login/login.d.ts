@@ -359,9 +359,9 @@ declare module qmr {
         abstract canClearResCache: boolean;
         /**第一个加载背景是否移除 */
         protected firstLoadBgHide: boolean;
+        /**是否可以缩放窗口 */
+        canResizeStage: boolean;
         constructor();
-        /**该平台是否拥有重置窗口大小的能力 */
-        readonly canResizeStage: boolean;
         /**请求登录 */ reqLogin(): Promise<void>;
         /**请求支付 */ reqPay(payInfo: any): void;
         /**
@@ -1814,10 +1814,6 @@ declare module qmr {
     }
 }
 declare module qmr {
-    /**
-    * 平台工厂
-    * dear_H
-    */
     class PlatformFactory {
         constructor();
         /**

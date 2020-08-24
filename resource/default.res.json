@@ -20,21 +20,6 @@
 			"name": "description_json"
 		},
 		{
-			"url": "res/common/button/anniud_dis2.png",
-			"type": "image",
-			"name": "anniud_dis2_png"
-		},
-		{
-			"url": "res/common/button/anniuds.png",
-			"type": "image",
-			"name": "anniuds_png"
-		},
-		{
-			"url": "res/common/button/anniuds_down.png",
-			"type": "image",
-			"name": "anniuds_down_png"
-		},
-		{
 			"url": "res/bag/xuanzhongxiaoguo.png",
 			"type": "image",
 			"name": "xuanzhongxiaoguo_png"

@@ -4,10 +4,6 @@
             {
                 "configPath": "resourceLogin/login.res.json",
                 "relativePath": "resourceLogin/"
-            },
-            {
-                "configPath": "resource/createrole.res.json",
-                "relativePath": "resource/"
             }
         ]
     },

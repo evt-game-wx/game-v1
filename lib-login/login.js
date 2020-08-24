@@ -1162,16 +1162,10 @@ var qmr;
         function BasePlatform() {
             /**联调服域名*/
             this.ltServerDomain = "xyws-sdk.dyhyyx.com";
+            /**是否可以缩放窗口 */
+            this.canResizeStage = true;
             this.initGetOption();
         }
-        Object.defineProperty(BasePlatform.prototype, "canResizeStage", {
-            /**该平台是否拥有重置窗口大小的能力 */
-            get: function () {
-                return true;
-            },
-            enumerable: true,
-            configurable: true
-        });
         /**请求登录 */ //基类函数不可修改
         BasePlatform.prototype.reqLogin = function () {
             return __awaiter(this, void 0, void 0, function () {
@@ -5593,10 +5587,6 @@ var qmr;
 })(qmr || (qmr = {}));
 var qmr;
 (function (qmr) {
-    /**
-    * 平台工厂
-    * dear_H
-    */
     var PlatformFactory = (function () {
         function PlatformFactory() {
         }

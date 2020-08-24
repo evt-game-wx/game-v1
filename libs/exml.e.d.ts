@@ -1,9 +1,3 @@
-declare class CreateRoleButtonYellowSkin extends eui.Skin{
-}
-declare class CreateRoleSkin extends eui.Skin{
-}
-declare class CreateRoleTextInputSkin extends eui.Skin{
-}
 declare module skins{
 	class ButtonSkin extends eui.Skin{
 	}

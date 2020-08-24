@@ -16,9 +16,6 @@
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
-		"resource/createRole_skins/CreateRoleButtonYellowSkin.exml",
-		"resource/createRole_skins/CreateRoleTextInputSkin.exml",
-		"resource/createRole_skins/CreateRoleSkin.exml",
 		"resource/eui_skins/ButtonSkin.exml",
 		"resource/eui_skins/CheckBoxSkin.exml",
 		"resource/eui_skins/HScrollBarSkin.exml",
