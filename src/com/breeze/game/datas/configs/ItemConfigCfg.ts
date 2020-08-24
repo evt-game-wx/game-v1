@@ -1,9 +1,7 @@
-module qmr
-{
+module qmr{
     export class ItemConfigCfg
     {
-        public constructor()
-        {
+        public constructor (){
             
         }
     }

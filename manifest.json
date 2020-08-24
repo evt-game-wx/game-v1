@@ -18,7 +18,7 @@
 	"game": [
 		"bin-debug/MainAfterLogin.js",
 		"bin-debug/com/breeze/game/EntryAfterLogin.js",
-		"bin-debug/com/breeze/game/loginAdp/ItemConfigCfg.js",
-		"bin-debug/com/breeze/game/loginAdp/RechargeCfg.js"
+		"bin-debug/com/breeze/game/datas/DataManager.js",
+		"bin-debug/com/breeze/game/datas/configs/ItemConfigCfg.js"
 	]
 }

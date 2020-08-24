@@ -354,7 +354,7 @@ declare module qmr {
         /**登陆接口*/
         protected abstract login(): Promise<any>;
         /**sdk支付*/
-        protected abstract pay(payInfo: RechargeCfg): Promise<any>;
+        protected abstract pay(payInfo: any): Promise<any>;
         /**该平台是否拥有清理缓存接口 */
         abstract canClearResCache: boolean;
         /**第一个加载背景是否移除 */
@@ -363,7 +363,7 @@ declare module qmr {
         /**该平台是否拥有重置窗口大小的能力 */
         readonly canResizeStage: boolean;
         /**请求登录 */ reqLogin(): Promise<void>;
-        /**请求支付 */ reqPay(payInfo: RechargeCfg): void;
+        /**请求支付 */ reqPay(payInfo: any): void;
         /**
          * 设置加载进度
          * @param  {number} vlaue 0-100
