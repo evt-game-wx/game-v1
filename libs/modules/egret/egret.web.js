@@ -2020,7 +2020,7 @@ var egret;
                 }
                 this.$resetStageText();
                 if (this.$textfield.maxChars > 0) {
-                    this.inputElement.setAttribute("maxlength", this.$textfield.maxChars + "");
+                    this.inputElement.setAttribute("maxlength", this.$textfield.maxChars);
                 }
                 else {
                     this.inputElement.removeAttribute("maxlength");
@@ -2272,9 +2272,6 @@ var egret;
                 dom.style.top = "0px";
                 dom.style.border = "none";
                 dom.style.padding = "0";
-                dom.ontouchmove = function (e) {
-                    e.preventDefault();
-                };
             };
             /**
              * @private
@@ -2362,7 +2359,7 @@ var egret;
                 inputElement.style.overflow = "hidden";
                 inputElement.style.wordBreak = "break-all";
                 //隐藏输入框
-                inputElement.style.opacity = "0";
+                inputElement.style.opacity = 0;
                 inputElement.oninput = function () {
                     if (self._stageText) {
                         self._stageText._onInput();
@@ -2378,7 +2375,7 @@ var egret;
                 var inputElement = self._inputElement;
                 //隐藏输入框
                 egret.$callAsync(function () {
-                    inputElement.style.opacity = "1";
+                    inputElement.style.opacity = 1;
                 }, self);
             };
             /**
@@ -2409,7 +2406,7 @@ var egret;
                     self._inputElement.style.height = "12px";
                     self._inputElement.style.left = "0px";
                     self._inputElement.style.top = "0px";
-                    self._inputElement.style.opacity = "0";
+                    self._inputElement.style.opacity = 0;
                     var otherElement = void 0;
                     if (self._simpleElement == self._inputElement) {
                         otherElement = self._multiElement;
@@ -2422,7 +2419,6 @@ var egret;
                     self._inputDIV.style.top = "-100px";
                     self._inputDIV.style.height = 0 + "px";
                     self._inputDIV.style.width = 0 + "px";
-                    self._inputElement.blur();
                 }
                 if (self._stageText) {
                     self._stageText._onDisconnect();
@@ -3466,43 +3462,6 @@ var egret;
         egret.sys.resizeCanvasRenderBuffer = resizeCanvasRenderBuffer;
         egret.Geolocation = egret.web.WebGeolocation;
         egret.Motion = egret.web.WebMotion;
-        /**
-         *
-         * @param name
-         * @param path
-         */
-        function registerFontMapping(name, path) {
-            if (window.FontFace) {
-                return loadFontByFontFace(name, path);
-            }
-            else {
-                return loadFontByWebStyle(name, path);
-            }
-        }
-        egret.sys.registerFontMapping = registerFontMapping;
-        function loadFontByFontFace(name, path) {
-            var fontResCache = egret.sys.fontResourceCache;
-            if (!fontResCache || !fontResCache[path]) {
-                console.warn("registerFontMapping_WARN: Can not find TTF file:" + path + ", please load file first.");
-                return;
-            }
-            var resCache = fontResCache[path];
-            var fontFace = new window.FontFace(name, resCache);
-            document.fonts.add(fontFace);
-            fontFace.load().catch(function (err) {
-                console.error("loadFontError:", err);
-            });
-        }
-        ;
-        function loadFontByWebStyle(name, path) {
-            var styleElement = document.createElement("style");
-            styleElement.type = "text/css";
-            styleElement.textContent = "\n            @font-face\n            {\n                font-family:\"" + name + "\";\n                src:url(\"" + path + "\");\n            }";
-            styleElement.onerror = function (err) {
-                console.error("loadFontError:", err);
-            };
-            document.body.appendChild(styleElement);
-        }
     })(web = egret.web || (egret.web = {}));
 })(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////
@@ -3609,7 +3568,6 @@ var egret;
                         var player = new web.WebPlayer(container, options);
                         container["egret-player"] = player;
                     }
-                    web.WebGLRenderContext.getInstance().getSupportedCompressedTexture();
                     window.addEventListener("resize", function () {
                         if (isNaN(resizeTimer)) {
                             resizeTimer = window.setTimeout(doResize, 300);
@@ -3698,7 +3656,6 @@ var egret;
                 egret.Capabilities["renderMode" + ""] = "canvas";
             }
         }
-        egret.sys.setRenderMode = setRenderMode;
         /**
          * @private
          * 启动心跳计时器。
@@ -6019,8 +5976,7 @@ var egret;
          * 抽象出此类，以实现共用一个context
          */
         var WebGLRenderContext = (function () {
-            //for 3D&2D
-            function WebGLRenderContext(width, height, context) {
+            function WebGLRenderContext(width, height) {
                 //
                 this._defaultEmptyTexture = null;
                 this.glID = null;
@@ -6031,31 +5987,11 @@ var egret;
                 this._supportedCompressedTextureInfo = [];
                 this.$scissorState = false;
                 this.vertSize = 5;
-                //for 3D&2D
-                /**
-                 * @private
-                 */
-                this.$beforeRender = function () {
-                    var gl = this.context;
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-                    gl.disable(gl.DEPTH_TEST);
-                    gl.disable(gl.CULL_FACE);
-                    gl.enable(gl.BLEND);
-                    gl.disable(gl.STENCIL_TEST);
-                    gl.colorMask(true, true, true, true);
-                    this.setBlendMode("source-over");
-                    // 目前只使用0号材质单元，默认开启
-                    gl.activeTexture(gl.TEXTURE0);
-                    this.currentProgram = null;
-                };
                 this.surface = egret.sys.mainCanvas(width, height);
                 if (egret.nativeRender) {
                     return;
                 }
-                //for 3D&2D
-                this.initWebGL(context);
-                this.getSupportedCompressedTexture();
+                this.initWebGL();
                 this.$bufferStack = [];
                 var gl = this.context;
                 this.vertexBuffer = gl.createBuffer();
@@ -6066,13 +6002,11 @@ var egret;
                 this.vao = new web.WebGLVertexArrayObject();
                 this.setGlobalCompositeOperation("source-over");
             }
-            //for 3D&2D
-            WebGLRenderContext.getInstance = function (width, height, context) {
+            WebGLRenderContext.getInstance = function (width, height) {
                 if (this.instance) {
                     return this.instance;
                 }
-                //for 3D&2D
-                this.instance = new WebGLRenderContext(width, height, context);
+                this.instance = new WebGLRenderContext(width, height);
                 return this.instance;
             };
             /**
@@ -6215,12 +6149,11 @@ var egret;
                 }
                 return returnValue;
             };
-            //for 3D&2D
-            WebGLRenderContext.prototype.initWebGL = function (context) {
+            WebGLRenderContext.prototype.initWebGL = function () {
                 this.onResize();
                 this.surface.addEventListener("webglcontextlost", this.handleContextLost.bind(this), false);
                 this.surface.addEventListener("webglcontextrestored", this.handleContextRestored.bind(this), false);
-                context ? this.setContext(context) : this.getWebGLContext();
+                this.getWebGLContext();
                 var gl = this.context;
                 this.$maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
                 //refactor
@@ -6238,9 +6171,6 @@ var egret;
                 //     'WEBGL_compressed_texture_s3tc', 'WEBKIT_WEBGL_compressed_texture_s3tc',
                 //     'WEBGL_compressed_texture_es3_0'];
                 //
-            };
-            WebGLRenderContext.prototype.getSupportedCompressedTexture = function () {
-                var gl = this.context ? this.context : egret.sys.getContextWebGL(this.surface);
                 this.pvrtc = gl.getExtension('WEBGL_compressed_texture_pvrtc') || gl.getExtension('WEBKIT_WEBGL_compressed_texture_pvrtc');
                 if (this.pvrtc) {
                     this.pvrtc.name = 'WEBGL_compressed_texture_pvrtc';
@@ -6289,7 +6219,6 @@ var egret;
                 */
                 var gl = egret.sys.getContextWebGL(this.surface);
                 this.setContext(gl);
-                return gl;
             };
             WebGLRenderContext.prototype.setContext = function (gl) {
                 this.context = gl;
@@ -7073,7 +7002,6 @@ var egret;
         web.WebGLRenderContext = WebGLRenderContext;
         __reflect(WebGLRenderContext.prototype, "egret.web.WebGLRenderContext", ["egret.sys.RenderContext"]);
         WebGLRenderContext.initBlendMode();
-        egret.sys.WebGLRenderContext = WebGLRenderContext;
     })(web = egret.web || (egret.web = {}));
 })(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////

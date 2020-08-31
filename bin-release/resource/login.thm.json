@@ -1,0 +1,11 @@
+{
+	"skins": {},
+	"autoGenerateExmlsList": false,
+	"exmls": [
+		"resource/login_skins/CommonTipSkin.exml",
+		"resource/login_skins/GameLoadingProgressBarSkin.exml",
+		"resource/login_skins/GameLoadingViewSkin.exml",
+		"resource/login_skins/LoginViewSkin.exml"
+	],
+	"path": "resource/login.thm.json"
+}

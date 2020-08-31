@@ -556,13 +556,7 @@ var egret;
                 };
                 socket.onmessage = function (e) {
                     if (that.onSocketData) {
-                        if (e.data) {
-                            that.onSocketData.call(that.thisObject, e.data);
-                        }
-                        else {
-                            //for mygame
-                            that.onSocketData.call(that.thisObject, e);
-                        }
+                        that.onSocketData.call(that.thisObject, e.data);
                     }
                 };
             };

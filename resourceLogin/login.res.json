@@ -5,7 +5,7 @@
 			"name": "loginPre"
 		},
 		{
-			"keys": "basePanel_json",
+			"keys": "basePanel_json,tanchu_mp3,dianji_mp3",
 			"name": "login"
 		}
 	],
@@ -26,6 +26,16 @@
 			"type": "sheet",
 			"name": "basePanel_json",
 			"subkeys": "common_biaotitou,common_dadishang,common_dadixia,common_dikuang,common_dikuang2,common_dikuang3,common_fanhui,common_guanbi,common_title_bg"
+		},
+		{
+			"url": "sound/tanchu.mp3",
+			"type": "sound",
+			"name": "tanchu_mp3"
+		},
+		{
+			"url": "sound/dianji.mp3",
+			"type": "sound",
+			"name": "dianji_mp3"
 		}
 	]
 }

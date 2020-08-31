@@ -4328,18 +4328,6 @@ declare namespace egret {
          * @language zh_CN
          */
         setContentSize(width: number, height: number): void;
-        /**
-         * @private
-         */
-        $drawToSurfaceAutoClear: () => void;
-        /**
-         * @private
-         */
-        $drawToSurface: () => void;
-        /**
-         * @private
-         */
-        $resize: (width: any, height: any) => void;
     }
 }
 declare namespace egret {
@@ -9176,11 +9164,6 @@ declare namespace egret.sys {
          * @private
          */
         static $setCanvasScale(x: number, y: number): void;
-        /**
-         * @private
-         * stage渲染
-         */
-        $stageRenderToSurface: () => void;
     }
 }
 declare namespace egret {
@@ -9365,10 +9348,6 @@ declare namespace egret.sys {
      * @private
      */
     let $errorToFPS: (info: string) => void;
-    let setRenderMode: (renderMode: string) => void;
-    let WebGLRenderContext: {
-        new (width?: number, height?: number, context?: WebGLRenderingContext): RenderContext;
-    };
 }
 /**
  * @private
@@ -9378,59 +9357,6 @@ declare module egret {
      * @private
      */
     var nativeRender: boolean;
-}
-/**
- * @private
- */
-interface PlayerOption {
-    /**
-     * 入口类完整类名
-     */
-    entryClassName?: string;
-    /**
-     * 默认帧率
-     */
-    frameRate?: number;
-    /**
-     * 屏幕适配模式
-     */
-    scaleMode?: string;
-    /**
-     * 初始内容宽度
-     */
-    contentWidth?: number;
-    /**
-     * 初始内容高度
-     */
-    contentHeight?: number;
-    /**
-     * 屏幕方向
-     */
-    orientation?: string;
-    /**
-     * 显示FPS
-     */
-    showFPS?: boolean;
-    /**
-     *
-     */
-    fpsStyles?: Object;
-    /**
-     * 显示日志
-     */
-    showLog?: boolean;
-    /**
-     * 过滤日志的正则表达式
-     */
-    logFilter?: string;
-    /**
-     *
-     */
-    maxTouches?: number;
-    /**
-     *
-     */
-    textureScaleFactor?: number;
 }
 declare namespace egret {
     /** !!!!!!!!inspired by Babylon.js!!!!!!!!!!!!!
@@ -9518,6 +9444,93 @@ declare namespace egret {
         uploadLevels(bitmapData: egret.BitmapData, loadMipmaps: boolean): void;
         private _upload2DCompressedLevels(bitmapData, loadMipmaps);
     }
+}
+declare namespace egret.sys {
+    /**
+     * @private
+     * 共享的用于碰撞检测的渲染缓冲
+     */
+    let customHitTestBuffer: sys.RenderBuffer;
+    /**
+     * @private
+     * 共享的用于canvas碰撞检测的渲染缓冲
+     */
+    let canvasHitTestBuffer: sys.RenderBuffer;
+    /**
+     * @private
+     * 渲染缓冲
+     */
+    interface RenderBuffer {
+        /**
+         * 呈现最终绘图结果的画布。
+         * @readOnly
+         */
+        surface: any;
+        /**
+         * 渲染上下文。
+         * @readOnly
+         */
+        context: any;
+        /**
+         * 渲染缓冲的宽度，以像素为单位。
+         * @readOnly
+         */
+        width: number;
+        /**
+         * 渲染缓冲的高度，以像素为单位。
+         * @readOnly
+         */
+        height: number;
+        /**
+         * 改变渲染缓冲的大小并清空缓冲区
+         * @param width 改变后的宽
+         * @param height 改变后的高
+         * @param useMaxSize 若传入true，则将改变后的尺寸与已有尺寸对比，保留较大的尺寸。
+         */
+        resize(width: number, height: number, useMaxSize?: boolean): void;
+        /**
+         * 获取指定区域的像素
+         */
+        getPixels(x: number, y: number, width?: number, height?: number): number[];
+        /**
+         * 转换成base64字符串，如果图片（或者包含的图片）跨域，则返回null
+         * @param type 转换的类型，如: "image/png","image/jpeg"
+         */
+        toDataURL(type?: string, ...args: any[]): string;
+        /**
+         * 清空缓冲区数据
+         */
+        clear(): void;
+        /**
+         * 销毁渲染缓冲
+         */
+        destroy(): void;
+    }
+    /**
+     * @private
+     */
+    let RenderBuffer: {
+        /**
+         * 创建一个RenderTarget。
+         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
+         * @param width 渲染缓冲的初始宽
+         * @param height 渲染缓冲的初始高
+         * @param root 是否为舞台buffer
+         */
+        new (width?: number, height?: number, root?: boolean): RenderBuffer;
+    };
+    /**
+     * @private
+     */
+    let CanvasRenderBuffer: {
+        /**
+         * 创建一个CanvasRenderBuffer。
+         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
+         * @param width 渲染缓冲的初始宽
+         * @param height 渲染缓冲的初始高
+         */
+        new (width?: number, height?: number): RenderBuffer;
+    };
 }
 declare namespace egret.sys {
     /**
@@ -9956,14 +9969,6 @@ declare namespace egret.sys {
          * @private
          */
         private callLaterAsyncs();
-        /**
-         * @private
-         */
-        $beforeRender: () => void;
-        /**
-         * @private
-         */
-        $afterRender: () => void;
     }
 }
 declare module egret {
@@ -10027,7 +10032,7 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchBegin(x: number, y: number, touchPointID: number): boolean;
+        onTouchBegin(x: number, y: number, touchPointID: number): void;
         /**
          * @private
          */
@@ -10043,7 +10048,7 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchMove(x: number, y: number, touchPointID: number): boolean;
+        onTouchMove(x: number, y: number, touchPointID: number): void;
         /**
          * @private
          * 触摸结束（弹起）
@@ -10051,17 +10056,12 @@ declare namespace egret.sys {
          * @param y 事件发生处相对于舞台的坐标y
          * @param touchPointID 分配给触摸点的唯一标识号
          */
-        onTouchEnd(x: number, y: number, touchPointID: number): boolean;
+        onTouchEnd(x: number, y: number, touchPointID: number): void;
         /**
          * @private
          * 获取舞台坐标下的触摸对象
          */
         private findTarget(stageX, stageY);
-        /**
-         * @private
-         * 设置同时触摸数量
-         */
-        $updateMaxTouches: (value: any) => void;
     }
 }
 declare namespace egret.sys {
@@ -10590,7 +10590,6 @@ declare namespace egret {
         private renderNormalBitmap(node, context);
         private renderBitmap(node, context);
         private renderMesh(node, context);
-        private drawMesh(image, sourceX, sourceY, sourceWidth, sourceHeight, offsetX, offsetY, destWidth, destHeight, meshUVs, meshVertices, meshIndices, bounds, rotated, context);
         renderText(node: sys.TextNode, context: CanvasRenderingContext2D): void;
         private renderingMask;
         /**
@@ -10968,13 +10967,13 @@ declare namespace egret {
         const RUNTIME2 = "runtime2";
         /**
          * Running on Alipay
-         * @version Egret 5.2.33
+         * @version Egret 5.2.23
          * @platform All
          * @language en_US
          */
         /**
          * 运行在支付宝小游戏上
-         * @version Egret 5.2.33
+         * @version Egret 5.2.26
          * @platform All
          * @language zh_CN
          */
@@ -11057,19 +11056,6 @@ declare namespace egret {
         * @language zh_CN
         */
         const VIVOGAME = "vivogame";
-        /**
-         * Running on 360 mini game
-         * @version Egret 5.3.5
-         * @platform All
-         * @language en_US
-         */
-        /**
-        * 运行在 360 小游戏上
-        * @version Egret 5.3.5
-        * @platform All
-        * @language zh_CN
-        */
-        const QHGAME = "qhgame";
     }
     interface SupportedCompressedTexture {
         pvrtc: boolean;
@@ -11763,31 +11749,6 @@ declare namespace egret {
         $getTextLines(): string[];
     }
 }
-declare namespace egret.sys {
-    let fontResourceCache: {
-        [url: string]: any;
-    };
-    function registerFontMapping(name: string, path: string): void;
-}
-declare namespace egret {
-    /**
-     * Register font mapping.
-     * @param name The font family name to register.
-     * @param path The font path.
-     * @version Egret 5.3
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 注册字体映射
-     * @param name 要注册的字体名称
-     * @param path 注册的字体地址
-     * @version Egret 5.3
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    function registerFontMapping(name: string, path: string): void;
-}
 declare namespace egret {
     /**
      * The HorizontalAlign class defines the possible values for the horizontal alignment.
@@ -12300,7 +12261,6 @@ declare namespace egret {
         private blurHandler(event);
         private tempStage;
         private onMouseDownHandler(event);
-        private onMouseMoveHandler(event);
         $onFocus(): void;
         private onStageDownHandler(event);
         /**
@@ -15356,90 +15316,56 @@ declare namespace egret {
      */
     function toColorString(value: number): string;
 }
-declare namespace egret.sys {
+/**
+ * @private
+ */
+interface PlayerOption {
     /**
-     * @private
-     * 共享的用于碰撞检测的渲染缓冲
+     * 入口类完整类名
      */
-    let customHitTestBuffer: sys.RenderBuffer;
+    entryClassName?: string;
     /**
-     * @private
-     * 共享的用于canvas碰撞检测的渲染缓冲
+     * 默认帧率
      */
-    let canvasHitTestBuffer: sys.RenderBuffer;
+    frameRate?: number;
     /**
-     * @private
-     * 渲染缓冲
+     * 屏幕适配模式
      */
-    interface RenderBuffer {
-        /**
-         * 呈现最终绘图结果的画布。
-         * @readOnly
-         */
-        surface: any;
-        /**
-         * 渲染上下文。
-         * @readOnly
-         */
-        context: any;
-        /**
-         * 渲染缓冲的宽度，以像素为单位。
-         * @readOnly
-         */
-        width: number;
-        /**
-         * 渲染缓冲的高度，以像素为单位。
-         * @readOnly
-         */
-        height: number;
-        /**
-         * 改变渲染缓冲的大小并清空缓冲区
-         * @param width 改变后的宽
-         * @param height 改变后的高
-         * @param useMaxSize 若传入true，则将改变后的尺寸与已有尺寸对比，保留较大的尺寸。
-         */
-        resize(width: number, height: number, useMaxSize?: boolean): void;
-        /**
-         * 获取指定区域的像素
-         */
-        getPixels(x: number, y: number, width?: number, height?: number): number[];
-        /**
-         * 转换成base64字符串，如果图片（或者包含的图片）跨域，则返回null
-         * @param type 转换的类型，如: "image/png","image/jpeg"
-         */
-        toDataURL(type?: string, ...args: any[]): string;
-        /**
-         * 清空缓冲区数据
-         */
-        clear(): void;
-        /**
-         * 销毁渲染缓冲
-         */
-        destroy(): void;
-    }
+    scaleMode?: string;
     /**
-     * @private
+     * 初始内容宽度
      */
-    let RenderBuffer: {
-        /**
-         * 创建一个RenderTarget。
-         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
-         * @param width 渲染缓冲的初始宽
-         * @param height 渲染缓冲的初始高
-         * @param root 是否为舞台buffer
-         */
-        new (width?: number, height?: number, root?: boolean): RenderBuffer;
-    };
+    contentWidth?: number;
     /**
-     * @private
+     * 初始内容高度
      */
-    let CanvasRenderBuffer: {
-        /**
-         * 创建一个CanvasRenderBuffer。
-         * 注意：若内存不足或创建缓冲区失败，将会抛出错误异常。
-         * @param width 渲染缓冲的初始宽
-         * @param height 渲染缓冲的初始高
-         */
-        new (width?: number, height?: number): RenderBuffer;
-    };
+    contentHeight?: number;
+    /**
+     * 屏幕方向
+     */
+    orientation?: string;
+    /**
+     * 显示FPS
+     */
+    showFPS?: boolean;
+    /**
+     *
+     */
+    fpsStyles?: Object;
+    /**
+     * 显示日志
+     */
+    showLog?: boolean;
+    /**
+     * 过滤日志的正则表达式
+     */
+    logFilter?: string;
+    /**
+     *
+     */
+    maxTouches?: number;
+    /**
+     *
+     */
+    textureScaleFactor?: number;
 }

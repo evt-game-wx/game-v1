@@ -11,6 +11,10 @@
 		{
 			"keys": "common_json",
 			"name": "common"
+		},
+		{
+			"keys": "",
+			"name": "euiGroup"
 		}
 	],
 	"resources": [

@@ -7,17 +7,13 @@
 
 		</e:Group>
 		<e:Image source="basePanel_json.common_dikuang" x="34.69" y="76" anchorOffsetX="0" width="566.66" anchorOffsetY="0" height="674.67" scale9Grid="18,19,67,65"/>
-		<e:Label text="测试面板" y="22.56" horizontalCenter="6" textColor="0x803f07" fontFamily="specialGameFont" bold="true"/>
 
-		<e:Scroller width="548.67" height="667.67" y="75" horizontalCenter="-2.5"  anchorOffsetY="0" anchorOffsetX="0">
-			<e:Group>
-			<e:Label id="labContent" text="游戏公告" fontFamily="specialGameFont" textColor="0x803f07" size="28" width="554"   bold="false" y="12" lineSpacing="5" textAlign="left"/>
-			<e:layout>
-				<e:VerticalLayout paddingTop="10"/>
-			</e:layout>
-			</e:Group>
-		</e:Scroller>
+
+
+
 		<e:Image id="btnClose" anchorOffsetX="44" anchorOffsetY="41"   right="11" top="8" source="basePanel_json.common_guanbi"/>
 		<e:Image id="btnReturn" source="basePanel_json.common_fanhui" x="514.27" y="742.76"/>
+		<e:Label text="测试面板" y="22.56" horizontalCenter="6" textColor="0x803f07" fontFamily="specialGameFont" bold="true"/>
+		<e:Label id="labContent" text="游戏测试面板" fontFamily="specialGameFont" textColor="0x803f07" size="28" width="554" bold="false" y="92" lineSpacing="5" textAlign="left" x="39"/>
 	</e:Group>
 </e:Skin>

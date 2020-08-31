@@ -1,0 +1,23 @@
+{
+	"initial": [
+		"js/egret.min.js",
+		"js/egret.web.min.js",
+		"js/eui.min.js",
+		"js/assetsmanager.min.js",
+		"js/tween.min.js",
+		"js/game.min.js",
+		"js/socket.min.js",
+		"js/promise.min.js",
+		"js/jszip.min.js",
+		"js/md5.min.js",
+		"js/mobile-detect.min.js"
+	],
+	"game": [
+		"js/protobuf-library.min.js",
+		"js/protobuf-bundles.min.js",
+		"js/login.min.js",
+		"js/login.thm.js",
+		"js/main.min.js",
+		"js/default.thm.min.js"
+	]
+}
